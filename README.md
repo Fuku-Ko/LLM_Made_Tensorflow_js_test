@@ -1,0 +1,2 @@
+# LLM_Made_Tensorflow_js_test
+Tensorflow.jsをAI生成コードで試してみたもの
