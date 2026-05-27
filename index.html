@@ -18,8 +18,9 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #0f172a;
             color: #f1f5f9;
-            line-height: 1.5;
+            line-height: 1.6;
             padding: 20px;
+            font-size: 16px; /* 基本フォントサイズをやや大きく */
         }
         .container {
             max-width: 1200px;
@@ -41,20 +42,20 @@
             background-color: #1e293b;
             border: 1px solid #334155;
             border-radius: 16px;
-            padding: 32px;
-            max-width: 500px;
+            padding: 36px;
+            max-width: 540px;
             width: 90%;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
         .lock-title {
-            font-size: 1.25rem;
+            font-size: 1.45rem; /* 1.25rem から大きく */
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
         .lock-desc {
-            font-size: 0.85rem;
+            font-size: 0.95rem; /* 0.85rem から大きく */
             color: #94a3b8;
             margin-bottom: 24px;
         }
@@ -71,7 +72,7 @@
             background-color: #0f172a;
             border: 2px solid #334155;
             border-radius: 8px;
-            padding: 14px;
+            padding: 16px;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
@@ -88,17 +89,17 @@
         .source-radio {
             margin-top: 4px;
             accent-color: #06b6d4;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
         }
         .source-details h4 {
-            font-size: 0.85rem;
+            font-size: 0.95rem; /* 0.85rem から大きく */
             color: #ffffff;
             font-weight: 700;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
         .source-details p {
-            font-size: 0.75rem;
+            font-size: 0.85rem; /* 0.75rem から大きく */
             color: #94a3b8;
         }
 
@@ -108,17 +109,17 @@
             background: linear-gradient(135deg, #4f46e5, #0891b2);
             color: #ffffff;
             border: none;
-            padding: 12px;
+            padding: 14px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 1rem; /* 0.9rem から大きく */
             cursor: pointer;
             transition: opacity 0.2s;
         }
         .btn-load:hover { opacity: 0.9; }
         .load-status {
             margin-top: 16px;
-            font-size: 0.8rem;
+            font-size: 0.9rem; /* 0.8rem から大きく */
             color: #f59e0b;
             min-height: 20px;
         }
@@ -135,8 +136,8 @@
             background: none;
             border: none;
             color: #94a3b8;
-            padding: 8px 16px;
-            font-size: 0.9rem;
+            padding: 10px 18px;
+            font-size: 1rem; /* 0.9rem から大きく */
             font-weight: 700;
             cursor: pointer;
             border-radius: 6px;
@@ -166,22 +167,22 @@
             gap: 16px;
         }
         h1 {
-            font-size: 1.6rem;
+            font-size: 1.8rem; /* 1.6rem から大きく */
             font-weight: 800;
             color: #ffffff;
         }
         p.subtitle {
             color: #94a3b8;
-            font-size: 0.85rem;
-            margin-top: 4px;
+            font-size: 0.95rem; /* 0.85rem から大きく */
+            margin-top: 6px;
         }
         .badge {
             background-color: rgba(99, 102, 241, 0.15);
             color: #818cf8;
             border: 1px solid rgba(99, 102, 241, 0.3);
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 9999px;
-            font-size: 0.75rem;
+            font-size: 0.85rem; /* 0.75rem から大きく */
             font-weight: 600;
             display: inline-flex;
             align-items: center;
@@ -191,9 +192,9 @@
             background-color: #1e293b;
             color: #cbd5e1;
             border: 1px solid #334155;
-            padding: 6px 12px;
+            padding: 8px 16px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.85rem; /* 0.75rem から大きく */
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -210,7 +211,7 @@
         }
         @media (min-width: 1024px) {
             .main-grid {
-                grid-template-cols: 360px 1fr;
+                grid-template-cols: 380px 1fr; /* 少し幅広に */
             }
         }
 
@@ -223,7 +224,7 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         .panel-title {
-            font-size: 0.95rem;
+            font-size: 1.05rem; /* 0.95rem から大きく */
             font-weight: 700;
             margin-bottom: 16px;
             padding-bottom: 8px;
@@ -244,8 +245,8 @@
             overflow: hidden;
         }
         .advanced-summary {
-            padding: 10px 14px;
-            font-size: 0.8rem;
+            padding: 12px 14px;
+            font-size: 0.9rem; /* 0.8rem から大きく */
             font-weight: 700;
             color: #38bdf8;
             cursor: pointer;
@@ -261,7 +262,7 @@
         }
         .advanced-summary::after {
             content: "▼";
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             transition: transform 0.2s;
         }
         .advanced-settings[open] .advanced-summary::after {
@@ -281,7 +282,7 @@
         }
         .form-group label {
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.9rem; /* 0.8rem から大きく */
             font-weight: 600;
             color: #94a3b8;
             margin-bottom: 6px;
@@ -291,9 +292,9 @@
             background-color: #0f172a;
             border: 1px solid #334155;
             color: #f1f5f9;
-            padding: 8px;
+            padding: 10px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.95rem; /* 0.85rem から大きく */
             outline: none;
         }
         select:focus, input[type="text"]:focus {
@@ -310,6 +311,7 @@
         .range-val {
             color: #06b6d4;
             font-weight: 700;
+            font-size: 1rem; /* 少し大きく */
         }
         input[type="range"] {
             width: 100%;
@@ -325,7 +327,7 @@
             border: 2px dashed #334155;
             background-color: rgba(15, 23, 42, 0.4);
             border-radius: 8px;
-            padding: 16px;
+            padding: 18px;
             text-align: center;
             cursor: pointer;
             transition: border-color 0.2s;
@@ -335,12 +337,12 @@
             border-color: #06b6d4;
         }
         .upload-area p {
-            font-size: 0.75rem;
+            font-size: 0.85rem; /* 0.75rem から大きく */
             color: #94a3b8;
             margin-top: 4px;
         }
         .upload-area .filename {
-            font-size: 0.7rem;
+            font-size: 0.8rem; /* 0.7rem から大きく */
             color: #38bdf8;
             word-break: break-all;
             margin-top: 6px;
@@ -353,13 +355,13 @@
             gap: 10px;
             cursor: pointer;
             user-select: none;
-            font-size: 0.8rem;
+            font-size: 0.9rem; /* 0.8rem から大きく */
         }
         .switch {
             position: relative;
             display: inline-block;
-            width: 40px;
-            height: 20px;
+            width: 44px; /* 少し大きく */
+            height: 22px;
         }
         .switch input {
             opacity: 0;
@@ -377,7 +379,7 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 14px; width: 14px;
+            height: 16px; width: 16px;
             left: 3px; bottom: 3px;
             background-color: white;
             transition: .3s;
@@ -387,7 +389,7 @@
             background-color: #06b6d4;
         }
         input:checked + .slider:before {
-            transform: translateX(20px);
+            transform: translateX(22px);
         }
 
         /* カラムマッピング */
@@ -401,14 +403,14 @@
         .col-mapping-header {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
+            font-size: 0.85rem; /* 0.75rem から大きく */
             font-weight: 700;
             border-bottom: 1px solid #334155;
             padding-bottom: 6px;
             margin-bottom: 10px;
         }
         .feature-list {
-            max-height: 120px;
+            max-height: 130px;
             overflow-y: auto;
             border: 1px solid #334155;
             background-color: #0f172a;
@@ -419,8 +421,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.75rem;
-            padding: 2px 0;
+            font-size: 0.85rem; /* 0.75rem から大きく */
+            padding: 4px 0; /* ゆったりと */
         }
 
         /* 訓練開始ボタン */
@@ -435,7 +437,7 @@
             cursor: pointer;
             transition: transform 0.1s, opacity 0.2s;
             box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
-            font-size: 0.85rem;
+            font-size: 0.95rem; /* 0.85rem から大きく */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -475,12 +477,12 @@
             margin-bottom: 16px;
         }
         .status-badge {
-            font-size: 0.75rem;
+            font-size: 0.85rem; /* 0.75rem から大きく */
             font-weight: 700;
             background-color: rgba(245, 158, 11, 0.1);
             color: #f59e0b;
             border: 1px solid rgba(245, 158, 11, 0.2);
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 9999px;
             display: inline-flex;
             align-items: center;
@@ -502,7 +504,7 @@
             border-color: rgba(99, 102, 241, 0.2);
         }
         .epoch-text {
-            font-size: 0.75rem;
+            font-size: 0.85rem; /* 0.75rem から大きく */
             color: #94a3b8;
         }
         .progress-bar-container {
@@ -541,12 +543,12 @@
             text-align: center;
         }
         .stat-label {
-            font-size: 0.7rem;
+            font-size: 0.8rem; /* 0.7rem から大きく */
             color: #94a3b8;
             margin-bottom: 4px;
         }
         .stat-value {
-            font-size: 1.15rem;
+            font-size: 1.3rem; /* 1.15rem から大きく */
             font-weight: 700;
         }
         .stat-loss { color: #818cf8; }
@@ -576,7 +578,7 @@
             flex-direction: column;
         }
         .chart-header {
-            font-size: 0.8rem;
+            font-size: 0.9rem; /* 0.8rem から大きく */
             font-weight: 700;
             margin-bottom: 12px;
             color: #ffffff;
@@ -588,6 +590,12 @@
             position: relative;
             height: calc(100% - 24px);
         }
+        /* 予測グラフ（2つ目のチャートボックス）のコンテナを中央寄せにし縦横比1:1を引き立てる */
+        .chart-box:nth-child(2) .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         /* ネットワーク構成図 */
         .arch-card {
@@ -597,7 +605,7 @@
             padding: 16px;
         }
         .arch-title {
-            font-size: 0.8rem;
+            font-size: 0.9rem; /* 0.8rem から大きく */
             font-weight: 700;
             color: #94a3b8;
             margin-bottom: 10px;
@@ -607,7 +615,7 @@
             flex-wrap: wrap;
             align-items: center;
             gap: 10px;
-            font-size: 0.75rem;
+            font-size: 0.85rem; /* 0.75rem から大きく */
         }
         .arch-node {
             background-color: #1e293b;
@@ -648,7 +656,7 @@
             margin-top: 20px;
         }
         .prediction-value {
-            font-size: 2.5rem;
+            font-size: 2.8rem; /* 2.5rem から大きく */
             font-weight: 800;
             color: #22d3ee;
             text-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
@@ -770,25 +778,25 @@
                         </div>
 
                         <div class="form-group" style="margin-bottom: 10px;">
-                            <label style="font-size: 0.75rem;">予測対象 (目的変数 - y)</label>
-                            <select id="mapTargetCol" style="padding: 4px; font-size: 0.75rem;"></select>
+                            <label style="font-size: 0.85rem;">予測対象 (目的変数 - y)</label>
+                            <select id="mapTargetCol" style="padding: 6px; font-size: 0.85rem;"></select>
                         </div>
 
                         <div class="form-group" style="margin-bottom: 0;">
-                            <label style="font-size: 0.75rem;">特徴量 (説明変数 - x)</label>
+                            <label style="font-size: 0.85rem;">特徴量 (説明変数 - x)</label>
                             <div id="mapFeatureCols" class="feature-list"></div>
                         </div>
                     </div>
 
-                    <!-- COLLAPSIBLE DETAILED PARAMETERS (NEW ADJUSTMENT) -->
+                    <!-- COLLAPSIBLE DETAILED PARAMETERS -->
                     <details class="advanced-settings">
                         <summary class="advanced-summary">⚙️ 詳細パラメータ設定</summary>
                         <div class="advanced-content">
                             <!-- Splitting Ratio -->
                             <div>
                                 <div class="range-container">
-                                    <label style="font-size: 0.75rem; color: #94a3b8;">訓練データの割合</label>
-                                    <span id="valSplit" class="range-val" style="font-size: 0.85rem;">80%</span>
+                                    <label style="font-size: 0.85rem; color: #94a3b8;">訓練データの割合</label>
+                                    <span id="valSplit" class="range-val" style="font-size: 0.95rem;">80%</span>
                                 </div>
                                 <input type="range" id="paramSplit" min="50" max="90" step="5" value="80">
                             </div>
@@ -800,12 +808,12 @@
                                         <input type="checkbox" id="paramKFold" checked>
                                         <span class="slider"></span>
                                     </label>
-                                    <span style="font-size: 0.8rem;">K分割交差検証 (K-Fold)</span>
+                                    <span style="font-size: 0.9rem;">K分割交差検証 (K-Fold)</span>
                                 </div>
                                 <div id="kFoldConfigArea" style="border-left: 2px solid #334155; padding-left: 10px; margin-left: 6px;">
                                     <div class="range-container">
-                                        <label style="font-size: 0.75rem; color: #94a3b8;">検証分割数 (K)</label>
-                                        <span id="valK" class="range-val" style="font-size: 0.85rem;">5</span>
+                                        <label style="font-size: 0.85rem; color: #94a3b8;">検証分割数 (K)</label>
+                                        <span id="valK" class="range-val" style="font-size: 0.95rem;">5</span>
                                     </div>
                                     <input type="range" id="paramK" min="2" max="10" step="1" value="5">
                                 </div>
@@ -817,13 +825,13 @@
                                     <input type="checkbox" id="paramNormalize" checked>
                                     <span class="slider"></span>
                                 </label>
-                                <span style="font-size: 0.8rem;">データの標準化を行う (推奨)</span>
+                                <span style="font-size: 0.9rem;">データの標準化を行う (推奨)</span>
                             </div>
 
                             <!-- Optimizer -->
                             <div style="margin-top: 8px; border-top: 1px solid #33415550; padding-top: 10px;">
-                                <label style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 4px;">最適化アルゴリズム</label>
-                                <select id="paramOptimizer" style="padding: 6px; font-size: 0.8rem;">
+                                <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 4px;">最適化アルゴリズム</label>
+                                <select id="paramOptimizer" style="padding: 6px; font-size: 0.9rem;">
                                     <option value="adam">Adam</option>
                                     <option value="sgd">SGD</option>
                                     <option value="rmsprop">RMSprop</option>
@@ -833,8 +841,8 @@
                             <!-- Learning Rate & Batch Size -->
                             <div style="display: grid; grid-template-cols: 1fr 1fr; gap: 8px;">
                                 <div>
-                                    <label style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 4px;">学習率 (LR)</label>
-                                    <select id="paramLR" style="padding: 6px; font-size: 0.8rem;">
+                                    <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 4px;">学習率 (LR)</label>
+                                    <select id="paramLR" style="padding: 6px; font-size: 0.9rem;">
                                         <option value="0.001">0.001 (推奨)</option>
                                         <option value="0.01">0.01</option>
                                         <option value="0.05">0.05</option>
@@ -842,8 +850,8 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 4px;">バッチサイズ</label>
-                                    <select id="paramBatch" style="padding: 6px; font-size: 0.8rem;">
+                                    <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 4px;">バッチサイズ</label>
+                                    <select id="paramBatch" style="padding: 6px; font-size: 0.9rem;">
                                         <option value="8">8</option>
                                         <option value="16" selected>16</option>
                                         <option value="32">32</option>
@@ -855,8 +863,8 @@
                             <!-- Epochs -->
                             <div>
                                 <div class="range-container">
-                                    <label style="font-size: 0.75rem; color: #94a3b8;">エポック数 (学習回数)</label>
-                                    <span id="valEpochs" class="range-val" style="font-size: 0.85rem;">100</span>
+                                    <label style="font-size: 0.85rem; color: #94a3b8;">エポック数 (学習回数)</label>
+                                    <span id="valEpochs" class="range-val" style="font-size: 0.95rem;">100</span>
                                 </div>
                                 <input type="range" id="paramEpochs" min="10" max="300" step="10" value="100">
                             </div>
@@ -883,7 +891,7 @@
                             </span>
                             <span id="epochProgressText" class="epoch-text hidden">Epoch 0 / 100</span>
                         </div>
-                        <div style="font-size: 0.75rem; color: #94a3b8; display: flex; gap: 16px;">
+                        <div style="font-size: 0.85rem; color: #94a3b8; display: flex; gap: 16px;">
                             <div>訓練データ: <span id="numTrainSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
                             <div>テストデータ: <span id="numTestSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
                         </div>
@@ -918,7 +926,7 @@
                     <div class="chart-box">
                         <div class="chart-header">
                             <span>学習プロセス (Loss の推移)</span>
-                            <span style="color: #06b6d4; font-size: 0.7rem;">太線: 平均 / 細線: 各フォールド</span>
+                            <span style="color: #06b6d4; font-size: 0.8rem;">太線: 平均 / 細線: 各フォールド</span>
                         </div>
                         <div class="chart-container">
                             <canvas id="lossChart"></canvas>
@@ -927,7 +935,7 @@
                     <div class="chart-box">
                         <div class="chart-header">
                             <span>テストデータ検証結果 (実測 vs 予測)</span>
-                            <span style="color: #475569; font-size: 0.7rem;">アンサンブル予測プロット</span>
+                            <span style="color: #94a3b8; font-size: 0.8rem;">アンサンブル予測プロット</span>
                         </div>
                         <div class="chart-container">
                             <canvas id="predChart"></canvas>
@@ -950,8 +958,8 @@
 
                     <!-- エクスポートエリア (学習完了後に表示) -->
                     <div id="exportArea" class="export-card hidden">
-                        <p style="font-size: 0.8rem; color: #10b981; font-weight: 700; margin-bottom: 6px;">✨ 学習完了！運用推論用パッケージをエクスポート可能です</p>
-                        <p style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 12px;">各Foldの重み、列マッピング設定、標準化平均・標準偏差(ゼロ除算保護済み)を1つのJSONにエクスポートします。</p>
+                        <p style="font-size: 0.95rem; color: #10b981; font-weight: 700; margin-bottom: 6px;">✨ 学習完了！運用推論用パッケージをエクスポート可能です</p>
+                        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;">各Foldの重み、列マッピング設定、標準化平均・標準偏差(ゼロ除算保護済み)を1つのJSONにエクスポートします。</p>
                         <button id="exportModelBtn" class="btn-train btn-export">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             学習済みアンサンブルモデルを保存 (.json)
@@ -971,7 +979,7 @@
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #10b981;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                         モデルのインポート
                     </h2>
-                    <p style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 12px;">
+                    <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
                         [訓練タブ] で保存したモデルファイル (.json) をロードし、オフラインの推論用エンジン（K-Foldアンサンブル）を再現します。
                     </p>
 
@@ -988,7 +996,7 @@
                             <span style="color: #10b981;">パッケージ構造</span>
                             <span id="modelMetaK" style="color: #ffffff;">- Fold Ensemble</span>
                         </div>
-                        <div style="font-size: 0.75rem; space-y: 6px;">
+                        <div style="font-size: 0.85rem; space-y: 6px;">
                             <div style="margin-bottom: 4px;">🎯 目的変数: <span id="modelMetaTarget" style="color: #ffffff; font-weight: bold;">-</span></div>
                             <div>🔬 説明変数 (<span id="modelMetaFeaturesCount">0</span>個):</div>
                             <div id="modelMetaFeaturesList" style="color: #06b6d4; font-family: monospace; padding-left: 10px; margin-top: 4px; line-height: 1.4;">-</div>
@@ -1008,13 +1016,13 @@
                     <!-- 警告: 未読込時 -->
                     <div id="inferencePlaceholder" style="text-align: center; padding: 40px 20px; color: #94a3b8;">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 16px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        <p style="font-weight: 700; margin-bottom: 4px;">モデルパッケージがロードされていません</p>
-                        <p style="font-size: 0.75rem;">左側のパネルから、訓練完了後にエクスポートしたモデルファイル (.json) をロードしてください。</p>
+                        <p style="font-weight: 700; margin-bottom: 4px; font-size: 1rem;">モデルパッケージがロードされていません</p>
+                        <p style="font-size: 0.85rem;">左側のパネルから、訓練完了後にエクスポートしたモデルファイル (.json) をロードしてください。</p>
                     </div>
 
                     <!-- スライダー動的フォーム -->
                     <div id="inferenceFormArea" class="hidden">
-                        <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 16px;">
+                        <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 16px;">
                             各入力変数の値をスライダーで調整してください。アンサンブルモデルが各統計情報(データリーク防止標準化)で補正を行い、リアルタイムに予測値を出力します。
                         </p>
                         <div id="dynamicInputsContainer" class="dynamic-form-grid">
@@ -1023,9 +1031,9 @@
 
                         <!-- 推論結果表示ボックス -->
                         <div class="prediction-box">
-                            <p style="font-size: 0.85rem; color: #94a3b8; font-weight: 700;">予測出力値 (K-Fold アンサンブル平均)</p>
+                            <p style="font-size: 0.95rem; color: #94a3b8; font-weight: 700;">予測出力値 (K-Fold アンサンブル平均)</p>
                             <div id="predictedResult" class="prediction-value">-</div>
-                            <p id="targetUnitLabel" style="font-size: 0.7rem; color: #475569; font-weight: bold;">(目的変数のスケール)</p>
+                            <p id="targetUnitLabel" style="font-size: 0.8rem; color: #475569; font-weight: bold;">(目的変数のスケール)</p>
                         </div>
                     </div>
                 </div>
@@ -1110,7 +1118,7 @@
 
             } catch (err) {
                 console.error(err);
-                loadStatus.innerHTML = `❌ エラー: スクリプトの取得に失敗しました。<br><span style="font-size: 0.75rem; color: #ef4444;">${err.message}<br>ローカルファイルパス、またはネット接続状況を確認してください。</span>`;
+                loadStatus.innerHTML = `❌ エラー: スクリプトの取得に失敗しました。<br><span style="font-size: 0.85rem; color: #ef4444;">${err.message}<br>ローカルファイルパス、またはネット接続状況を確認してください。</span>`;
                 loadBtn.disabled = false;
                 loadBtn.innerText = "再試行する";
             }
@@ -1512,7 +1520,8 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
+                    maintainAspectRatio: true, // 1:1アスペクト比維持のためにtrue
+                    aspectRatio: 1,            // 正方形(1:1)に制限
                     scales: {
                         x: { grid: { color: '#33415530' }, ticks: { color: '#94a3b8' } },
                         y: { grid: { color: '#33415530' }, ticks: { color: '#94a3b8' } }
@@ -2186,7 +2195,7 @@
                 const card = document.createElement('div');
                 card.className = 'input-card';
 
-                const container = document.createElement('div');
+                const container = document.createElement('container');
                 container.className = 'range-container';
 
                 const label = document.createElement('label');
