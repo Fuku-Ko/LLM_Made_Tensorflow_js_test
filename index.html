@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offline Neural Network Predictor (Ensemble & Inference)</title>
-    <!-- ニューラルネットワークを模した簡潔なSVGファビコン（完全オフライン対応のData URI） -->
+    <title>お手軽機械学習</title>
+    <!-- 完全オフライン対応のニューラルネットワーク風SVGファビコン -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231e293b'/%3E%3Cline x1='8' y1='10' x2='16' y2='6' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='10' x2='16' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='22' x2='16' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='22' x2='16' y2='26' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='6' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='16' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='26' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Ccircle cx='8' cy='10' r='3' fill='%23c084fc'/%3E%3Ccircle cx='8' cy='22' r='3' fill='%23c084fc'/%3E%3Ccircle cx='16' cy='6' r='3' fill='%23818cf8'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23818cf8'/%3E%3Ccircle cx='16' cy='26' r='3' fill='%23818cf8'/%3E%3Ccircle cx='24' cy='16' r='3' fill='%2306b6d4'/%3E%3C/svg%3E">
 
-    <!-- 外部依存を持たないピュアCSSによるスタイリング -->
+    <!-- ピュアCSSスタイリング -->
     <style>
         * {
             box-sizing: border-box;
@@ -232,6 +232,47 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        /* 折りたたみ詳細設定（アコーディオン） */
+        .advanced-settings {
+            background-color: rgba(15, 23, 42, 0.5);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            margin-top: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .advanced-summary {
+            padding: 10px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #38bdf8;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background-color: rgba(30, 41, 59, 0.8);
+        }
+        .advanced-summary::-webkit-details-marker {
+            display: none;
+        }
+        .advanced-summary::after {
+            content: "▼";
+            font-size: 0.7rem;
+            transition: transform 0.2s;
+        }
+        .advanced-settings[open] .advanced-summary::after {
+            transform: rotate(180deg);
+        }
+        .advanced-content {
+            padding: 14px;
+            border-top: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         /* フォーム */
@@ -662,7 +703,7 @@
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     <span id="badgeText">TensorFlow.js (Connecting...)</span>
                 </span>
-                <h1 style="margin-top: 6px;">ハイブリッド型ニューラルネットワーク価格予測プラットフォーム</h1>
+                <h1 style="margin-top: 6px;">お手軽機械学習</h1>
                 <p class="subtitle">オンライン・オフライン両用。厳密なデータ前処理とK分割交差検証、および推論パッケージ運用機能を搭載。</p>
             </div>
             <button id="resetDemoBtn" class="btn-reset">初期化</button>
@@ -675,7 +716,7 @@
             </button>
             <button id="tabPredictBtn" class="tab-btn" onclick="switchTab('predict')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                🧠 運用・予測推論（モデルロード可能）
+                🧠 運用・予測推論（モデルロード）
             </button>
         </div>
 
@@ -695,7 +736,7 @@
                     <div class="form-group">
                         <label>データソース</label>
                         <select id="paramSourceType">
-                            <option value="simulation">シミュレーション (疑似住宅データ生成)</option>
+                            <option value="simulation">シミュレーション (デモ用自動生成データ)</option>
                             <option value="upload">ローカルCSVファイルのアップロード</option>
                         </select>
                     </div>
@@ -729,97 +770,98 @@
                         </div>
 
                         <div class="form-group" style="margin-bottom: 10px;">
-                            <label style="font-size: 0.75rem;">予測対象 (目的変数 - Y)</label>
+                            <label style="font-size: 0.75rem;">予測対象 (目的変数 - y)</label>
                             <select id="mapTargetCol" style="padding: 4px; font-size: 0.75rem;"></select>
                         </div>
 
                         <div class="form-group" style="margin-bottom: 0;">
-                            <label style="font-size: 0.75rem;">特徴量 (説明変数 - X)</label>
+                            <label style="font-size: 0.75rem;">特徴量 (説明変数 - x)</label>
                             <div id="mapFeatureCols" class="feature-list"></div>
                         </div>
                     </div>
 
-                    <!-- Splitting Ratio & Normalization Toggle -->
-                    <div class="form-group" style="margin-top: 16px;">
-                        <div class="range-container">
-                            <label>訓練データの割合</label>
-                            <span id="valSplit" class="range-val">80%</span>
-                        </div>
-                        <input type="range" id="paramSplit" min="50" max="90" step="5" value="80">
-                    </div>
-
-                    <div class="form-group" style="margin-top: 16px;">
-                        <div class="toggle-container" style="margin-bottom: 8px;">
-                            <label class="switch">
-                                <input type="checkbox" id="paramKFold" checked>
-                                <span class="slider"></span>
-                            </label>
-                            <span>K分割交差検証 (K-Fold Validation)</span>
-                        </div>
-                        <div id="kFoldConfigArea" style="border-left: 2px solid #334155; padding-left: 10px; margin-left: 6px;">
-                            <div class="range-container">
-                                <label style="font-size: 0.75rem; color: #94a3b8;">検証分割数 (K)</label>
-                                <span id="valK" class="range-val">5</span>
+                    <!-- COLLAPSIBLE DETAILED PARAMETERS (NEW ADJUSTMENT) -->
+                    <details class="advanced-settings">
+                        <summary class="advanced-summary">⚙️ 詳細パラメータ設定</summary>
+                        <div class="advanced-content">
+                            <!-- Splitting Ratio -->
+                            <div>
+                                <div class="range-container">
+                                    <label style="font-size: 0.75rem; color: #94a3b8;">訓練データの割合</label>
+                                    <span id="valSplit" class="range-val" style="font-size: 0.85rem;">80%</span>
+                                </div>
+                                <input type="range" id="paramSplit" min="50" max="90" step="5" value="80">
                             </div>
-                            <input type="range" id="paramK" min="2" max="10" step="1" value="5">
-                        </div>
-                    </div>
 
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <div class="toggle-container">
-                            <label class="switch">
-                                <input type="checkbox" id="paramNormalize" checked>
-                                <span class="slider"></span>
-                            </label>
-                            <span>特徴量の標準化を行う (推奨)</span>
-                        </div>
-                    </div>
-                </div>
+                            <!-- K-Fold Toggle -->
+                            <div style="margin-top: 8px;">
+                                <div class="toggle-container" style="margin-bottom: 8px;">
+                                    <label class="switch">
+                                        <input type="checkbox" id="paramKFold" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span style="font-size: 0.8rem;">K分割交差検証 (K-Fold)</span>
+                                </div>
+                                <div id="kFoldConfigArea" style="border-left: 2px solid #334155; padding-left: 10px; margin-left: 6px;">
+                                    <div class="range-container">
+                                        <label style="font-size: 0.75rem; color: #94a3b8;">検証分割数 (K)</label>
+                                        <span id="valK" class="range-val" style="font-size: 0.85rem;">5</span>
+                                    </div>
+                                    <input type="range" id="paramK" min="2" max="10" step="1" value="5">
+                                </div>
+                            </div>
 
-                <!-- Section 2: Hyperparameters -->
-                <div class="panel">
-                    <h2 class="panel-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #818cf8;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                        2. ハイパーパラメータ
-                    </h2>
+                            <!-- Normalization -->
+                            <div class="toggle-container" style="margin-top: 8px;">
+                                <label class="switch">
+                                    <input type="checkbox" id="paramNormalize" checked>
+                                    <span class="slider"></span>
+                                </label>
+                                <span style="font-size: 0.8rem;">データの標準化を行う (推奨)</span>
+                            </div>
 
-                    <div class="form-group">
-                        <label>最適化アルゴリズム</label>
-                        <select id="paramOptimizer">
-                            <option value="adam">Adam</option>
-                            <option value="sgd">SGD</option>
-                            <option value="rmsprop">RMSprop</option>
-                        </select>
-                    </div>
+                            <!-- Optimizer -->
+                            <div style="margin-top: 8px; border-top: 1px solid #33415550; padding-top: 10px;">
+                                <label style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 4px;">最適化アルゴリズム</label>
+                                <select id="paramOptimizer" style="padding: 6px; font-size: 0.8rem;">
+                                    <option value="adam">Adam</option>
+                                    <option value="sgd">SGD</option>
+                                    <option value="rmsprop">RMSprop</option>
+                                </select>
+                            </div>
 
-                    <div style="display: grid; grid-template-cols: 1fr 1fr; gap: 12px;">
-                        <div class="form-group">
-                            <label>学習率 (LR)</label>
-                            <select id="paramLR">
-                                <option value="0.001">0.001 (推奨)</option>
-                                <option value="0.01">0.01</option>
-                                <option value="0.05">0.05</option>
-                                <option value="0.0001">0.0001</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>バッチサイズ</label>
-                            <select id="paramBatch">
-                                <option value="8">8</option>
-                                <option value="16" selected>16</option>
-                                <option value="32">32</option>
-                                <option value="64">64</option>
-                            </select>
-                        </div>
-                    </div>
+                            <!-- Learning Rate & Batch Size -->
+                            <div style="display: grid; grid-template-cols: 1fr 1fr; gap: 8px;">
+                                <div>
+                                    <label style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 4px;">学習率 (LR)</label>
+                                    <select id="paramLR" style="padding: 6px; font-size: 0.8rem;">
+                                        <option value="0.001">0.001 (推奨)</option>
+                                        <option value="0.01">0.01</option>
+                                        <option value="0.05">0.05</option>
+                                        <option value="0.0001">0.0001</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 4px;">バッチサイズ</label>
+                                    <select id="paramBatch" style="padding: 6px; font-size: 0.8rem;">
+                                        <option value="8">8</option>
+                                        <option value="16" selected>16</option>
+                                        <option value="32">32</option>
+                                        <option value="64">64</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <div class="range-container">
-                            <label>エポック数 (学習回数)</label>
-                            <span id="valEpochs" class="range-val">100</span>
+                            <!-- Epochs -->
+                            <div>
+                                <div class="range-container">
+                                    <label style="font-size: 0.75rem; color: #94a3b8;">エポック数 (学習回数)</label>
+                                    <span id="valEpochs" class="range-val" style="font-size: 0.85rem;">100</span>
+                                </div>
+                                <input type="range" id="paramEpochs" min="10" max="300" step="10" value="100">
+                            </div>
                         </div>
-                        <input type="range" id="paramEpochs" min="10" max="300" step="10" value="100">
-                    </div>
+                    </details>
 
                     <button id="trainBtn" class="btn-train" disabled>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -862,7 +904,7 @@
                         <div id="statValLoss" class="stat-value stat-val-loss">-</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-label">テスト MAE (絶対誤差)</div>
+                        <div class="stat-label">テスト MAE (平均絶対誤差)</div>
                         <div id="statMae" class="stat-value stat-mae">-</div>
                     </div>
                     <div class="stat-card">
@@ -875,8 +917,8 @@
                 <div class="charts-grid">
                     <div class="chart-box">
                         <div class="chart-header">
-                            <span>学習プロセス (Loss の推移とばらつき)</span>
-                            <span style="color: #06b6d4; font-size: 0.7rem;">太線: 平均 / 細線: フォールド別</span>
+                            <span>学習プロセス (Loss の推移)</span>
+                            <span style="color: #06b6d4; font-size: 0.7rem;">太線: 平均 / 細線: 各フォールド</span>
                         </div>
                         <div class="chart-container">
                             <canvas id="lossChart"></canvas>
@@ -884,7 +926,7 @@
                     </div>
                     <div class="chart-box">
                         <div class="chart-header">
-                            <span>テストデータ予測精度 (実測 vs 予測)</span>
+                            <span>テストデータ検証結果 (実測 vs 予測)</span>
                             <span style="color: #475569; font-size: 0.7rem;">アンサンブル予測プロット</span>
                         </div>
                         <div class="chart-container">
@@ -897,7 +939,7 @@
                 <div class="arch-card">
                     <div class="arch-title">ニューラルネットワーク構成</div>
                     <div class="arch-flow">
-                        <span id="architectureInputs" class="arch-node input">入力層 (特徴量: RM, LSTAT, DIS)</span>
+                        <span id="architectureInputs" class="arch-node input">入力層 (特徴量: Feature_1, Feature_2, Feature_3)</span>
                         <span class="arch-arrow">➔</span>
                         <span class="arch-node hidden-layer">Dense (32ユニット / ReLU)</span>
                         <span class="arch-arrow">➔</span>
@@ -908,8 +950,8 @@
 
                     <!-- エクスポートエリア (学習完了後に表示) -->
                     <div id="exportArea" class="export-card hidden">
-                        <p style="font-size: 0.8rem; color: #10b981; font-weight: 700; margin-bottom: 6px;">✨ 学習完了！推論用のモデルが利用可能です</p>
-                        <p style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 12px;">各Foldの重み、列設定、標準化平均・標準偏差(ゼロ除算保護済み)を1つのJSONにエクスポートします。</p>
+                        <p style="font-size: 0.8rem; color: #10b981; font-weight: 700; margin-bottom: 6px;">✨ 学習完了！運用推論用パッケージをエクスポート可能です</p>
+                        <p style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 12px;">各Foldの重み、列マッピング設定、標準化平均・標準偏差(ゼロ除算保護済み)を1つのJSONにエクスポートします。</p>
                         <button id="exportModelBtn" class="btn-train btn-export">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             学習済みアンサンブルモデルを保存 (.json)
@@ -960,20 +1002,20 @@
                 <div class="panel">
                     <h2 class="panel-title">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #06b6d4;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                        リアルタイム価格シミュレーター
+                        リアルタイム推論シミュレーター
                     </h2>
 
                     <!-- 警告: 未読込時 -->
                     <div id="inferencePlaceholder" style="text-align: center; padding: 40px 20px; color: #94a3b8;">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 16px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                         <p style="font-weight: 700; margin-bottom: 4px;">モデルパッケージがロードされていません</p>
-                        <p style="font-size: 0.75rem;">左側のパネルから、訓練完了後にエポック出力されたモデルファイル (.json) をロードしてください。</p>
+                        <p style="font-size: 0.75rem;">左側のパネルから、訓練完了後にエクスポートしたモデルファイル (.json) をロードしてください。</p>
                     </div>
 
                     <!-- スライダー動的フォーム -->
                     <div id="inferenceFormArea" class="hidden">
                         <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 16px;">
-                            各説明変数の値をスライダーで調整してください。裏でアンサンブルモデルが各統計情報(リーク防止標準化)で補正を行い、リアルタイムに価格推論を出力します。
+                            各入力変数の値をスライダーで調整してください。アンサンブルモデルが各統計情報(データリーク防止標準化)で補正を行い、リアルタイムに予測値を出力します。
                         </p>
                         <div id="dynamicInputsContainer" class="dynamic-form-grid">
                             <!-- JSでスライダーを自動追加 -->
@@ -981,7 +1023,7 @@
 
                         <!-- 推論結果表示ボックス -->
                         <div class="prediction-box">
-                            <p style="font-size: 0.85rem; color: #94a3b8; font-weight: 700;">予測住宅価格 (K-Fold アンサンブル予測)</p>
+                            <p style="font-size: 0.85rem; color: #94a3b8; font-weight: 700;">予測出力値 (K-Fold アンサンブル平均)</p>
                             <div id="predictedResult" class="prediction-value">-</div>
                             <p id="targetUnitLabel" style="font-size: 0.7rem; color: #475569; font-weight: bold;">(目的変数のスケール)</p>
                         </div>
@@ -1233,7 +1275,7 @@
 
                 if (val === 'simulation') {
                     panelSimulation.classList.remove('hidden');
-                    architectureInputs.innerText = "入力層 (特徴量: RM, LSTAT, DIS)";
+                    architectureInputs.innerText = "入力層 (特徴量: Feature_1, Feature_2, Feature_3)";
                     updateStatus("シミュレーションデータの準備完了");
                 } else if (val === 'upload') {
                     panelUpload.classList.remove('hidden');
@@ -1346,7 +1388,7 @@
                 mapFeatureCols.appendChild(div);
             });
 
-            const targetCandidates = ['medv', 'price', 'target', 'value', 'y'];
+            const targetCandidates = ['y', 'target', 'label', 'value', 'output', 'medv'];
             const targetMatch = loadedCSVHeaders.find(h => targetCandidates.includes(h.toLowerCase()));
             if (targetMatch) {
                 mapTargetCol.value = targetMatch;
@@ -1355,7 +1397,7 @@
             }
 
             let checkedCount = 0;
-            const featureCandidates = ['rm', 'lstat', 'dis', 'crim', 'zn', 'indus', 'nox', 'age', 'rad', 'tax', 'ptratio'];
+            const featureCandidates = ['feature_1', 'feature_2', 'feature_3', 'x1', 'x2', 'x3', 'rm', 'lstat', 'dis'];
             loadedCSVHeaders.forEach(header => {
                 const cb = document.getElementById(`feat_${header}`);
                 if (header === mapTargetCol.value) return;
@@ -1399,7 +1441,6 @@
             const lossCtx = document.getElementById('lossChart').getContext('2d');
             const predCtx = document.getElementById('predChart').getContext('2d');
 
-            // 損失グラフ設定 (平均を太い実線、各Foldを半透明の細い線にするために動的に構築される)
             lossChart = new Chart(lossCtx, {
                 type: 'line',
                 data: {
@@ -1432,7 +1473,6 @@
                         legend: {
                             labels: {
                                 filter: function(item, chart) {
-                                    // 凡例が多すぎると潰れるため、平均値の凡例のみを残す
                                     return item.text.includes('Average');
                                 },
                                 color: '#94a3b8'
@@ -1481,17 +1521,21 @@
             });
         }
 
+        // デモ用のシミュレーションデータ生成
         function generateSyntheticData(samples) {
             const inputs = [];
             const targets = [];
             for (let i = 0; i < samples; i++) {
-                const rm = 3 + Math.random() * 6;
-                const lstat = 1 + Math.random() * 34;
-                const dis = 1 + Math.random() * 11;
+                // 特徴量1~3を異なる分布で生成
+                const f1 = 3 + Math.random() * 6;  // スケール中
+                const f2 = 1 + Math.random() * 34; // スケール大
+                const f3 = 1 + Math.random() * 11; // スケール小
                 const noise = (Math.random() - 0.5) * 4;
-                const base = (5.2 * rm) - (0.4 * lstat) - (0.6 * dis) + 15 + noise;
-                inputs.push([rm, lstat, dis]);
-                targets.push([Math.max(5, Math.min(50, base))]);
+                
+                // 数式に基づく目標値の計算（デモ用）
+                const base = (5.2 * f1) - (0.4 * f2) - (0.6 * f3) + 15 + noise;
+                inputs.push([f1, f2, f3]);
+                targets.push([Math.max(5, Math.min(100, base))]);
             }
             return { inputs, targets };
         }
@@ -1516,7 +1560,7 @@
             }
             for (let j = 0; j < numFeatures; j++) {
                 stds[j] = Math.sqrt(stds[j] / size);
-                if (stds[j] === 0) stds[j] = 1; // Fit段階での保護
+                if (stds[j] === 0) stds[j] = 1; // 0除算保護
             }
 
             const standardized = data.map(row => 
@@ -1527,7 +1571,7 @@
 
         function transform(data, means, stds) {
             return data.map(row => 
-                row.map((val, idx) => (val - means[idx]) / (stds[idx] || 1)) // 実運用・極限データでの安全弁
+                row.map((val, idx) => (val - means[idx]) / (stds[idx] || 1))
             );
         }
 
@@ -1608,7 +1652,6 @@
             return { mae, r2 };
         }
 
-        // Helper: Convert ArrayBuffer to Base64 (JSON一括出力に必要)
         function arrayBufferToBase64(buffer) {
             let binary = '';
             const bytes = new Uint8Array(buffer);
@@ -1619,7 +1662,6 @@
             return window.btoa(binary);
         }
 
-        // Helper: Convert Base64 to ArrayBuffer (JSON読込復元に必要)
         function base64ToArrayBuffer(base64) {
             const binaryString = window.atob(base64);
             const len = binaryString.length;
@@ -1636,8 +1678,8 @@
             const source = paramSourceType.value;
             let inputs = [];
             let targets = [];
-            let selectedFeatures = ["RM", "LSTAT", "DIS"];
-            let targetCol = "MEDV";
+            let selectedFeatures = ["Feature_1", "Feature_2", "Feature_3"];
+            let targetCol = "Target_y";
 
             if (source === 'simulation') {
                 const samples = parseInt(paramSamples.value);
@@ -1714,7 +1756,6 @@
                 }
             ];
 
-            // 交差検証用の各Foldの細線をChart.jsのデータセットに追加
             if (useKFold) {
                 for (let k = 0; k < K; k++) {
                     lossChart.data.datasets.push({
@@ -1743,7 +1784,6 @@
             predChart.data.datasets[1].data = [];
             predChart.update();
 
-            // Train/Test Split
             const ratio = parseInt(paramSplit.value) / 100;
             const { trainX, trainY, testX, testY } = trainTestSplit(inputs, targets, ratio);
 
@@ -1792,7 +1832,6 @@
                     foldValYs.push(vY);
                 }
 
-                // 各Fold用のモデルとテンソルの準備
                 const models = [];
                 const tensors = [];
                 const foldStats = [];
@@ -1822,12 +1861,10 @@
                 updateStatus(`K分割交差検証を実行中 (K=${K})...`, "progress");
 
                 try {
-                    // エポックごとの並行訓練ループ
                     for (let epoch = 0; epoch < epochs; epoch++) {
                         let epochLossSum = 0;
                         let epochValLossSum = 0;
 
-                        // 各モデルを1エポックずつ連続的にトレーニング
                         for (let k = 0; k < K; k++) {
                             const foldTensor = tensors[k];
                             const fitHistory = await models[k].fit(foldTensor.xs, foldTensor.ys, {
@@ -1843,8 +1880,6 @@
                             epochLossSum += trainL;
                             epochValLossSum += valL;
 
-                            // 各Foldのグラフへの細線プロット
-                            // データセットのインデックス: 2 + k*2 (Fold Train) と 2 + k*2 + 1 (Fold Val)
                             lossChart.data.datasets[2 + k * 2].data.push(trainL);
                             lossChart.data.datasets[2 + k * 2 + 1].data.push(valL);
                         }
@@ -1861,16 +1896,14 @@
                         statLoss.innerText = avgLoss.toFixed(4);
                         statValLoss.innerText = avgValLoss.toFixed(4);
 
-                        // 平均をグラフに追加
                         lossChart.data.labels.push(cur);
                         lossChart.data.datasets[0].data.push(avgLoss);
                         lossChart.data.datasets[1].data.push(avgValLoss);
-                        lossChart.update('none'); // 高速化のためレンダリングを最適化
+                        lossChart.update('none');
                     }
 
                     updateStatus("K-Fold予測アンサンブル評価中...", "progress");
 
-                    // テストデータに対するアンサンブル予測の集計
                     const actuals = testY.map(row => row[0]);
                     const ensemblePreds = new Float32Array(actuals.length);
 
@@ -1918,10 +1951,8 @@
                     ];
                     predChart.update();
 
-                    // --- 運用モデルパッケージ (エクスポート用JSON) のアセンブリ ---
                     const serializedFolds = [];
                     for (let k = 0; k < K; k++) {
-                        // TensorFlow.jsモデルの内部重み配列と構成情報を直接取得
                         const saveResult = await models[k].save(tf.io.withSaveHandler(async (artifacts) => {
                             return artifacts;
                         }));
@@ -2035,7 +2066,6 @@
                     ];
                     predChart.update();
 
-                    // 通常パッケージの保存
                     const saveResult = await model.save(tf.io.withSaveHandler(async (artifacts) => {
                         return artifacts;
                     }));
@@ -2101,7 +2131,6 @@
                         throw new Error("無効なモデルパッケージファイルです。構造が壊れています。");
                     }
 
-                    // バックグラウンドでTF.jsモデルに組み立て復元
                     const reconstructedFolds = [];
                     for (let k = 0; k < parsed.k; k++) {
                         const foldData = parsed.folds[k];
@@ -2113,7 +2142,6 @@
                             weightData: weightData
                         };
 
-                        // インメモリでTFモデルをリストア
                         const model = await tf.loadLayersModel(tf.io.fromMemory(artifacts));
                         reconstructedFolds.push({
                             means: foldData.means,
@@ -2130,7 +2158,6 @@
                         folds: reconstructedFolds
                     };
 
-                    // UIにメタ情報を表示
                     modelMetaK.innerText = `${parsed.k}-Fold Ensemble`;
                     modelMetaTarget.innerText = parsed.target;
                     modelMetaFeaturesCount.innerText = parsed.features.length;
@@ -2140,9 +2167,7 @@
                     inferencePlaceholder.classList.add('hidden');
                     inferenceFormArea.classList.remove('hidden');
 
-                    // 動的な数値入力フォームの構築
                     buildDynamicInferenceForm();
-                    // 初期予測の計算
                     runInferenceCalculation();
 
                 } catch (err) {
@@ -2157,7 +2182,6 @@
         function buildDynamicInferenceForm() {
             dynamicInputsContainer.innerHTML = '';
             
-            // 各説明変数に合わせてフォームとリアルタイム同期用のスライダーを設置
             importedPackage.features.forEach((feat, idx) => {
                 const card = document.createElement('div');
                 card.className = 'input-card';
@@ -2168,11 +2192,11 @@
                 const label = document.createElement('label');
                 label.innerText = feat;
 
-                // シミュレーションとしての各初期スケール
                 let min = 0, max = 100, step = 1, def = 50;
-                if (feat === 'RM') { min = 3; max = 9; step = 0.1; def = 6; }
-                else if (feat === 'LSTAT') { min = 1; max = 35; step = 0.5; def = 12; }
-                else if (feat === 'DIS') { min = 1; max = 12; step = 0.1; def = 4; }
+                // 自動生成データのスケールに合わせる
+                if (feat === 'Feature_1' || feat === 'RM') { min = 3; max = 9; step = 0.1; def = 6; }
+                else if (feat === 'Feature_2' || feat === 'LSTAT') { min = 1; max = 35; step = 0.5; def = 12; }
+                else if (feat === 'Feature_3' || feat === 'DIS') { min = 1; max = 12; step = 0.1; def = 4; }
 
                 const valSpan = document.createElement('span');
                 valSpan.className = 'range-val';
@@ -2192,7 +2216,7 @@
 
                 range.addEventListener('input', () => {
                     valSpan.innerText = range.value;
-                    runInferenceCalculation(); // スライダー動作時にリアルタイムで超高速予測実行
+                    runInferenceCalculation();
                 });
 
                 card.appendChild(container);
@@ -2200,29 +2224,26 @@
                 dynamicInputsContainer.appendChild(card);
             });
 
-            targetUnitLabel.innerText = `単位: ${importedPackage.target}`;
+            targetUnitLabel.innerText = `目的変数: ${importedPackage.target}`;
         }
 
         function runInferenceCalculation() {
             if (!importedPackage) return;
 
-            // スライダーの値を取得
             const rawInputValues = [];
             for (const feat of importedPackage.features) {
                 const range = document.getElementById(`inf_range_${feat}`);
                 rawInputValues.push(parseFloat(range.value));
             }
 
-            // K-Foldアンサンブルで、各Fold毎の標準化平均等を用いて予測した値を平均化
             let ensemblePredictionSum = 0;
 
-            tf.tidy(() => { // WebGLのテンソルリークを瞬時に自動クリーンアップ
+            tf.tidy(() => {
                 for (let k = 0; k < importedPackage.k; k++) {
                     const fold = importedPackage.folds[k];
                     
                     let finalInput = [rawInputValues];
                     if (importedPackage.normalize && fold.means && fold.stds) {
-                        // 訓練時と同じ固有の平均・標準偏差で標準化 (Transform)
                         finalInput = [[
                             rawInputValues.map((val, idx) => (val - fold.means[idx]) / (fold.stds[idx] || 1))
                         ][0]];
@@ -2235,7 +2256,7 @@
             });
 
             const finalPrediction = ensemblePredictionSum / importedPackage.k;
-            predictedResult.innerText = finalPrediction.toFixed(3);
+            predictedResult.innerText = finalPrediction.toFixed(4);
         }
 
         function resetSimulation() {
@@ -2245,7 +2266,7 @@
             panelSimulation.classList.remove('hidden');
             panelUpload.classList.add('hidden');
             columnMappingArea.classList.add('hidden');
-            architectureInputs.innerText = "入力層 (特徴量: RM, LSTAT, DIS)";
+            architectureInputs.innerText = "入力層 (特徴量: Feature_1, Feature_2, Feature_3)";
 
             paramSamples.value = 500;
             valSamples.innerText = '500';
