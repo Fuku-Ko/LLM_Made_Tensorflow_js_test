@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>お手軽機械学習</title>
-    <!-- 完全オフライン対応のニューラルネットワーク風SVGファビコン -->
+    <!-- 完全オフライン対応 of ニューラルネットワーク風SVGファビコン -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231e293b'/%3E%3Cline x1='8' y1='10' x2='16' y2='6' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='10' x2='16' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='22' x2='16' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='22' x2='16' y2='26' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='6' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='16' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='26' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Ccircle cx='8' cy='10' r='3' fill='%23c084fc'/%3E%3Ccircle cx='8' cy='22' r='3' fill='%23c084fc'/%3E%3Ccircle cx='16' cy='6' r='3' fill='%23818cf8'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23818cf8'/%3E%3Ccircle cx='16' cy='26' r='3' fill='%23818cf8'/%3E%3Ccircle cx='24' cy='16' r='3' fill='%2306b6d4'/%3E%3C/svg%3E">
 
     <!-- ピュアCSSスタイリング -->
@@ -2353,9 +2353,9 @@
                     
                     let finalInput = [rawInputValues];
                     if (importedPackage.normalize && fold.means && fold.stds) {
-                        finalInput = [[
-                            rawInputValues.map((val, idx) => (val - fold.means[idx]) / (fold.stds[idx] || 1))
-                        ][0]];
+                        // 1次元配列から直接変換して2次元配列に格納する安全な記述に修正
+                        const normalizedValues = rawInputValues.map((val, idx) => (val - fold.means[idx]) / (fold.stds[idx] || 1));
+                        finalInput = [normalizedValues];
                     }
 
                     const inputTensor = tf.tensor2d(finalInput);
