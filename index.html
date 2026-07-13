@@ -1439,7 +1439,7 @@
         function updateArchitecturePreview() {
             const selectedFeatures = Array.from(mapFeatureCols.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
             if (selectedFeatures.length > 0) {
-                const text = selectedFeatures.length > 4 
+                const text = selectedFeatures.length > 4 
                     ? `${selectedFeatures.slice(0, 3).join(', ')}... 計${selectedFeatures.length}種`
                     : selectedFeatures.join(', ');
                 architectureInputs.innerText = `入力層 (特徴量: ${text})`;
@@ -1494,23 +1494,23 @@
                         }
                     },
                     scales: {
-                        x: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { 
+                        x: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { 
                                 color: '#94a3b8',
                                 font: {
                                     size: 13 // 軸メモリフォントを大きく
                                 }
-                            } 
+                            } 
                         },
-                        y: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { 
+                        y: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { 
                                 color: '#94a3b8',
                                 font: {
                                     size: 13 // 軸メモリフォントを大きく
                                 }
-                            } 
+                            } 
                         }
                     }
                 }
@@ -1555,23 +1555,23 @@
                         }
                     },
                     scales: {
-                        x: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { 
+                        x: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { 
                                 color: '#94a3b8',
                                 font: {
                                     size: 13 // 軸メモリフォントを大きく
                                 }
-                            } 
+                            } 
                         },
-                        y: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { 
+                        y: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { 
                                 color: '#94a3b8',
                                 font: {
                                     size: 13 // 軸メモリフォントを大きく
                                 }
-                            } 
+                            } 
                         }
                     }
                 }
@@ -1620,14 +1620,14 @@
                 if (stds[j] === 0) stds[j] = 1; // 0除算保護
             }
 
-            const standardized = data.map(row => 
+            const standardized = data.map(row => 
                 row.map((val, idx) => (val - means[idx]) / stds[idx])
             );
             return { standardized, means, stds };
         }
 
         function transform(data, means, stds) {
-            return data.map(row => 
+            return data.map(row => 
                 row.map((val, idx) => (val - means[idx]) / (stds[idx] || 1))
             );
         }
@@ -1779,6 +1779,24 @@
                     updateStatus(`有効なデータ行数が少なすぎます (${inputs.length}行)`, "error");
                     return;
                 }
+            }
+
+            // 各特徴量の全体平均、最小値、最大値を計算
+            const numFeatures = inputs[0].length;
+            const globalMeans = Array(numFeatures).fill(0);
+            const globalMins = Array(numFeatures).fill(Infinity);
+            const globalMaxs = Array(numFeatures).fill(-Infinity);
+
+            for (let i = 0; i < inputs.length; i++) {
+                for (let j = 0; j < numFeatures; j++) {
+                    const val = inputs[i][j];
+                    globalMeans[j] += val;
+                    if (val < globalMins[j]) globalMins[j] = val;
+                    if (val > globalMaxs[j]) globalMaxs[j] = val;
+                }
+            }
+            for (let j = 0; j < numFeatures; j++) {
+                globalMeans[j] /= inputs.length;
             }
 
             const useKFold = paramKFold.checked;
@@ -2027,6 +2045,9 @@
                         features: selectedFeatures,
                         target: targetCol,
                         normalize: paramNormalize.checked,
+                        globalMeans: globalMeans,
+                        globalMins: globalMins,
+                        globalMaxs: globalMaxs,
                         k: K,
                         folds: serializedFolds
                     };
@@ -2131,6 +2152,9 @@
                         features: selectedFeatures,
                         target: targetCol,
                         normalize: paramNormalize.checked,
+                        globalMeans: globalMeans,
+                        globalMins: globalMins,
+                        globalMaxs: globalMaxs,
                         k: 1,
                         folds: [{
                             means: means,
@@ -2211,6 +2235,9 @@
                         features: parsed.features,
                         target: parsed.target,
                         normalize: parsed.normalize,
+                        globalMeans: parsed.globalMeans || null,
+                        globalMins: parsed.globalMins || null,
+                        globalMaxs: parsed.globalMaxs || null,
                         k: parsed.k,
                         folds: reconstructedFolds
                     };
@@ -2243,17 +2270,42 @@
                 const card = document.createElement('div');
                 card.className = 'input-card';
 
-                const container = document.createElement('div'); // containerタグを標準的なdivタグに修正
+                const container = document.createElement('div');
                 container.className = 'range-container';
 
                 const label = document.createElement('label');
                 label.innerText = feat;
 
                 let min = 0, max = 100, step = 1, def = 50;
-                // 自動生成データのスケールに合わせる
-                if (feat === 'Feature_1' || feat === 'RM') { min = 3; max = 9; step = 0.1; def = 6; }
-                else if (feat === 'Feature_2' || feat === 'LSTAT') { min = 1; max = 35; step = 0.5; def = 12; }
-                else if (feat === 'Feature_3' || feat === 'DIS') { min = 1; max = 12; step = 0.1; def = 4; }
+
+                // インポートしたモデルに保存された訓練データの統計情報（平均値・最大値・最小値）が存在する場合、動的にスライダー範囲を決定
+                if (importedPackage.globalMeans && importedPackage.globalMeans[idx] !== undefined) {
+                    def = importedPackage.globalMeans[idx];
+                    min = importedPackage.globalMins[idx];
+                    max = importedPackage.globalMaxs[idx];
+
+                    const rangeSpan = max - min;
+                    if (rangeSpan <= 0) {
+                        min = def - 1;
+                        max = def + 1;
+                        step = 0.01;
+                    } else if (rangeSpan < 2) {
+                        step = 0.01;
+                    } else if (rangeSpan < 20) {
+                        step = 0.1;
+                    } else {
+                        step = 1;
+                    }
+
+                    def = parseFloat(def.toFixed(2));
+                    min = parseFloat(min.toFixed(2));
+                    max = parseFloat(max.toFixed(2));
+                } else {
+                    // 自動生成データ（以前のバージョン）などのためのフォールバック
+                    if (feat === 'Feature_1' || feat === 'RM') { min = 3; max = 9; step = 0.1; def = 6; }
+                    else if (feat === 'Feature_2' || feat === 'LSTAT') { min = 1; max = 35; step = 0.5; def = 12; }
+                    else if (feat === 'Feature_3' || feat === 'DIS') { min = 1; max = 12; step = 0.1; def = 4; }
+                }
 
                 const valSpan = document.createElement('span');
                 valSpan.className = 'range-val';
