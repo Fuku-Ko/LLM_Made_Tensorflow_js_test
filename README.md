@@ -15,7 +15,7 @@ https://fuku-ko.github.io/LLM_Made_Tensorflow_js_test/
 
 ```
 my-ml-app/
-├── index.html               (下記で生成するコードを貼り付けたファイル)
+├── index.html               (メインプログラム)
 │
 └── js/                      (ライブラリ用フォルダ)
     ├── tf.min.js            (TensorFlow.js)
