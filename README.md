@@ -1,4 +1,4 @@
-# LLM_Made_Tensorflow_js_test
+# LLM_Made_Tensorflow_js_test お手軽機械学習
 Tensorflow.jsをAI生成コードで試してみたもの
 
 # 使い方
@@ -44,7 +44,7 @@ jsの中に、以下の3つのファイルを作成してください。
    https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js
 
 
-index.htmlを開くと、オフライン版を選択できるようになっているはずです。
+index.htmlをダブルクリックで開くと、オフライン版を選択できるようになっているはずです。
 
 # 考え方
 
@@ -91,5 +91,11 @@ JavaScript (HTML+JavaScript+CSS)にて作成されています。
 ## 学習
 
 一般的なk分割交差検証(アンサンブル学習)を実装しています。
+
+## 主要な機能追加・修正の履歴
+
+* 2026/8/12 目的変数の標準化、欠損値の処理、損失関数(LOSS)の保存機能を追加しました。
+
+
 
 
