@@ -780,6 +780,10 @@
                             <span id="lblRowsCount" style="color: #06b6d4;">0行検出</span>
                         </div>
 
+                        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">
+                            ※有名なデータセットに頻出する列名（'target', 'RM', 'longitude' 等の事前定義リスト）と一致するものを自動選択しています。必要に応じて手動で見直してください。
+                        </p>
+
                         <div class="form-group" style="margin-bottom: 10px;">
                             <label style="font-size: 0.95rem;">予測対象 (目的変数 - y)</label>
                             <select id="mapTargetCol" style="padding: 6px; font-size: 0.95rem;"></select>
@@ -1825,8 +1829,8 @@
                     lossChart.data.datasets.push({
                         label: `Fold ${k+1} Train`,
                         data: [],
-                        borderColor: 'rgba(129, 140, 248, 0.15)',
-                        borderWidth: 1,
+                        borderColor: 'rgba(192, 132, 252, 0.7)', // Purple系で平均(Indigo)と区別
+                        borderWidth: 1.5,
                         fill: false,
                         pointRadius: 0,
                         z: 1
@@ -1834,8 +1838,8 @@
                     lossChart.data.datasets.push({
                         label: `Fold ${k+1} Val`,
                         data: [],
-                        borderColor: 'rgba(34, 211, 238, 0.15)',
-                        borderWidth: 1,
+                        borderColor: 'rgba(52, 211, 153, 0.7)', // Emerald系で平均(Cyan)と区別
+                        borderWidth: 1.5,
                         fill: false,
                         pointRadius: 0,
                         z: 1
