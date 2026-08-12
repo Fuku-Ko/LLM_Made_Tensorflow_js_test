@@ -714,8 +714,8 @@
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     <span id="badgeText">TensorFlow.js (Connecting...)</span>
                 </span>
-                <h1 style="margin-top: 6px;">お手軽機械学習 (ターゲット標準化対応)</h1>
-                <p class="subtitle">オンライン・オフライン両用。厳密なデータ前処理(ターゲット変数の逆変換含む)とK分割交差検証、および推論パッケージ運用機能を搭載。</p>
+                <h1 style="margin-top: 6px;">お手軽機械学習</h1>
+                <p class="subtitle">オンライン・オフライン両用。厳密なデータ前処理とK分割交差検証、および推論パッケージ運用機能を搭載。</p>
             </div>
             <button id="resetDemoBtn" class="btn-reset">初期化</button>
         </header>
@@ -781,7 +781,7 @@
                         </div>
 
                         <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">
-                            ※有名なデータセットに頻出する列名（'target', 'RM', 'longitude' 等の事前定義リスト）と一致するものを自動選択しています。必要に応じて手動で見直してください。
+                            ※ファイルの最終列を目的変数(y)とし、それ以外の全カラムを特徴量(x)として自動選択しています。
                         </p>
 
                         <div class="form-group" style="margin-bottom: 10px;">
@@ -898,9 +898,14 @@
                             </span>
                             <span id="epochProgressText" class="epoch-text hidden">Epoch 0 / 100</span>
                         </div>
-                        <div style="font-size: 0.85rem; color: #94a3b8; display: flex; gap: 16px;">
-                            <div>訓練データ: <span id="numTrainSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
-                            <div>テストデータ: <span id="numTestSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
+                        <div style="font-size: 0.85rem; color: #94a3b8; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                            <div style="display: flex; gap: 16px;">
+                                <div>訓練データ: <span id="numTrainSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
+                                <div>テストデータ: <span id="numTestSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
+                            </div>
+                            <div id="skippedDataInfo" class="hidden" style="color: #f59e0b; font-size: 0.75rem;">
+                                ⚠️ 欠損値等のため <span id="numSkippedRows">0</span> 行を除外しました
+                            </div>
                         </div>
                     </div>
                     <div class="progress-bar-container">
@@ -968,12 +973,27 @@
 
                     <!-- エクスポートエリア (学習完了後に表示) -->
                     <div id="exportArea" class="export-card hidden">
-                        <p style="font-size: 0.95rem; color: #10b981; font-weight: 700; margin-bottom: 6px;">✨ 学習完了！運用推論用パッケージをエクスポート可能です</p>
-                        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;">各Foldの重み、列マッピング設定、特徴量と目的変数の標準化メタデータ(平均・標準偏差)を1つのJSONにエクスポートします。</p>
-                        <button id="exportModelBtn" class="btn-train btn-export">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            学習済みアンサンブルモデルを保存 (.json)
-                        </button>
+                        <p style="font-size: 1rem; color: #10b981; font-weight: 700; margin-bottom: 8px;">✨ 学習が完了しました！</p>
+                        
+                        <!-- 手順案内フロー -->
+                        <div style="background-color: rgba(15, 23, 42, 0.6); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 14px; text-align: left; font-size: 0.85rem; color: #cbd5e1; line-height: 1.6;">
+                            <div style="font-weight: bold; color: #34d399; margin-bottom: 6px;">【運用・予測の手順】</div>
+                            <div style="margin-bottom: 4px;">① 下のボタンを押して、作成したモデル（.json）をパソコンに保存します。</div>
+                            <div style="margin-bottom: 4px;">② 上部の「🧠 運用・予測推論」タブをクリックします。</div>
+                            <div>③ 保存したモデルファイルを読み込ませると、いつでも予測シミュレーションができます。</div>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <button id="exportModelBtn" class="btn-train btn-export" style="margin-top: 0;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                1. 学習済みモデルをダウンロード保存 (.json)
+                            </button>
+
+                            <button id="exportHistoryBtn" class="btn-train" style="background: linear-gradient(135deg, #f59e0b, #d97706); margin-top: 0;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>
+                                学習履歴データ (Loss推移・パラメータ) を保存 (.json)
+                            </button>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -987,10 +1007,10 @@
                 <div class="panel">
                     <h2 class="panel-title">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #10b981;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        モデルのインポート
+                        Step 1: モデルファイルの選択
                     </h2>
                     <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
-                        [訓練タブ] で保存したモデルファイル (.json) をロードし、オフラインの推論用エンジン（K-Foldアンサンブル）を再現します。
+                        [訓練タブ] で保存したモデルファイル (.json) を選択またはドラッグ＆ドロップしてください。
                     </p>
 
                     <label class="upload-area" id="modelDropArea" style="border-color: #10b98140;">
@@ -1003,12 +1023,12 @@
 
                     <div id="modelMetaInfo" class="col-mapping hidden" style="border-color: #10b98140; margin-top: 15px;">
                         <div class="col-mapping-header" style="border-bottom-color: #10b98120;">
-                            <span style="color: #10b981;">パッケージ構造</span>
+                            <span style="color: #10b981;">読み込み成功</span>
                             <span id="modelMetaK" style="color: #ffffff;">- Fold Ensemble</span>
                         </div>
                         <div style="font-size: 0.85rem; space-y: 6px;">
-                            <div style="margin-bottom: 4px;">🎯 目的変数: <span id="modelMetaTarget" style="color: #ffffff; font-weight: bold;">-</span></div>
-                            <div>🔬 説明変数 (<span id="modelMetaFeaturesCount">0</span>個):</div>
+                            <div style="margin-bottom: 4px;">🎯 予測対象: <span id="modelMetaTarget" style="color: #ffffff; font-weight: bold;">-</span></div>
+                            <div>🔬 使用するデータ項目 (<span id="modelMetaFeaturesCount">0</span>個):</div>
                             <div id="modelMetaFeaturesList" style="color: #06b6d4; font-family: monospace; padding-left: 10px; margin-top: 4px; line-height: 1.4;">-</div>
                         </div>
                     </div>
@@ -1020,20 +1040,20 @@
                 <div class="panel">
                     <h2 class="panel-title">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #06b6d4;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                        リアルタイム推論シミュレーター
+                        Step 2: 条件調整とリアルタイム予測
                     </h2>
 
                     <!-- 警告: 未読込時 -->
                     <div id="inferencePlaceholder" style="text-align: center; padding: 40px 20px; color: #94a3b8;">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 16px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        <p style="font-weight: 700; margin-bottom: 4px; font-size: 1rem;">モデルパッケージがロードされていません</p>
-                        <p style="font-size: 0.85rem;">左側のパネルから、訓練完了後にエクスポートしたモデルファイル (.json) をロードしてください。</p>
+                        <p style="font-weight: 700; margin-bottom: 4px; font-size: 1rem;">まだモデルが読み込まれていません</p>
+                        <p style="font-size: 0.85rem;">左側のパネルから、保存したモデルファイル (.json) を選択してください。</p>
                     </div>
 
                     <!-- スライダー動的フォーム -->
                     <div id="inferenceFormArea" class="hidden">
-                        <p style="font-size: 1rem; color: #cbd5e1; margin-bottom: 16px;">
-                            各入力変数の値をスライダーで調整してください。アンサンブルモデルが各統計情報(データリーク防止標準化)で補正を行い、リアルタイムに予測値を出力します。
+                        <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 16px;">
+                            各スライダーを左右に動かすと、モデルが条件に合わせて自動で計算し、即座に予測結果を出力します。
                         </p>
                         <div id="dynamicInputsContainer" class="dynamic-form-grid">
                             <!-- JSでスライダーを自動追加 -->
@@ -1041,7 +1061,7 @@
 
                         <!-- 推論結果表示ボックス -->
                         <div class="prediction-box">
-                            <p style="font-size: 1rem; color: #94a3b8; font-weight: 700;">予測出力値 (K-Fold アンサンブル平均)</p>
+                            <p style="font-size: 1rem; color: #94a3b8; font-weight: 700;">予測結果</p>
                             <div id="predictedResult" class="prediction-value">-</div>
                             <p id="targetUnitLabel" style="font-size: 0.85rem; color: #475569; font-weight: bold;">(目的変数のスケール)</p>
                         </div>
@@ -1141,8 +1161,9 @@
         let trainBtn, resetDemoBtn, statusBadge, epochProgressText, progressBar, architectureInputs;
         let numTrainSamples, numTestSamples, statLoss, statValLoss, statMae, statR2;
         let paramKFold, kFoldConfigArea, paramK, valK;
+        let skippedDataInfo, numSkippedRows;
 
-        let exportArea, exportModelBtn;
+        let exportArea, exportModelBtn, exportHistoryBtn;
         let tabTrainBtn, tabPredictBtn, tabTrainArea, tabPredictArea;
         let paramModelInput, loadedModelName, modelDropArea, modelMetaInfo, modelMetaK, modelMetaTarget, modelMetaFeaturesCount, modelMetaFeaturesList;
         let inferencePlaceholder, inferenceFormArea, dynamicInputsContainer, predictedResult, targetUnitLabel;
@@ -1156,6 +1177,7 @@
         // エクスポート用のモデル・パラメータパッケージ
         let modelPackage = null;
         let importedPackage = null;
+        let trainingHistory = null;
 
         function switchTab(tab) {
             if (isTraining) return; // 訓練中はタブ切り替え不可
@@ -1218,6 +1240,8 @@
             
             numTrainSamples = document.getElementById('numTrainSamples');
             numTestSamples = document.getElementById('numTestSamples');
+            skippedDataInfo = document.getElementById('skippedDataInfo');
+            numSkippedRows = document.getElementById('numSkippedRows');
             statLoss = document.getElementById('statLoss');
             statValLoss = document.getElementById('statValLoss');
             statMae = document.getElementById('statMae');
@@ -1225,6 +1249,7 @@
 
             exportArea = document.getElementById('exportArea');
             exportModelBtn = document.getElementById('exportModelBtn');
+            exportHistoryBtn = document.getElementById('exportHistoryBtn');
 
             // Inference Elements
             paramModelInput = document.getElementById('paramModelInput');
@@ -1343,6 +1368,7 @@
             trainBtn.addEventListener('click', startNeuralTraining);
             resetDemoBtn.addEventListener('click', resetSimulation);
             exportModelBtn.addEventListener('click', downloadModelPackage);
+            exportHistoryBtn.addEventListener('click', downloadTrainingHistory);
         }
 
         function handleFileSelect(file) {
@@ -1379,6 +1405,7 @@
         }
 
         function rebuildColumnMappingUI() {
+            // 1. 目的変数 (Target) のセレクトボックス構築
             mapTargetCol.innerHTML = '';
             loadedCSVHeaders.forEach(header => {
                 const opt = document.createElement('option');
@@ -1387,8 +1414,30 @@
                 mapTargetCol.appendChild(opt);
             });
 
+            // 最終列を目的変数(y)のデフォルトに指定
+            const defaultTarget = loadedCSVHeaders[loadedCSVHeaders.length - 1];
+            mapTargetCol.value = defaultTarget;
+
+            // 2. 特徴量 (Features) チェックボックスの構築と更新処理
+            updateFeatureCheckboxes();
+
+            // 3. イベントハンドラの登録
+            mapTargetCol.onchange = () => {
+                updateFeatureCheckboxes();
+                updateArchitecturePreview();
+            };
+
+            updateArchitecturePreview();
+        }
+
+        function updateFeatureCheckboxes() {
+            const currentTarget = mapTargetCol.value;
             mapFeatureCols.innerHTML = '';
+
             loadedCSVHeaders.forEach(header => {
+                // 目的変数に指定されている列は説明変数一覧から除外（または非表示）
+                if (header === currentTarget) return;
+
                 const div = document.createElement('div');
                 div.className = 'feature-item';
 
@@ -1396,6 +1445,7 @@
                 input.type = 'checkbox';
                 input.value = header;
                 input.id = `feat_${header}`;
+                input.checked = true; // 基本ルール: 目的変数以外の全カラムを全チェック
 
                 const label = document.createElement('label');
                 label.htmlFor = `feat_${header}`;
@@ -1404,42 +1454,8 @@
                 div.appendChild(input);
                 div.appendChild(label);
                 mapFeatureCols.appendChild(div);
-            });
 
-            const targetCandidates = ['y', 'target', 'label', 'value', 'output', 'medv', 'median_house_value'];
-            const targetMatch = loadedCSVHeaders.find(h => targetCandidates.includes(h.toLowerCase()));
-            if (targetMatch) {
-                mapTargetCol.value = targetMatch;
-            } else {
-                mapTargetCol.value = loadedCSVHeaders[loadedCSVHeaders.length - 1];
-            }
-
-            let checkedCount = 0;
-            const featureCandidates = ['feature_1', 'feature_2', 'feature_3', 'x1', 'x2', 'x3', 'rm', 'lstat', 'dis', 'longitude', 'latitude', 'housing_median_age', 'total_rooms', 'total_bedrooms', 'population', 'households', 'median_income'];
-            loadedCSVHeaders.forEach(header => {
-                const cb = document.getElementById(`feat_${header}`);
-                if (header === mapTargetCol.value) return;
-
-                if (featureCandidates.includes(header.toLowerCase())) {
-                    cb.checked = true;
-                    checkedCount++;
-                }
-            });
-
-            if (checkedCount === 0) {
-                let count = 0;
-                loadedCSVHeaders.forEach(header => {
-                    if (header === mapTargetCol.value || count >= 3) return;
-                    document.getElementById(`feat_${header}`).checked = true;
-                    count++;
-                });
-            }
-
-            updateArchitecturePreview();
-
-            mapTargetCol.addEventListener('change', updateArchitecturePreview);
-            mapFeatureCols.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.addEventListener('change', updateArchitecturePreview);
+                input.addEventListener('change', updateArchitecturePreview);
             });
         }
 
@@ -1504,7 +1520,7 @@
                             ticks: { color: '#94a3b8', font: { size: 13 } } 
                         },
                         y: { 
-                            type: 'logarithmic', // ← Y軸を対数軸(Logarithmic)に変更
+                            type: 'logarithmic', // Y軸を対数軸(Logarithmic)に設定
                             grid: { color: '#33415530' }, 
                             ticks: { color: '#94a3b8', font: { size: 13 } } 
                         }
@@ -1736,6 +1752,7 @@
                 const sim = generateSyntheticData(samples);
                 inputs = sim.inputs;
                 targets = sim.targets;
+                skippedDataInfo.classList.add('hidden');
             } else {
                 if (!loadedCSVData) {
                     updateStatus("CSVが読み込まれていません", "error");
@@ -1749,6 +1766,7 @@
                     return;
                 }
 
+                let skippedCount = 0;
                 for (let i = 0; i < loadedCSVData.length; i++) {
                     const row = loadedCSVData[i];
                     let ok = true;
@@ -1765,7 +1783,16 @@
                     if (ok) {
                         inputs.push(rowInput);
                         targets.push([targetVal]);
+                    } else {
+                        skippedCount++;
                     }
+                }
+
+                if (skippedCount > 0) {
+                    numSkippedRows.innerText = skippedCount;
+                    skippedDataInfo.classList.remove('hidden');
+                } else {
+                    skippedDataInfo.classList.add('hidden');
                 }
 
                 if (inputs.length < 10) {
@@ -1794,6 +1821,28 @@
 
             const useKFold = paramKFold.checked;
             const K = useKFold ? parseInt(paramK.value) : 1;
+
+            const epochs = parseInt(paramEpochs.value);
+            const batch = parseInt(paramBatch.value);
+            const opt = paramOptimizer.value;
+            const lr = paramLR.value;
+            
+            // 学習履歴データの初期化
+            trainingHistory = {
+                metadata: {
+                    samples: inputs.length,
+                    features: selectedFeatures,
+                    target: targetCol,
+                    epochs: epochs,
+                    batchSize: batch,
+                    optimizer: opt,
+                    learningRate: lr,
+                    kFold: K,
+                    normalized: paramNormalize.checked
+                },
+                epochs: [],
+                finalMetrics: {}
+            };
 
             isTraining = true;
             trainBtn.disabled = true;
@@ -1858,10 +1907,6 @@
             numTrainSamples.innerText = trainX.length;
             numTestSamples.innerText = testY.length;
 
-            const epochs = parseInt(paramEpochs.value);
-            const batch = parseInt(paramBatch.value);
-            const opt = paramOptimizer.value;
-            const lr = paramLR.value;
             const inputDim = trainX[0].length;
 
             if (useKFold) {
@@ -1944,6 +1989,7 @@
                     for (let epoch = 0; epoch < epochs; epoch++) {
                         let epochLossSum = 0;
                         let epochValLossSum = 0;
+                        const foldLosses = []; // 各エポック内のFoldごとの推移を記録
 
                         for (let k = 0; k < K; k++) {
                             const foldTensor = tensors[k];
@@ -1959,6 +2005,8 @@
 
                             epochLossSum += trainL;
                             epochValLossSum += valL;
+                            
+                            foldLosses.push({ fold: k + 1, trainLoss: trainL, valLoss: valL });
 
                             lossChart.data.datasets[2 + k * 2].data.push(trainL);
                             lossChart.data.datasets[2 + k * 2 + 1].data.push(valL);
@@ -1969,6 +2017,14 @@
 
                         const cur = epoch + 1;
                         const pct = (cur / epochs) * 100;
+
+                        // 履歴データへのプッシュ
+                        trainingHistory.epochs.push({
+                            epoch: cur,
+                            avgTrainLoss: avgLoss,
+                            avgValLoss: avgValLoss,
+                            folds: foldLosses
+                        });
 
                         progressBar.style.width = `${pct}%`;
                         epochProgressText.innerText = `Epoch ${cur} / ${epochs} (K-Fold)`;
@@ -2018,10 +2074,15 @@
                     const metrics = evalMetrics(actuals, ensemblePreds);
                     statMae.innerText = metrics.mae.toFixed(4);
                     statR2.innerText = metrics.r2.toFixed(4);
+                    
+                    trainingHistory.finalMetrics = {
+                        mae: metrics.mae,
+                        r2: metrics.r2
+                    };
 
                     const points = [];
-                    let min = Infinity;
-                    let max = -Infinity;
+                    let min = 999;
+                    let max = -999;
                     for (let i = 0; i < actuals.length; i++) {
                         const act = actuals[i];
                         const prd = ensemblePreds[i];
@@ -2123,6 +2184,12 @@
                                 const cur = epoch + 1;
                                 const pct = (cur / epochs) * 100;
                                 
+                                trainingHistory.epochs.push({
+                                    epoch: cur,
+                                    trainLoss: logs.loss,
+                                    valLoss: logs.val_loss
+                                });
+
                                 progressBar.style.width = `${pct}%`;
                                 epochProgressText.innerText = `Epoch ${cur} / ${epochs}`;
 
@@ -2152,10 +2219,15 @@
                     const metrics = evalMetrics(actuals, preds);
                     statMae.innerText = metrics.mae.toFixed(4);
                     statR2.innerText = metrics.r2.toFixed(4);
+                    
+                    trainingHistory.finalMetrics = {
+                        mae: metrics.mae,
+                        r2: metrics.r2
+                    };
 
                     const points = [];
-                    let min = Infinity;
-                    let max = -Infinity;
+                    let min = 999;
+                    let max = -999;
                     for (let i = 0; i < actuals.length; i++) {
                         const act = actuals[i];
                         const prd = preds[i];
@@ -2226,6 +2298,23 @@
             const a = document.createElement('a');
             a.href = url;
             a.download = `neural-ensemble-${modelPackage.target}-model.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadTrainingHistory() {
+            if (!trainingHistory) return;
+            
+            // JSONの階層構造を維持しつつ、2インデントで見やすく整形してエクスポート
+            const jsonString = JSON.stringify(trainingHistory, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `training-history-${trainingHistory.metadata.target}.json`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -2442,6 +2531,7 @@
             loadedCSVData = null;
             loadedCSVHeaders = [];
             modelPackage = null;
+            trainingHistory = null;
             exportArea.classList.add('hidden');
 
             progressBar.style.width = '0%';
@@ -2474,6 +2564,8 @@
 
             numTrainSamples.innerText = '-';
             numTestSamples.innerText = '-';
+            skippedDataInfo.classList.add('hidden');
+            numSkippedRows.innerText = '0';
             statLoss.innerText = '-';
             statValLoss.innerText = '-';
             statMae.innerText = '-';
