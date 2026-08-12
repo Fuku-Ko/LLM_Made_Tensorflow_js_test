@@ -965,7 +965,7 @@
                     <!-- エクスポートエリア (学習完了後に表示) -->
                     <div id="exportArea" class="export-card hidden">
                         <p style="font-size: 0.95rem; color: #10b981; font-weight: 700; margin-bottom: 6px;">✨ 学習完了！運用推論用パッケージをエクスポート可能です</p>
-                        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;">各Foldの重み、列マッピング設定、特徴量と目的変数の標準化メタデータを1つのJSONにエクスポートします。</p>
+                        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;">各Foldの重み、列マッピング設定、特徴量と目的変数の標準化メタデータ(平均・標準偏差)を1つのJSONにエクスポートします。</p>
                         <button id="exportModelBtn" class="btn-train btn-export">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             学習済みアンサンブルモデルを保存 (.json)
@@ -1500,6 +1500,7 @@
                             ticks: { color: '#94a3b8', font: { size: 13 } } 
                         },
                         y: { 
+                            type: 'logarithmic', // ← Y軸を対数軸(Logarithmic)に変更
                             grid: { color: '#33415530' }, 
                             ticks: { color: '#94a3b8', font: { size: 13 } } 
                         }
@@ -2390,7 +2391,8 @@
                     const predTensor = fold.model.predict(inputTensor);
                     let predVal = predTensor.dataSync()[0];
 
-                    // 出力された予測値を元のスケールに逆変換する
+                    // 出力された予測値を元のスケールに逆変換する (Inverse Transform)
+                    // 式: 予測値(元のスケール) = 予測値(標準化スケール) * 目的変数の標準偏差 + 目的変数の平均
                     if (importedPackage.normalize && fold.targetMeans && fold.targetStds) {
                         predVal = predVal * (fold.targetStds[0] || 1) + fold.targetMeans[0];
                     }
