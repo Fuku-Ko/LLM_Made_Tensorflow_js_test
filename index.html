@@ -10,7 +10,7 @@
     <!-- ピュアCSSスタイリング -->
     <style>
         html {
-            font-size: 20px; /* ルート文字サイズ（全体の文字がさらに一回り大きくなります） */
+            font-size: 20px;
         }
         * {
             box-sizing: border-box;
@@ -23,7 +23,7 @@
             color: #f1f5f9;
             line-height: 1.6;
             padding: 20px;
-            font-size: 1rem; /* html基準でスケールアップ */
+            font-size: 1rem;
         }
         .container {
             max-width: 1200px;
@@ -714,8 +714,8 @@
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     <span id="badgeText">TensorFlow.js (Connecting...)</span>
                 </span>
-                <h1 style="margin-top: 6px;">お手軽機械学習</h1>
-                <p class="subtitle">オンライン・オフライン両用。厳密なデータ前処理とK分割交差検証、および推論パッケージ運用機能を搭載。</p>
+                <h1 style="margin-top: 6px;">お手軽機械学習 (ターゲット標準化対応)</h1>
+                <p class="subtitle">オンライン・オフライン両用。厳密なデータ前処理(ターゲット変数の逆変換含む)とK分割交差検証、および推論パッケージ運用機能を搭載。</p>
             </div>
             <button id="resetDemoBtn" class="btn-reset">初期化</button>
         </header>
@@ -828,7 +828,7 @@
                                     <input type="checkbox" id="paramNormalize" checked>
                                     <span class="slider"></span>
                                 </label>
-                                <span style="font-size: 1rem;">データの標準化を行う (推奨)</span>
+                                <span style="font-size: 1rem;">データの標準化を行う (目的変数含む)</span>
                             </div>
 
                             <!-- Optimizer -->
@@ -909,14 +909,17 @@
                     <div class="stat-card">
                         <div class="stat-label">現在の平均損失 (Loss)</div>
                         <div id="statLoss" class="stat-value stat-loss">-</div>
+                        <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">※標準化スケール</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">検証平均損失 (Val Loss)</div>
                         <div id="statValLoss" class="stat-value stat-val-loss">-</div>
+                        <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">※標準化スケール</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">テスト MAE (平均絶対誤差)</div>
                         <div id="statMae" class="stat-value stat-mae">-</div>
+                        <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">※元の生値スケール</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">テスト決定係数 (R²)</div>
@@ -962,7 +965,7 @@
                     <!-- エクスポートエリア (学習完了後に表示) -->
                     <div id="exportArea" class="export-card hidden">
                         <p style="font-size: 0.95rem; color: #10b981; font-weight: 700; margin-bottom: 6px;">✨ 学習完了！運用推論用パッケージをエクスポート可能です</p>
-                        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;">各Foldの重み、列マッピング設定、標準化平均・標準偏差(ゼロ除算保護済み)を1つのJSONにエクスポートします。</p>
+                        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;">各Foldの重み、列マッピング設定、特徴量と目的変数の標準化メタデータを1つのJSONにエクスポートします。</p>
                         <button id="exportModelBtn" class="btn-train btn-export">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             学習済みアンサンブルモデルを保存 (.json)
@@ -1399,7 +1402,7 @@
                 mapFeatureCols.appendChild(div);
             });
 
-            const targetCandidates = ['y', 'target', 'label', 'value', 'output', 'medv'];
+            const targetCandidates = ['y', 'target', 'label', 'value', 'output', 'medv', 'median_house_value'];
             const targetMatch = loadedCSVHeaders.find(h => targetCandidates.includes(h.toLowerCase()));
             if (targetMatch) {
                 mapTargetCol.value = targetMatch;
@@ -1408,7 +1411,7 @@
             }
 
             let checkedCount = 0;
-            const featureCandidates = ['feature_1', 'feature_2', 'feature_3', 'x1', 'x2', 'x3', 'rm', 'lstat', 'dis'];
+            const featureCandidates = ['feature_1', 'feature_2', 'feature_3', 'x1', 'x2', 'x3', 'rm', 'lstat', 'dis', 'longitude', 'latitude', 'housing_median_age', 'total_rooms', 'total_bedrooms', 'population', 'households', 'median_income'];
             loadedCSVHeaders.forEach(header => {
                 const cb = document.getElementById(`feat_${header}`);
                 if (header === mapTargetCol.value) return;
@@ -1439,7 +1442,7 @@
         function updateArchitecturePreview() {
             const selectedFeatures = Array.from(mapFeatureCols.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
             if (selectedFeatures.length > 0) {
-                const text = selectedFeatures.length > 4 
+                const text = selectedFeatures.length > 4 
                     ? `${selectedFeatures.slice(0, 3).join(', ')}... 計${selectedFeatures.length}種`
                     : selectedFeatures.join(', ');
                 architectureInputs.innerText = `入力層 (特徴量: ${text})`;
@@ -1487,30 +1490,18 @@
                                     return item.text.includes('Average');
                                 },
                                 color: '#94a3b8',
-                                font: {
-                                    size: 15 // 凡例のフォントサイズを一回り大きく
-                                }
+                                font: { size: 15 }
                             }
                         }
                     },
                     scales: {
-                        x: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { 
-                                color: '#94a3b8',
-                                font: {
-                                    size: 13 // 軸メモリフォントを大きく
-                                }
-                            } 
+                        x: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { color: '#94a3b8', font: { size: 13 } } 
                         },
-                        y: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { 
-                                color: '#94a3b8',
-                                font: {
-                                    size: 13 // 軸メモリフォントを大きく
-                                }
-                            } 
+                        y: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { color: '#94a3b8', font: { size: 13 } } 
                         }
                     }
                 }
@@ -1542,36 +1533,24 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true, // 1:1アスペクト比維持のためにtrue
-                    aspectRatio: 1,            // 正方形(1:1)に制限
+                    maintainAspectRatio: true,
+                    aspectRatio: 1,
                     plugins: {
                         legend: {
                             labels: {
                                 color: '#94a3b8',
-                                font: {
-                                    size: 15 // 「理想線」「アンサンブル予測」の凡例フォントを一回り大きく
-                                }
+                                font: { size: 15 }
                             }
                         }
                     },
                     scales: {
-                        x: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { 
-                                color: '#94a3b8',
-                                font: {
-                                    size: 13 // 軸メモリフォントを大きく
-                                }
-                            } 
+                        x: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { color: '#94a3b8', font: { size: 13 } } 
                         },
-                        y: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { 
-                                color: '#94a3b8',
-                                font: {
-                                    size: 13 // 軸メモリフォントを大きく
-                                }
-                            } 
+                        y: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { color: '#94a3b8', font: { size: 13 } } 
                         }
                     }
                 }
@@ -1597,6 +1576,7 @@
             return { inputs, targets };
         }
 
+        // データの標準化パラメータ（平均、標準偏差）を計算して変換する (fit_transform)
         function fitTransform(data) {
             const numFeatures = data[0].length;
             const size = data.length;
@@ -1620,15 +1600,23 @@
                 if (stds[j] === 0) stds[j] = 1; // 0除算保護
             }
 
-            const standardized = data.map(row => 
+            const standardized = data.map(row => 
                 row.map((val, idx) => (val - means[idx]) / stds[idx])
             );
             return { standardized, means, stds };
         }
 
+        // 既存の標準化パラメータを用いて変換する (transform)
         function transform(data, means, stds) {
-            return data.map(row => 
+            return data.map(row => 
                 row.map((val, idx) => (val - means[idx]) / (stds[idx] || 1))
+            );
+        }
+
+        // 標準化された値を元のスケールに戻す (inverse_transform) - 目的変数の予測値復元用
+        function inverseTransform(data, means, stds) {
+            return data.map(row => 
+                row.map((val, idx) => val * (stds[idx] || 1) + means[idx])
             );
         }
 
@@ -1781,7 +1769,7 @@
                 }
             }
 
-            // 各特徴量の全体平均、最小値、最大値を計算
+            // 各特徴量の全体平均、最小値、最大値を計算 (リアルタイム推論時のUI構築に利用)
             const numFeatures = inputs[0].length;
             const globalMeans = Array(numFeatures).fill(0);
             const globalMins = Array(numFeatures).fill(Infinity);
@@ -1914,12 +1902,24 @@
                 for (let k = 0; k < K; k++) {
                     let finalFoldTrainX = foldTrainXs[k];
                     let finalFoldValX = foldValXs[k];
+                    let finalFoldTrainY = foldTrainYs[k];
+                    let finalFoldValY = foldValYs[k];
 
                     if (paramNormalize.checked) {
-                        const { standardized, means, stds } = fitTransform(foldTrainXs[k]);
-                        finalFoldTrainX = standardized;
-                        finalFoldValX = transform(foldValXs[k], means, stds);
-                        foldStats.push({ means, stds });
+                        // 特徴量Xの標準化
+                        const normX = fitTransform(foldTrainXs[k]);
+                        finalFoldTrainX = normX.standardized;
+                        finalFoldValX = transform(foldValXs[k], normX.means, normX.stds);
+
+                        // ターゲットYの標準化（重要！）
+                        const normY = fitTransform(foldTrainYs[k]);
+                        finalFoldTrainY = normY.standardized;
+                        finalFoldValY = transform(foldValYs[k], normY.means, normY.stds);
+
+                        foldStats.push({ 
+                            xMeans: normX.means, xStds: normX.stds,
+                            yMeans: normY.means, yStds: normY.stds
+                        });
                     } else {
                         foldStats.push(null);
                     }
@@ -1927,9 +1927,9 @@
                     models.push(buildModel(inputDim, opt, lr));
                     tensors.push({
                         xs: tf.tensor2d(finalFoldTrainX),
-                        ys: tf.tensor2d(foldTrainYs[k]),
+                        ys: tf.tensor2d(finalFoldTrainY),
                         valXs: tf.tensor2d(finalFoldValX),
-                        valYs: tf.tensor2d(foldValYs[k])
+                        valYs: tf.tensor2d(finalFoldValY)
                     });
                 }
 
@@ -1986,11 +1986,18 @@
                     for (let k = 0; k < K; k++) {
                         let finalFoldTestX = testX;
                         if (paramNormalize.checked && foldStats[k]) {
-                            finalFoldTestX = transform(testX, foldStats[k].means, foldStats[k].stds);
+                            finalFoldTestX = transform(testX, foldStats[k].xMeans, foldStats[k].xStds);
                         }
                         const testXsTensor = tf.tensor2d(finalFoldTestX);
                         const predTensor = models[k].predict(testXsTensor);
-                        predictions.push(predTensor.dataSync());
+
+                        // 予測値を逆標準化する
+                        let predsArray = Array.from(predTensor.dataSync()).map(v => [v]);
+                        if (paramNormalize.checked && foldStats[k]) {
+                            predsArray = inverseTransform(predsArray, foldStats[k].yMeans, foldStats[k].yStds);
+                        }
+                        
+                        predictions.push(predsArray.map(row => row[0]));
                         predTensor.dispose();
                         testXsTensor.dispose();
                     }
@@ -2008,8 +2015,8 @@
                     statR2.innerText = metrics.r2.toFixed(4);
 
                     const points = [];
-                    let min = 999;
-                    let max = -999;
+                    let min = Infinity;
+                    let max = -Infinity;
                     for (let i = 0; i < actuals.length; i++) {
                         const act = actuals[i];
                         const prd = ensemblePreds[i];
@@ -2033,8 +2040,10 @@
                         }));
 
                         serializedFolds.push({
-                            means: foldStats[k] ? foldStats[k].means : null,
-                            stds: foldStats[k] ? foldStats[k].stds : null,
+                            means: foldStats[k] ? foldStats[k].xMeans : null, // 互換性のためxをmeansとして保存
+                            stds: foldStats[k] ? foldStats[k].xStds : null,
+                            targetMeans: foldStats[k] ? foldStats[k].yMeans : null,
+                            targetStds: foldStats[k] ? foldStats[k].yStds : null,
                             modelTopology: saveResult.modelTopology,
                             weightSpecs: saveResult.weightSpecs,
                             weightDataB64: arrayBufferToBase64(saveResult.weightData)
@@ -2074,20 +2083,28 @@
                 // 通常のホールドアウト訓練 (K=1)
                 let finalTrainX = trainX;
                 let finalTestX = testX;
-                let means = null, stds = null;
+                let finalTrainY = trainY;
+                let finalTestY = testY;
+                let xMeans = null, xStds = null, yMeans = null, yStds = null;
 
                 if (paramNormalize.checked) {
-                    const norm = fitTransform(trainX);
-                    finalTrainX = norm.standardized;
-                    finalTestX = transform(testX, norm.means, norm.stds);
-                    means = norm.means;
-                    stds = norm.stds;
+                    const normX = fitTransform(trainX);
+                    finalTrainX = normX.standardized;
+                    finalTestX = transform(testX, normX.means, normX.stds);
+                    xMeans = normX.means;
+                    xStds = normX.stds;
+
+                    const normY = fitTransform(trainY);
+                    finalTrainY = normY.standardized;
+                    finalTestY = transform(testY, normY.means, normY.stds);
+                    yMeans = normY.means;
+                    yStds = normY.stds;
                 }
 
                 const xs = tf.tensor2d(finalTrainX);
-                const ys = tf.tensor2d(trainY);
+                const ys = tf.tensor2d(finalTrainY);
                 const testXs = tf.tensor2d(finalTestX);
-                const testYs = tf.tensor2d(testY);
+                const testYs = tf.tensor2d(finalTestY);
 
                 const model = buildModel(inputDim, opt, lr);
 
@@ -2117,17 +2134,23 @@
 
                     updateStatus("テストデータ推論中...", "progress");
 
-                    const predictions = model.predict(testXs);
-                    const actuals = testYs.dataSync();
-                    const preds = predictions.dataSync();
+                    const predTensor = model.predict(testXs);
+                    let predsArray = Array.from(predTensor.dataSync()).map(v => [v]);
+                    
+                    if (paramNormalize.checked) {
+                        predsArray = inverseTransform(predsArray, yMeans, yStds);
+                    }
+                    
+                    const actuals = testY.map(row => row[0]);
+                    const preds = predsArray.map(row => row[0]);
 
                     const metrics = evalMetrics(actuals, preds);
                     statMae.innerText = metrics.mae.toFixed(4);
                     statR2.innerText = metrics.r2.toFixed(4);
 
                     const points = [];
-                    let min = 999;
-                    let max = -999;
+                    let min = Infinity;
+                    let max = -Infinity;
                     for (let i = 0; i < actuals.length; i++) {
                         const act = actuals[i];
                         const prd = preds[i];
@@ -2157,8 +2180,10 @@
                         globalMaxs: globalMaxs,
                         k: 1,
                         folds: [{
-                            means: means,
-                            stds: stds,
+                            means: xMeans,
+                            stds: xStds,
+                            targetMeans: yMeans,
+                            targetStds: yStds,
                             modelTopology: saveResult.modelTopology,
                             weightSpecs: saveResult.weightSpecs,
                             weightDataB64: arrayBufferToBase64(saveResult.weightData)
@@ -2167,6 +2192,8 @@
 
                     exportArea.classList.remove('hidden');
                     updateStatus("予測学習・評価完了！", "success");
+
+                    predTensor.dispose();
 
                 } catch (err) {
                     console.error(err);
@@ -2227,6 +2254,8 @@
                         reconstructedFolds.push({
                             means: foldData.means,
                             stds: foldData.stds,
+                            targetMeans: foldData.targetMeans, // 新しく追加されたターゲット統計
+                            targetStds: foldData.targetStds,
                             model: model
                         });
                     }
@@ -2353,19 +2382,27 @@
                     
                     let finalInput = [rawInputValues];
                     if (importedPackage.normalize && fold.means && fold.stds) {
-                        // 1次元配列から直接変換して2次元配列に格納する安全な記述に修正
                         const normalizedValues = rawInputValues.map((val, idx) => (val - fold.means[idx]) / (fold.stds[idx] || 1));
                         finalInput = [normalizedValues];
                     }
 
                     const inputTensor = tf.tensor2d(finalInput);
                     const predTensor = fold.model.predict(inputTensor);
-                    ensemblePredictionSum += predTensor.dataSync()[0];
+                    let predVal = predTensor.dataSync()[0];
+
+                    // 出力された予測値を元のスケールに逆変換する
+                    if (importedPackage.normalize && fold.targetMeans && fold.targetStds) {
+                        predVal = predVal * (fold.targetStds[0] || 1) + fold.targetMeans[0];
+                    }
+
+                    ensemblePredictionSum += predVal;
                 }
             });
 
             const finalPrediction = ensemblePredictionSum / importedPackage.k;
-            predictedResult.innerText = finalPrediction.toFixed(4);
+            // 結果を整数に丸めるか適度な小数点以下で表示 (カリフォルニア住宅のような大きな値対応)
+            const decimals = finalPrediction > 1000 ? 0 : 4;
+            predictedResult.innerText = finalPrediction.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
         }
 
         function resetSimulation() {
