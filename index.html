@@ -533,7 +533,7 @@
                                 </button>
                             </div>
                             <div style="font-size: 0.76rem; color: #64748b; margin-top: 6px; line-height: 1.4;">
-                                ※ データ分割、Fold割り当て、層の初期重み（glorotNormal）をシードで固定します（WebGL並列演算の都合上、極微小な丸め誤差が生じる場合があります）。
+                                ※ データ分割、Fold割り当て、層の初期重み（glorotNormal）をシードで固定します（Tensorflow.jsのエポック間でのデータシャッフルやWebGL並列演算の都合上、誤差が生じる場合があります）。
                             </div>
                         </div>
                     </div>
@@ -2060,7 +2060,7 @@
                         let epochLossSum = 0; let epochValLossSum = 0; const foldLosses = [];
                         for (let k = 0; k < K; k++) {
                             const foldTensor = tensors[k];
-                            const fitHistory = await models[k].fit(foldTensor.xs, foldTensor.ys, { epochs: 1, batchSize: batch, validationData: [foldTensor.valXs, foldTensor.valYs], verbose: 0, shuffle: false });
+                            const fitHistory = await models[k].fit(foldTensor.xs, foldTensor.ys, { epochs: 1, batchSize: batch, validationData: [foldTensor.valXs, foldTensor.valYs], verbose: 0, shuffle: true });
                             const trainL = fitHistory.history.loss[0]; const valL = fitHistory.history.val_loss[0];
                             epochLossSum += trainL; epochValLossSum += valL;
                             foldLosses.push({ fold: k + 1, trainLoss: trainL, valLoss: valL });
@@ -2248,7 +2248,7 @@
 
                 try {
                     await model.fit(xs, ys, {
-                        epochs: epochs, batchSize: batch, validationData: [valXs, valYs], shuffle: false,
+                        epochs: epochs, batchSize: batch, validationData: [valXs, valYs], shuffle: true,
                         callbacks: {
                             onEpochEnd: (epoch, logs) => {
                                 const cur = epoch + 1; const pct = (cur / epochs) * 100;
