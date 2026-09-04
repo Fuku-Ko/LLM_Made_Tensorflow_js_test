@@ -143,7 +143,53 @@
         .chart-header { font-size: 0.95rem; font-weight: 700; margin-bottom: 12px; color: #ffffff; display: flex; justify-content: space-between; }
         .chart-container { flex: 1; position: relative; height: calc(100% - 24px); }
 
-        .arch-card { background-color: rgba(30, 41, 59, 0.4); border: 1px solid #1e293b; border-radius: 12px; padding: 16px; }
+        .accordion-panel {
+            background-color: rgba(30, 41, 59, 0.4);
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .accordion-panel:hover {
+            border-color: #334155;
+        }
+        .accordion-summary {
+            padding: 16px 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background-color: rgba(30, 41, 59, 0.6);
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .accordion-summary:hover {
+            background-color: rgba(51, 65, 85, 0.5);
+            color: #38bdf8;
+        }
+        .accordion-summary::-webkit-details-marker { display: none; }
+        .accordion-summary::after {
+            content: "▼";
+            font-size: 0.8rem;
+            color: #94a3b8;
+            transition: transform 0.2s;
+            margin-left: 12px;
+        }
+        .accordion-panel[open] .accordion-summary::after {
+            transform: rotate(180deg);
+        }
+        .accordion-panel[open] .accordion-summary {
+            border-bottom: 1px solid #1e293b;
+        }
+        .accordion-content {
+            padding: 20px;
+        }
+
+        .arch-card { background-color: transparent; border: none; padding: 0; }
         .arch-title { font-size: 0.95rem; font-weight: 700; color: #94a3b8; margin-bottom: 10px; }
         .arch-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 0.9rem; }
         .arch-node { background-color: #1e293b; border: 1px solid #334155; padding: 8px 14px; border-radius: 6px; font-family: monospace; }
@@ -151,6 +197,112 @@
         .arch-node.hidden-layer { border-color: #818cf8; color: #818cf8; }
         .arch-node.output { border-color: #34d399; color: #34d399; }
         .arch-arrow { color: #475569; }
+
+        /* ニューラルネットワーク基礎解説＆逆誤差伝播法ステップ図のスタイリング */
+        .concept-section {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+        .concept-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .concept-text {
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        .concept-text:last-child {
+            margin-bottom: 0;
+        }
+        .epoch-cycle-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 14px;
+        }
+        @media (min-width: 768px) {
+            .epoch-cycle-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        .cycle-step-card {
+            background-color: rgba(30, 41, 59, 0.5);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .cycle-step-card.highlight {
+            border-color: #f43f5e;
+            background-color: rgba(244, 63, 94, 0.05);
+        }
+        .cycle-step-num {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .cycle-step-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .cycle-step-desc {
+            font-size: 0.82rem;
+            color: #94a3b8;
+            line-height: 1.5;
+            flex: 1;
+        }
+        .flow-direction-badge {
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+        .flow-forward { background-color: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+        .flow-backward { background-color: rgba(244, 63, 94, 0.2); color: #fb7185; }
+        .flow-update { background-color: rgba(16, 185, 129, 0.2); color: #34d399; }
+
+        /* パイプライン解説図用のスタイリング（折り返し防止とクリーン配置） */
+        .pipeline-card { background-color: transparent; border: none; padding: 0; margin-top: 0; }
+        .pipeline-title { font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+        .pipeline-step { background-color: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; position: relative; }
+        .pipeline-step-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.9rem; font-weight: 700; color: #38bdf8; flex-wrap: wrap; gap: 8px; }
+        .pipeline-visual-bar { display: flex; height: 36px; border-radius: 6px; overflow: hidden; gap: 4px; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; }
+        .bar-segment { display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .bar-train { background-color: #2563eb; color: #ffffff; }
+        .bar-test-locked { background-color: #e11d48; color: #ffffff; border: 1px dashed rgba(255, 255, 255, 0.4); }
+        .bar-caption-row { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 600; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+        .kfold-legend { display: flex; align-items: center; gap: 14px; font-size: 0.78rem; margin-bottom: 10px; }
+        .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+        .kfold-grid { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+        .kfold-row { display: flex; height: 28px; gap: 8px; font-size: 0.8rem; align-items: center; }
+        .kfold-tag { width: 84px; flex-shrink: 0; color: #94a3b8; font-family: monospace; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+        .kfold-bar-box { display: flex; flex: 1; height: 100%; gap: 4px; }
+        .kfold-cell { display: flex; align-items: center; justify-content: center; flex: 1; border-radius: 4px; font-weight: 600; white-space: nowrap; user-select: none; }
+        .kfold-train-cell { background-color: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.35); }
+        .kfold-val-cell { background-color: #06b6d4; color: #082f49; font-weight: 700; }
+        .pipeline-arrow { text-align: center; color: #475569; font-size: 1.1rem; margin: -6px 0 8px; user-select: none; }
+        .pipeline-note { font-size: 0.82rem; color: #94a3b8; line-height: 1.5; }
 
         .dynamic-form-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 20px; }
         @media (min-width: 640px) { .dynamic-form-grid { grid-template-columns: 1fr 1fr; } }
@@ -433,43 +585,515 @@
                     </div>
                 </div>
 
-                <div class="arch-card">
-                    <div class="arch-title">ニューラルネットワーク構成</div>
-                    <div class="arch-flow">
-                        <span id="architectureInputs" class="arch-node input">入力層 (特徴量: Feature_1, Feature_2, Feature_3)</span>
-                        <span class="arch-arrow">➔</span>
-                        <span class="arch-node hidden-layer">Dense (32ユニット / ReLU)</span>
-                        <span class="arch-arrow">➔</span>
-                        <span class="arch-node hidden-layer">Dense (16ユニット / ReLU)</span>
-                        <span class="arch-arrow">➔</span>
-                        <span class="arch-node output">出力層 (Linear / 予測値)</span>
+                <!-- 学習完了時のエクスポートカード（常時見逃さないよう独立配置） -->
+                <div id="exportArea" class="export-card hidden" style="margin-top: 0;">
+                    <p style="font-size: 1rem; color: #10b981; font-weight: 700; margin-bottom: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                        学習が完了しました！
+                    </p>
+                    
+                    <div style="background-color: rgba(15, 23, 42, 0.6); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 14px; text-align: left; font-size: 0.85rem; color: #cbd5e1; line-height: 1.6;">
+                        <div style="font-weight: bold; color: #34d399; margin-bottom: 6px;">【運用・予測の手順】</div>
+                        <div style="margin-bottom: 4px;">① 下のボタンを押して、作成したモデル（.json）をパソコンに保存します。</div>
+                        <div style="margin-bottom: 4px;">② 画面上部のタブから「運用・予測推論」をクリックします。</div>
+                        <div>③ 保存したモデルファイルを読み込ませると、いつでも予測シミュレーションができます。</div>
                     </div>
-
-                    <div id="exportArea" class="export-card hidden">
-                        <p style="font-size: 1rem; color: #10b981; font-weight: 700; margin-bottom: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                            学習が完了しました！
-                        </p>
-                        
-                        <div style="background-color: rgba(15, 23, 42, 0.6); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 14px; text-align: left; font-size: 0.85rem; color: #cbd5e1; line-height: 1.6;">
-                            <div style="font-weight: bold; color: #34d399; margin-bottom: 6px;">【運用・予測の手順】</div>
-                            <div style="margin-bottom: 4px;">① 下のボタンを押して、作成したモデル（.json）をパソコンに保存します。</div>
-                            <div style="margin-bottom: 4px;">② 画面上部のタブから「運用・予測推論」をクリックします。</div>
-                            <div>③ 保存したモデルファイルを読み込ませると、いつでも予測シミュレーションができます。</div>
-                        </div>
-                        
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <button id="exportModelBtn" class="btn-train btn-export" style="margin-top: 0;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                1. 学習済みモデルをダウンロード保存 (.json)
-                            </button>
-                            <button id="exportHistoryBtn" class="btn-train" style="background-color: #d97706; margin-top: 0;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>
-                                学習履歴データ (Loss推移・パラメータ) を保存 (.json)
-                            </button>
-                        </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button id="exportModelBtn" class="btn-train btn-export" style="margin-top: 0;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            1. 学習済みモデルをダウンロード保存 (.json)
+                        </button>
+                        <button id="exportHistoryBtn" class="btn-train" style="background-color: #d97706; margin-top: 0;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>
+                            学習履歴データ (Loss推移・パラメータ) を保存 (.json)
+                        </button>
                     </div>
                 </div>
+
+                <!-- 1. ニューラルネットワークと学習の理論 (Trainデータの取扱い) -->
+                <details class="accordion-panel">
+                    <summary class="accordion-summary">
+                        <span style="display: flex; align-items: center; gap: 8px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #818cf8;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 9 6 6M15 9l-6 6"/></svg>
+                            ニューラルネットワークと学習の理論 (Trainデータの取扱い)
+                        </span>
+                        <span style="font-size: 0.8rem; font-weight: normal; color: #94a3b8;">クリックして展開</span>
+                    </summary>
+                    <div class="accordion-content">
+                        <!-- 基礎解説セクション -->
+                        <div class="concept-section">
+                            <h3 class="concept-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                そもそもニューラルネットワークとは？
+                            </h3>
+                            <p class="concept-text">
+                                ニューラルネットワーク（Neural Network）とは、人間の脳にある無数の神経細胞（ニューロン）が信号を伝え合う仕組みを模した<strong>数理モデル</strong>です。
+                            </p>
+                            <p class="concept-text">
+                                入力されたデータに対し、各ノード（神経細胞）が<strong>「重み（影響力の強さ）」</strong>と<strong>「バイアス（基準値の調整）」</strong>を掛け合わせ、活性化関数（ReLUなど）を通して次の層へバトンを渡します。この層が何重にも連なることで、単純な直線（線形）では表現できない複雑な因果関係やパターンを自動的に捉えることができます。
+                            </p>
+
+                            <!-- 数式解説ボックス -->
+                            <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 14px;">
+                                <div style="font-size: 0.9rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+                                    ノード（単一ニューロン）の数理モデル
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: #e2e8f0; line-height: 1.6;">
+                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.98rem; letter-spacing: 0.8px;">
+                                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">① 線形結合（重み付き和とバイアス）:</span>
+                                        <span style="color: #38bdf8; font-weight: 600;">z</span> = 
+                                        w<sub>1</sub>x<sub>1</sub> + 
+                                        w<sub>2</sub>x<sub>2</sub> + ... + 
+                                        w<sub>m</sub>x<sub>m</sub> + b
+                                        = <span style="font-size: 1.1rem; font-weight: 600;">∑</span> w<sub>j</sub>x<sub>j</sub> + b
+                                    </div>
+                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.98rem; letter-spacing: 0.8px;">
+                                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">② 活性化関数（ReLUによる非線形変換）:</span>
+                                        <span style="color: #38bdf8; font-weight: 600;">a</span> = <span style="font-weight: 700; color: #22d3ee;">ReLU</span>(z) = max(0, z)
+                                        <span style="color: #94a3b8; font-size: 0.82rem; margin-left: 8px;">（※ 0以下の信号を遮断し、0超の信号だけを流す）</span>
+                                    </div>
+                                    <div style="font-size: 0.8rem; color: #94a3b8; line-height: 1.5; padding-left: 4px;">
+                                        ・<span style="color: #cbd5e1;">x<sub>1</sub>, ..., x<sub>m</sub></span>: 入力特徴量　
+                                        ・<span style="color: #cbd5e1;">w<sub>j</sub></span>: 各入力の重要度を表す<strong>「重み (Weight)」</strong>（逆誤差伝播で調整される対象）<br>
+                                        ・<span style="color: #cbd5e1;">b</span>: 発火しやすさの基準値を底上げ・抑制する<strong>「バイアス (Bias)」</strong>
+                                    </div>
+                                    <div style="background-color: rgba(30, 41, 59, 0.6); border-radius: 6px; padding: 10px 14px; font-size: 0.85rem; color: #cbd5e1; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; letter-spacing: 0.5px;">
+                                        <strong style="color: #a5b4fc; display: block; margin-bottom: 4px;">多層化による全体の伝播式（本モデル）:</strong>
+                                        <span>
+                                            h<sup>(1)</sup> = ReLU(W<sup>(1)</sup>x + b<sup>(1)</sup>) ➔ 
+                                            h<sup>(2)</sup> = ReLU(W<sup>(2)</sup>h<sup>(1)</sup> + b<sup>(2)</sup>) ➔ 
+                                            ŷ = W<sup>(3)</sup>h<sup>(2)</sup> + b<sup>(3)</sup> <span style="color: #94a3b8; font-size: 0.8rem;">(線形出力・予測値)</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 幾何学的視点コラム：超多面体と折り紙（区分線形関数） -->
+                            <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 16px; margin-top: 14px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                                    <div style="font-size: 0.95rem; font-weight: 700; color: #f59e0b; display: flex; align-items: center; gap: 8px;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                                        幾何学的視点: ReLUネットワークの正体＝「高次元の超多面体（折り紙）」
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #38bdf8; background-color: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 8px; border-radius: 4px; font-weight: 600;">
+                                        ※ 本アプリのモデルも全隠れ層で ReLU を採用中
+                                    </span>
+                                </div>
+                                <p class="concept-text" style="margin-bottom: 10px;">
+                                    本アプリのニューラルネットワークも、後述の構成図にある通り<strong>2つの隠れ層（32ユニット / 16ユニット）すべてに活性化関数として「ReLU」を採用</strong>しています。<br>
+                                    「複雑な非線形カーブを学習する」と聞くと、ぐにゃぐにゃと曲がった滑らかな曲面を想像しがちですが、数学的には、本モデルを含むReLUネットワークの正体は<strong>「超多次元空間において、凄まじい数の平面をつなぎ合わせた多面体（連続区分線形関数: Continuous Piecewise Linear Function）」</strong>です。
+                                </p>
+
+                                <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 12px;">
+                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
+                                        <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">① 1次元で見れば「無数の関節を持つ折れ線グラフ」</div>
+                                        入力が1つの場合、モデルの出力は文字通り<strong>無数の折れ曲がり（関節）を持つ折れ線</strong>になります。層（深さ）やノード（幅）が増えると、作られる線形領域（直線の区間）の理論上の最大数は<strong>指数関数的に爆発</strong>します。関節が極小間隔でびっしり並ぶことで、マクロ（人間の目や評価値）にはあたかも綺麗な滑らかな曲線に見えているのです。
+                                    </div>
+                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
+                                        <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">② 多次元では「超平面のパッチワーク（折り紙）」</div>
+                                        入力が2次元なら「折り目だらけの立体的な多面体サーフェス」、本アプリのような複数次元なら「超空間内で細かく切り分けられた無数の超平面のパッチワーク」となります。曲線を微小な直線メッシュで近似する数値計算と同じ幾何学的構造です。
+                                    </div>
+                                </div>
+
+                                <div style="border-top: 1px dashed #334155; padding-top: 10px; font-size: 0.83rem; color: #94a3b8; line-height: 1.6;">
+                                    <strong style="color: #34d399; display: block; margin-bottom: 4px;">【実務上の決定的な2大特徴】</strong>
+                                    ・<span style="color: #f1f5f9; font-weight: 600;">局所的には常に平らな坂道:</span> 任意の1点に極限までズームすると、そこは常に平らな平面（線形結合）です。そのため勾配が定数となり、勾配消失を起こさずにバックプロパゲーションが安定して深く伝わります。<br>
+                                    ・<span style="color: #f1f5f9; font-weight: 600;">領域外の外挿（Extrapolation）は直線:</span> 学習データの範囲から大きく外れた未知の遠くへ行くと、もはや新しい関節は作られず、<strong>最後の折れ曲がりの傾きのままただの直線として無限遠まで伸びていく</strong>性質があります。これが「ニューラルネットは学習データ範囲外の外挿に弱い」と言われる数学的理由です。
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ネットワーク構成ノード図 -->
+                        <div style="margin-bottom: 20px;">
+                            <div class="arch-title">本モデルのレイヤー（層）構成</div>
+                            <div class="arch-flow">
+                                <span id="architectureInputs" class="arch-node input">入力層 (特徴量: Feature_1, Feature_2, Feature_3)</span>
+                                <span class="arch-arrow">➔</span>
+                                <span class="arch-node hidden-layer">Dense (32ユニット / ReLU)</span>
+                                <span class="arch-arrow">➔</span>
+                                <span class="arch-node hidden-layer">Dense (16ユニット / ReLU)</span>
+                                <span class="arch-arrow">➔</span>
+                                <span class="arch-node output">出力層 (Linear / 予測値)</span>
+                            </div>
+                        </div>
+
+                        <!-- 1エポック内の学習サイクルと逆誤差伝播法の解説セクション -->
+                        <div class="concept-section" style="margin-bottom: 0;">
+                            <h3 class="concept-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                                1エポック内で何が行われているのか？（逆誤差伝播法の位置づけ）
+                            </h3>
+                            <p class="concept-text">
+                                <strong>「1エポック」</strong>とは、用意したすべての訓練データを<strong>モデルが1巡学習すること</strong>を指します。<br>
+                                1エポックの中では、データを小さな塊（バッチサイズ: 例16件）に分け、以下の<strong>4つのステップを何十回も繰り返して</strong>少しずつ賢くなっていきます。
+                            </p>
+
+                            <div class="epoch-cycle-grid">
+                                <!-- Step 1: 順伝播 -->
+                                <div class="cycle-step-card">
+                                    <div class="cycle-step-num">
+                                        <span>STEP 1</span>
+                                        <span class="flow-direction-badge flow-forward">入力 ➔ 出力</span>
+                                    </div>
+                                    <div class="cycle-step-name">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                                        順伝播 (Forward)
+                                    </div>
+                                    <p class="cycle-step-desc">
+                                        入力層から隠れ層を経て出力層へとデータをそのまま流し、現在の重みを使ってモデルが<strong>仮の予測値</strong>を算出します。
+                                    </p>
+                                </div>
+
+                                <!-- Step 2: 誤差の計算 -->
+                                <div class="cycle-step-card">
+                                    <div class="cycle-step-num">
+                                        <span>STEP 2</span>
+                                        <span class="flow-direction-badge" style="background-color: rgba(245, 158, 11, 0.2); color: #fbbf24;">比較</span>
+                                    </div>
+                                    <div class="cycle-step-name">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+                                        誤差の算出 (Loss)
+                                    </div>
+                                    <p class="cycle-step-desc">
+                                        モデルの予測値と正解データの実測値を突き合わせ、どれだけズレているか（<strong>平均二乗誤差: MSE</strong>）を算出します。
+                                    </p>
+                                </div>
+
+                                <!-- Step 3: 逆誤差伝播法 -->
+                                <div class="cycle-step-card">
+                                    <div class="cycle-step-num">
+                                        <span>STEP 3</span>
+                                        <span class="flow-direction-badge flow-backward">出力 ➔ 入力</span>
+                                    </div>
+                                    <div class="cycle-step-name">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
+                                        逆誤差伝播法
+                                    </div>
+                                    <p class="cycle-step-desc">
+                                        生じた誤差を出力層から入力層へ向かって<strong>逆向きに遡らせ</strong>、「どの重みがどれくらい誤差の原因になったか（勾配・偏微分）」を数学的に割り出します。
+                                    </p>
+                                </div>
+
+                                <!-- Step 4: パラメータ更新 -->
+                                <div class="cycle-step-card">
+                                    <div class="cycle-step-num">
+                                        <span>STEP 4</span>
+                                        <span class="flow-direction-badge flow-update">最適化器</span>
+                                    </div>
+                                    <div class="cycle-step-name">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+                                        重みの微調整
+                                    </div>
+                                    <p class="cycle-step-desc">
+                                        逆誤差伝播で求めた勾配と学習率（Learning Rate）を基に、オプティマイザ（Adam等）が誤差を減らす方向へ<strong>重みをミリ単位で更新</strong>します。
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p class="concept-text" style="margin-top: 14px; font-size: 0.82rem; color: #94a3b8;">
+                                ※ この4ステップをバッチ単位でぐるぐると回して1エポックが終わると、最後に<strong>検証データ（Valデータ）</strong>を使って「今の重みで未知のデータに通用するか？」をテストし、グラフに Val Loss としてプロットされます。
+                            </p>
+                        </div>
+
+                        <!-- 逆誤差伝播法の数理メカニズム（連鎖律と数値具体例） -->
+                        <div class="concept-section" style="margin-top: 20px; margin-bottom: 0;">
+                            <h3 class="concept-title">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
+                                逆誤差伝播法の数式メカニズム（連鎖律と数値の具体例）
+                            </h3>
+                            <p class="concept-text">
+                                「出力で生じたズレ（誤差）を、どうやって入力側の各重みに配分するのか？」<br>
+                                その数学的な鍵が高校数学で習う<strong>「合成関数の微分（連鎖律: Chain Rule）」</strong>です。途中の変数を介して掛け算で勾配（坂の傾き）をバケツリレーのように後ろから前へ伝えます。
+                            </p>
+
+                            <!-- 基本原理と損失関数の導出プロセス -->
+                            <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
+                                <div style="font-size: 0.88rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px;">
+                                    基本原理: 誤差の定義式と連鎖律（Chain Rule）による勾配導出
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
+                                    <!-- 損失関数の定義式 -->
+                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
+                                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">① 誤差（二乗誤差損失: Loss）の定義式:</span>
+                                        <span style="color: #fbbf24; font-weight: 700;">L</span> = 
+                                        <span style="font-size: 1.05rem;">½</span> ( <span style="color: #38bdf8; font-weight: 600;">ŷ</span> - <span style="color: #34d399; font-weight: 600;">y</span> )<sup>2</sup>
+                                        <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px;">（※ 微分した際に肩の「2」と打ち消し合って数式を簡潔にするため、慣例的に ½ を掛けます）</span>
+                                    </div>
+
+                                    <!-- 途中の行間（微分ステップ） -->
+                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
+                                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">② 途中の微分の分解（行間の導出ステップ）:</span>
+                                        <div style="padding-left: 6px; display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
+                                            <div>
+                                                ・<span style="color: #e2e8f0; font-weight: 600;">誤差 L を予測値 ŷ で微分:</span> 
+                                                <span style="color: #fbbf24; font-weight: 700;">∂L / ∂ŷ</span> = 2 × ½ ( ŷ - y )<sup>2 - 1</sup> = <strong style="color: #ffffff;">( ŷ - y )</strong>
+                                                <span style="color: #94a3b8; font-size: 0.8rem;">（＝予測と正解の単純な「ズレ幅」）</span>
+                                            </div>
+                                            <div>
+                                                ・<span style="color: #e2e8f0; font-weight: 600;">予測値 ŷ ( = w · x ) を重み w で微分:</span> 
+                                                <span style="color: #22d3ee; font-weight: 700;">∂ŷ / ∂w</span> = <strong style="color: #ffffff;">x</strong>
+                                                <span style="color: #94a3b8; font-size: 0.8rem;">（＝入力された「データ信号の大きさ」そのもの）</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 連鎖律による結合 -->
+                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.95rem; letter-spacing: 0.6px; color: #e2e8f0;">
+                                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">③ 合成関数の微分（連鎖律: Chain Rule）による結合:</span>
+                                        <span style="color: #38bdf8; font-weight: 700;">∂L / ∂w</span> = 
+                                        ( <span style="color: #fbbf24; font-weight: 700;">∂L / ∂ŷ</span> ) × 
+                                        ( <span style="color: #22d3ee; font-weight: 700;">∂ŷ / ∂w</span> )
+                                        = <strong style="color: #38bdf8;">( ŷ - y ) × x</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 1入力・1出力のシンプルな数値具体例 -->
+                            <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+                                    <div style="font-size: 0.88rem; font-weight: 700; color: #34d399;">
+                                        ごく簡単な数値具体例（入力 x = 2、正解 y = 10 の場合）
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #f59e0b; background-color: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); padding: 2px 8px; border-radius: 4px;">
+                                        ※ 線形・活性化関数無しの単純例
+                                    </span>
+                                </div>
+
+                                <div style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin-bottom: 8px;">
+                                    ※ 理解しやすさを最優先するため、<strong>活性化関数（ReLU等の非線形変換）やバイアスを省いた、最も初歩的な1入力・1出力の線形モデル（ŷ = w · x）</strong>を想定しています。
+                                </div>
+
+                                <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.7;">
+                                    現在の重みを <span style="color: #38bdf8; font-weight: 700;">w = 3</span>、学習率を <span style="color: #34d399; font-weight: 700;">η = 0.1</span> と仮定します。
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.88rem;">
+                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
+                                        <span style="color: #22d3ee; font-weight: 700;">1. 順伝播（仮の予測）:</span><br>
+                                        ŷ = w × x = 3 × 2 = <strong style="color: #ffffff;">6</strong> <span style="color: #94a3b8; font-size: 0.8rem;">（正解 10 より 4 足りない）</span>
+                                    </div>
+                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
+                                        <span style="color: #fb7185; font-weight: 700;">2. 逆誤差伝播（勾配の計算）:</span><br>
+                                        ∂L / ∂w = ( ŷ - y ) × x = ( 6 - 10 ) × 2 = <strong style="color: #ffffff;">-8</strong> <span style="color: #94a3b8; font-size: 0.8rem;">（傾きは「マイナス8」と判明）</span>
+                                    </div>
+                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
+                                        <span style="color: #34d399; font-weight: 700;">3. 重みの更新（Adam等の最適化）:</span><br>
+                                        新w = w - η × (傾き) = 3 - 0.1 × ( -8 ) = 3 + 0.8 = <strong style="color: #34d399;">3.8</strong>
+                                    </div>
+                                </div>
+
+                                <p class="concept-text" style="margin-top: 10px; font-size: 0.82rem; color: #94a3b8; line-height: 1.6;">
+                                    ➔ 重みが <strong style="color: #cbd5e1;">3 から 3.8 へと自動的に増えました</strong>。次の予測値は <strong style="color: #34d399;">3.8 × 2 = 7.6</strong> となり、正解の 10 にグッと近づきます！<br>
+                                    ※ 実際の多層ネットワークでは、層と層の間に<strong>活性化関数（ReLUなど）の傾き（ReLUなら入力が0超で1、0以下で0）</strong>が掛け算で挟まりながら、入力層へ向かって順番に連鎖律で遡っていきます。
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- エポック・バッチ・K-Fold・重み引き継ぎの階層関係解説 -->
+                        <div class="concept-section" style="margin-top: 20px; margin-bottom: 0; border-color: #0284c7; background-color: rgba(2, 132, 199, 0.04);">
+                            <h3 class="concept-title" style="color: #38bdf8;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                                学習の入れ子構造（エポック・K-Fold・バッチ・重み引き継ぎの仕組み）
+                            </h3>
+                            <p class="concept-text">
+                                学習の処理は、大きな枠組みから微細な更新まで<strong>4層の入れ子（マトリョーシカ）構造</strong>で行われています。
+                            </p>
+
+                            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
+                                <!-- 階層 1: K分割交差検証 -->
+                                <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #818cf8; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                    <div style="font-weight: 700; color: #a5b4fc; font-size: 0.9rem; margin-bottom: 4px;">
+                                        ① 1エポック内でK個のモデルが並行して1巡学習する
+                                    </div>
+                                    <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                        「Epoch 1」の間に、<strong>Model 1からModel Kまでの全モデルがそれぞれの担当Trainデータで1巡</strong>します。本アプリでは全モデルの1巡が終わった時点で進捗バーが1エポック分進み、K個のLossの平均値がグラフに記録されます。
+                                    </div>
+                                </div>
+
+                                <!-- 階層 2: ミニバッチ分割 -->
+                                <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #06b6d4; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                    <div style="font-weight: 700; color: #22d3ee; font-size: 0.9rem; margin-bottom: 4px;">
+                                        ② 各FoldのTrainデータをさらに小さな「バッチ」に分割
+                                    </div>
+                                    <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                        例えばTrainが400件、K=5の場合、1つのモデルが学習するデータは<strong>320件</strong>（残り80件はVal）。<br>
+                                        この320件を一度に丸呑みせず、バッチサイズが16なら <strong>320 ÷ 16 = 20個の小包（ミニバッチ）</strong> に分割して順番に投入します。
+                                    </div>
+                                </div>
+
+                                <!-- 階層 3: Adamの実行回数 -->
+                                <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #34d399; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                    <div style="font-weight: 700; color: #34d399; font-size: 0.9rem; margin-bottom: 4px;">
+                                        ③ 1エポックの中でAdamは何十回も重みを更新している！（直列処理）
+                                    </div>
+                                    <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                        各バッチは並列ではなく、バッチ1 ➔ バッチ2 ➔ … と<strong>直列（逐次的）に順番に処理</strong>されます。<br>
+                                        <strong>【16件はどう使われる？】</strong> 16件のデータをまとめて流し、それぞれのデータから生じた<strong>勾配（傾き）の「平均値」</strong>を算出します。1件ずつのブレやノイズをならしたこの「平均勾配」を使い、1バッチにつき1回だけAdamが重みを更新します。<br>
+                                        そして、<strong>直前のバッチで賢くなった最新の重みを受け継いだ状態で次のバッチ（次の16件）が計算</strong>されます。つまり1エポック内でAdamは各モデルにつき<strong>直列に20回</strong>（100エポックなら計2,000回）も重みを微調整し続けています。
+                                    </div>
+                                </div>
+
+                                <!-- 階層 4: 次のエポックへの引き継ぎ -->
+                                <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #fbbf24; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                    <div style="font-weight: 700; color: #fbbf24; font-size: 0.9rem; margin-bottom: 4px;">
+                                        ④ 次のエポックへ「何」を引き継いで「どう」改善するのか？
+                                    </div>
+                                    <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                        引き継がれるのは<strong>「直前のエポックの最後（例: 20回目）の更新で得られた最新の重み（Weight）」</strong>です。重みはリセットされず蓄積されます。<br>
+                                        次のエポックでは、データを再度ランダムにシャッフルした上で、<strong>賢くなった重みを初期値として再スタート</strong>します。前エポックで取りこぼした誤差をさらに削り落とすように、Adamがより理想的な重みへと収束させていきます。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- 2. データ全体の分割と検証フロー (Train・Testの取扱い) -->
+                <details class="accordion-panel">
+                    <summary class="accordion-summary">
+                        <span style="display: flex; align-items: center; gap: 8px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #06b6d4;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                            データ全体の分割と検証フロー (Train・Testの取扱い)
+                        </span>
+                        <span style="font-size: 0.8rem; font-weight: normal; color: #94a3b8;">クリックして展開</span>
+                    </summary>
+                    <div class="accordion-content">
+                        <!-- ステップ 1: Train/Test 分割と隔離 -->
+                        <div class="pipeline-step">
+                            <div class="pipeline-step-header">
+                                <span>Step 1: 全体データセットの分割 ➔ Testデータを完全隔離</span>
+                                <span style="font-size: 0.8rem; color: #94a3b8;">※最初の1回のみ実行</span>
+                            </div>
+                            <div class="pipeline-visual-bar">
+                                <div class="bar-segment bar-train" style="width: 80%;">
+                                    訓練データ (Train: 80%)
+                                </div>
+                                <div class="bar-segment bar-test-locked" style="width: 20%;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline; margin-right:4px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                    テスト (20%)
+                                </div>
+                            </div>
+                            <div class="bar-caption-row">
+                                <span style="color: #60a5fa;">▲ モデル学習・検証に使用</span>
+                                <span style="color: #fb7185;">▲ 完全隔離（学習時は一切非接触）</span>
+                            </div>
+                            <p class="pipeline-note">
+                                <strong>データリーク（情報のカンニング）の防止:</strong> テストデータは金庫に保管するように隔離され、平均・標準偏差の算出（標準化）やモデル訓練には一切関与しません。
+                            </p>
+                        </div>
+
+                        <div class="pipeline-arrow">▼</div>
+
+                        <!-- ステップ 2: Train内でのK分割交差検証 -->
+                        <div class="pipeline-step">
+                            <div class="pipeline-step-header">
+                                <span>Step 2: Train 内部のみで行われる K分割交差検証 (K-Fold CV)</span>
+                                <span style="font-size: 0.8rem; color: #06b6d4;">K=5 の場合の例</span>
+                            </div>
+
+                            <div class="kfold-legend">
+                                <span><span class="legend-dot" style="background-color: #818cf8;"></span>学習データ (Train)</span>
+                                <span><span class="legend-dot" style="background-color: #06b6d4;"></span>検証データ (Val)</span>
+                            </div>
+
+                            <div class="kfold-grid">
+                                <div class="kfold-row">
+                                    <span class="kfold-tag">Fold 1</span>
+                                    <div class="kfold-bar-box">
+                                        <div class="kfold-cell kfold-val-cell">検証</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 1</span>
+                                </div>
+                                <div class="kfold-row">
+                                    <span class="kfold-tag">Fold 2</span>
+                                    <div class="kfold-bar-box">
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-val-cell">検証</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 2</span>
+                                </div>
+                                <div class="kfold-row">
+                                    <span class="kfold-tag">Fold 3</span>
+                                    <div class="kfold-bar-box">
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-val-cell">検証</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 3</span>
+                                </div>
+                                <div class="kfold-row">
+                                    <span class="kfold-tag">Fold 4</span>
+                                    <div class="kfold-bar-box">
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-val-cell">検証</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 4</span>
+                                </div>
+                                <div class="kfold-row">
+                                    <span class="kfold-tag">Fold 5</span>
+                                    <div class="kfold-bar-box">
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-train-cell">学習</div>
+                                        <div class="kfold-cell kfold-val-cell">検証</div>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 5</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pipeline-arrow">▼</div>
+
+                        <!-- ステップ 3: アンサンブルと、隔離されていたTestデータの投入 -->
+                        <div class="pipeline-step" style="border-color: rgba(16, 185, 129, 0.4); background-color: rgba(16, 185, 129, 0.03);">
+                            <div class="pipeline-step-header" style="color: #10b981;">
+                                <span>Step 3: 学習完了後 ➔ アンサンブル推論と、隔離していたTestデータの最終検証</span>
+                                <span style="font-size: 0.8rem; color: #34d399;">※ ここで初めてTestデータが登場！</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem;">
+                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                    <span class="arch-node hidden-layer" style="padding: 4px 10px; font-size: 0.8rem; white-space: nowrap;">Model 1 ... Model K</span>
+                                    <span style="color: #94a3b8; white-space: nowrap;">➔ 出力を平均 ➔</span>
+                                    <span style="background-color: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.4); padding: 4px 10px; border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                        保管していた Testデータ (20%)
+                                    </span>
+                                    <span style="color: #94a3b8; white-space: nowrap;">を入力</span>
+                                </div>
+                                <div style="background-color: #0f172a; border-radius: 6px; padding: 10px 14px; border: 1px solid #334155; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; gap: 8px;">
+                                    <div>
+                                        <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">テスト評価値</div>
+                                        <div style="color: #34d399; font-weight: 700; white-space: nowrap;">テスト MAE</div>
+                                    </div>
+                                    <div style="border-left: 1px solid #334155; border-right: 1px solid #334155;">
+                                        <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">汎化性能の決定係数</div>
+                                        <div style="color: #fbbf24; font-weight: 700; white-space: nowrap;">テスト R²</div>
+                                    </div>
+                                    <div>
+                                        <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">相関の可視化</div>
+                                        <div style="color: #38bdf8; font-weight: 700; white-space: nowrap;">実測 vs 予測 散布図</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
             </main>
         </div>
 
@@ -1031,12 +1655,18 @@
             let inputs = []; let targets = [];
             let selectedFeatures = ["Feature_1", "Feature_2", "Feature_3"];
             let targetCol = "Target_y";
+            let trainX = [], trainY = [], testX = [], testY = [];
 
             if (source === 'simulation') {
                 const samples = parseInt(paramSamples.value);
                 const sim = generateSyntheticData(samples);
                 inputs = sim.inputs; targets = sim.targets;
                 skippedDataInfo.classList.add('hidden');
+
+                const ratio = parseInt(paramSplit.value) / 100;
+                const splitData = trainTestSplit(inputs, targets, ratio);
+                trainX = splitData.trainX; trainY = splitData.trainY;
+                testX = splitData.testX; testY = splitData.testY;
             } else {
                 if (!loadedCSVData) { updateStatus("CSVが読み込まれていません", "error"); return; }
                 selectedFeatures = Array.from(mapFeatureCols.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
@@ -1044,15 +1674,11 @@
 
                 if (selectedFeatures.length === 0) { updateStatus("特徴量を1つ以上選択してください", "error"); return; }
 
-                // 欠損値処理ロジック (Mean Imputation)
+                // 欠損値処理ロジック (Pass 1: Y欠損行の除外と有効行の抽出)
                 let validRows = [];
                 let skippedRowsCount = 0;
                 let missingValuesCount = 0;
 
-                const featureSums = Array(selectedFeatures.length).fill(0);
-                const featureCounts = Array(selectedFeatures.length).fill(0);
-
-                // Pass 1: 目的変数が有効な行を残し、特徴量の平均計算用データを集計
                 for (let i = 0; i < loadedCSVData.length; i++) {
                     const row = loadedCSVData[i];
                     const targetVal = parseFloat(row[targetCol]);
@@ -1063,35 +1689,58 @@
                     for (let j = 0; j < selectedFeatures.length; j++) {
                         const val = parseFloat(row[selectedFeatures[j]]);
                         rowData.x.push(val);
-                        if (!isNaN(val)) {
-                            featureSums[j] += val;
-                            featureCounts[j]++;
-                        } else {
-                            missingValuesCount++;
-                        }
+                        if (isNaN(val)) missingValuesCount++;
                     }
                     validRows.push(rowData);
                 }
 
                 if (validRows.length < 10) { updateStatus(`有効なデータ行数が少なすぎます (${validRows.length}行)`, "error"); return; }
 
-                // Pass 2: 平均値の算出と、NaNの補完
-                const featureMeans = featureSums.map((sum, j) => featureCounts[j] > 0 ? sum / featureCounts[j] : 0);
+                // 【データリーク防止】先に Train / Test に分割する
+                const ratio = parseInt(paramSplit.value) / 100;
+                const trainSize = Math.floor(validRows.length * ratio);
+                const indices = Array.from({ length: validRows.length }, (_, i) => i);
+                tf.util.shuffle(indices);
 
-                for (const row of validRows) {
-                    const finalX = [];
+                const rawTrainRows = [];
+                const rawTestRows = [];
+                for (let i = 0; i < validRows.length; i++) {
+                    if (i < trainSize) rawTrainRows.push(validRows[indices[i]]);
+                    else rawTestRows.push(validRows[indices[i]]);
+                }
+
+                // Trainデータ「のみ」を使って特徴量の平均値を計算（Testデータからの情報漏洩を完全遮断）
+                const trainFeatureSums = Array(selectedFeatures.length).fill(0);
+                const trainFeatureCounts = Array(selectedFeatures.length).fill(0);
+                for (const row of rawTrainRows) {
                     for (let j = 0; j < selectedFeatures.length; j++) {
-                        let val = row.x[j];
-                        if (isNaN(val)) val = featureMeans[j]; // 平均値で補完
-                        finalX.push(val);
+                        if (!isNaN(row.x[j])) {
+                            trainFeatureSums[j] += row.x[j];
+                            trainFeatureCounts[j]++;
+                        }
                     }
-                    inputs.push(finalX);
-                    targets.push([row.y]);
+                }
+                const trainFeatureMeans = trainFeatureSums.map((sum, j) => trainFeatureCounts[j] > 0 ? sum / trainFeatureCounts[j] : 0);
+
+                // 算出した Train平均値を使って、Train・Test双方の欠損値を補完（Imputation）
+                const imputeRow = (row) => {
+                    return row.x.map((val, j) => isNaN(val) ? trainFeatureMeans[j] : val);
+                };
+
+                for (const row of rawTrainRows) {
+                    const imputedX = imputeRow(row);
+                    trainX.push(imputedX); trainY.push([row.y]);
+                    inputs.push(imputedX);
+                }
+                for (const row of rawTestRows) {
+                    const imputedX = imputeRow(row);
+                    testX.push(imputedX); testY.push([row.y]);
+                    inputs.push(imputedX);
                 }
 
                 // UIへの警告表示
                 let msg = "";
-                if (missingValuesCount > 0) msg += `特徴量の欠損値 ${missingValuesCount} 箇所を各列の平均値で補完しました。<br>`;
+                if (missingValuesCount > 0) msg += `特徴量の欠損値 ${missingValuesCount} 箇所を【Trainデータの平均値】で補完しました（データリーク防止）。<br>`;
                 if (skippedRowsCount > 0) msg += `目的変数(y)が欠損している ${skippedRowsCount} 行は補完せず除外しました。`;
                 
                 if (msg) {
@@ -1148,8 +1797,6 @@
 
             predChart.data.datasets[0].data = []; predChart.data.datasets[1].data = []; predChart.update();
 
-            const ratio = parseInt(paramSplit.value) / 100;
-            const { trainX, trainY, testX, testY } = trainTestSplit(inputs, targets, ratio);
             numTrainSamples.innerText = trainX.length; numTestSamples.innerText = testY.length;
             const inputDim = trainX[0].length;
 
@@ -1220,16 +1867,23 @@
                     const predictions = [];
 
                     for (let k = 0; k < K; k++) {
-                        let finalFoldTestX = testX;
-                        if (paramNormalize.checked && foldStats[k]) finalFoldTestX = transform(testX, foldStats[k].xMeans, foldStats[k].xStds);
-                        const testXsTensor = tf.tensor2d(finalFoldTestX);
-                        const predTensor = models[k].predict(testXsTensor);
+                        // tf.tidyで囲み、テンソルメモリの確実な即時解放を行う
+                        const predsArray = tf.tidy(() => {
+                            let finalFoldTestX = testX;
+                            if (paramNormalize.checked && foldStats[k]) {
+                                finalFoldTestX = transform(testX, foldStats[k].xMeans, foldStats[k].xStds);
+                            }
+                            const testXsTensor = tf.tensor2d(finalFoldTestX);
+                            const predTensor = models[k].predict(testXsTensor);
+                            return Array.from(predTensor.dataSync()).map(v => [v]);
+                        });
 
-                        let predsArray = Array.from(predTensor.dataSync()).map(v => [v]);
-                        if (paramNormalize.checked && foldStats[k]) predsArray = inverseTransform(predsArray, foldStats[k].yMeans, foldStats[k].yStds);
+                        let finalPredsArray = predsArray;
+                        if (paramNormalize.checked && foldStats[k]) {
+                            finalPredsArray = inverseTransform(predsArray, foldStats[k].yMeans, foldStats[k].yStds);
+                        }
                         
-                        predictions.push(predsArray.map(row => row[0]));
-                        predTensor.dispose(); testXsTensor.dispose();
+                        predictions.push(finalPredsArray.map(row => row[0]));
                     }
 
                     for (let i = 0; i < actuals.length; i++) {
@@ -1307,13 +1961,16 @@
                     });
 
                     updateStatus("テストデータ推論中...", "progress");
-                    const predTensor = model.predict(testXs);
+                    const predsArray = tf.tidy(() => {
+                        const predTensor = model.predict(testXs);
+                        return Array.from(predTensor.dataSync()).map(v => [v]);
+                    });
 
-                    let predsArray = Array.from(predTensor.dataSync()).map(v => [v]);
-                    if (paramNormalize.checked) predsArray = inverseTransform(predsArray, yMeans, yStds);
+                    let finalPredsArray = predsArray;
+                    if (paramNormalize.checked) finalPredsArray = inverseTransform(predsArray, yMeans, yStds);
                     
                     const actuals = testY.map(row => row[0]);
-                    const preds = predsArray.map(row => row[0]);
+                    const preds = finalPredsArray.map(row => row[0]);
 
                     const metrics = evalMetrics(actuals, preds);
                     statMae.innerText = metrics.mae.toFixed(4); statR2.innerText = metrics.r2.toFixed(4);
@@ -1340,7 +1997,6 @@
                         }]
                     };
                     exportArea.classList.remove('hidden'); updateStatus("予測学習・評価完了！", "success");
-                    predTensor.dispose();
 
                 } catch (err) {
                     console.error(err); updateStatus("学習エラー: " + err.message, "error");
