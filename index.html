@@ -7,7 +7,7 @@
     <!-- 完全オフライン対応 of ニューラルネットワーク風SVGファビコン -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231e293b'/%3E%3Cline x1='8' y1='10' x2='16' y2='6' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='10' x2='16' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='22' x2='16' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='22' x2='16' y2='26' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='6' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='16' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='26' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Ccircle cx='8' cy='10' r='3' fill='%23c084fc'/%3E%3Ccircle cx='8' cy='22' r='3' fill='%23c084fc'/%3E%3Ccircle cx='16' cy='6' r='3' fill='%23818cf8'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23818cf8'/%3E%3Ccircle cx='16' cy='26' r='3' fill='%23818cf8'/%3E%3Ccircle cx='24' cy='16' r='3' fill='%2306b6d4'/%3E%3C/svg%3E">
 
-    <!-- ピュアCSSスタイリング（フラットデザイン） -->
+    <!-- ピュアCSSスタイリング（1列縦並びレイアウト） -->
     <style>
         html { font-size: 20px; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -19,7 +19,7 @@
             padding: 20px;
             font-size: 1rem;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
+        .container { max-width: 1000px; margin: 0 auto; }
 
         .lock-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -70,8 +70,14 @@
         .btn-reset { background-color: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 10px 18px; border-radius: 6px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
         .btn-reset:hover { background-color: #334155; color: #ffffff; }
 
-        .main-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
-        @media (min-width: 1024px) { .main-grid { grid-template-columns: 400px 1fr; } }
+        /* 二列配置を解除し、上から下へ一列に並ぶレイアウトに変更 */
+        .main-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 24px; 
+            width: 100%;
+        }
+
         .panel { background-color: rgba(30, 41, 59, 0.4); border: 1px solid #1e293b; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         .panel-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #334155; color: #ffffff; display: flex; align-items: center; gap: 8px; }
 
@@ -150,9 +156,7 @@
             overflow: hidden;
             transition: border-color 0.2s;
         }
-        .accordion-panel:hover {
-            border-color: #334155;
-        }
+        .accordion-panel:hover { border-color: #334155; }
         .accordion-summary {
             padding: 16px 20px;
             font-size: 1rem;
@@ -179,15 +183,9 @@
             transition: transform 0.2s;
             margin-left: 12px;
         }
-        .accordion-panel[open] .accordion-summary::after {
-            transform: rotate(180deg);
-        }
-        .accordion-panel[open] .accordion-summary {
-            border-bottom: 1px solid #1e293b;
-        }
-        .accordion-content {
-            padding: 20px;
-        }
+        .accordion-panel[open] .accordion-summary::after { transform: rotate(180deg); }
+        .accordion-panel[open] .accordion-summary { border-bottom: 1px solid #1e293b; }
+        .accordion-content { padding: 20px; }
 
         .arch-card { background-color: transparent; border: none; padding: 0; }
         .arch-title { font-size: 0.95rem; font-weight: 700; color: #94a3b8; margin-bottom: 10px; }
@@ -220,9 +218,7 @@
             line-height: 1.7;
             margin-bottom: 12px;
         }
-        .concept-text:last-child {
-            margin-bottom: 0;
-        }
+        .concept-text:last-child { margin-bottom: 0; }
         .epoch-cycle-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -230,9 +226,7 @@
             margin-top: 14px;
         }
         @media (min-width: 768px) {
-            .epoch-cycle-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            .epoch-cycle-grid { grid-template-columns: repeat(4, 1fr); }
         }
         .cycle-step-card {
             background-color: rgba(30, 41, 59, 0.5);
@@ -242,10 +236,6 @@
             display: flex;
             flex-direction: column;
             position: relative;
-        }
-        .cycle-step-card.highlight {
-            border-color: #f43f5e;
-            background-color: rgba(244, 63, 94, 0.05);
         }
         .cycle-step-num {
             font-size: 0.78rem;
@@ -282,7 +272,6 @@
         .flow-update { background-color: rgba(16, 185, 129, 0.2); color: #34d399; }
 
         .pipeline-card { background-color: transparent; border: none; padding: 0; margin-top: 0; }
-        .pipeline-title { font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
         .pipeline-step { background-color: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; position: relative; }
         .pipeline-step-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.9rem; font-weight: 700; color: #38bdf8; flex-wrap: wrap; gap: 8px; }
         .pipeline-visual-bar { display: flex; height: 36px; border-radius: 6px; overflow: hidden; gap: 4px; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; }
@@ -374,207 +363,204 @@
             </button>
         </div>
 
+        <!-- 訓練タブ：一列に順番に表示 -->
         <div id="tabTrainArea" class="main-grid">
-            <aside style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="panel">
-                    <h2 class="panel-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #06b6d4;"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
-                        1. データセット設定
-                    </h2>
-                    
-                    <div class="form-group">
-                        <label>データソース</label>
-                        <select id="paramSourceType">
-                            <option value="simulation">シミュレーション (デモ用自動生成データ)</option>
-                            <option value="upload">ローカルCSVファイルのアップロード</option>
-                        </select>
-                    </div>
+            <!-- 1. パラメータ設定セクション -->
+            <section class="panel">
+                <h2 class="panel-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #06b6d4;"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+                    1. データセット・モデル設定
+                </h2>
+                
+                <div class="form-group">
+                    <label>データソース</label>
+                    <select id="paramSourceType">
+                        <option value="simulation">シミュレーション (デモ用自動生成データ)</option>
+                        <option value="upload">ローカルCSVファイルのアップロード</option>
+                    </select>
+                </div>
 
-                    <div id="panelSimulation" class="form-group">
-                        <div class="range-container">
-                            <label>データサンプル数</label>
-                            <span id="valSamples" class="range-val">500</span>
-                        </div>
-                        <input type="range" id="paramSamples" min="100" max="1000" step="50" value="500">
+                <div id="panelSimulation" class="form-group">
+                    <div class="range-container">
+                        <label>データサンプル数</label>
+                        <span id="valSamples" class="range-val">500</span>
                     </div>
+                    <input type="range" id="paramSamples" min="100" max="1000" step="50" value="500">
+                </div>
 
-                    <div id="panelUpload" class="form-group hidden">
-                        <label>CSVファイルの選択</label>
-                        <label class="upload-area" id="dropArea">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                            <div>ファイルを選択</div>
-                            <p>またはドラッグ＆ドロップ (.csv)</p>
-                            <div id="uploadedFileName" class="filename">未選択</div>
-                            <input type="file" id="paramFileInput" accept=".csv" style="display: none;">
-                        </label>
+                <div id="panelUpload" class="form-group hidden">
+                    <label>CSVファイルの選択</label>
+                    <label class="upload-area" id="dropArea">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <div>ファイルを選択</div>
+                        <p>またはドラッグ＆ドロップ (.csv)</p>
+                        <div id="uploadedFileName" class="filename">未選択</div>
+                        <input type="file" id="paramFileInput" accept=".csv" style="display: none;">
+                    </label>
+                </div>
+
+                <div id="columnMappingArea" class="col-mapping hidden">
+                    <div class="col-mapping-header">
+                        <span>カラム構成の設定</span>
+                        <span id="lblRowsCount" style="color: #06b6d4;">0行検出</span>
                     </div>
-
-                    <div id="columnMappingArea" class="col-mapping hidden">
-                        <div class="col-mapping-header">
-                            <span>カラム構成の設定</span>
-                            <span id="lblRowsCount" style="color: #06b6d4;">0行検出</span>
-                        </div>
-                        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">
-                            ※ファイルの最終列を目的変数(y)とし、それ以外の全カラムを特徴量(x)として自動選択しています。数値カラムのみ使用可能です。
-                        </p>
-                        <div class="form-group" style="margin-bottom: 10px;">
-                            <label style="font-size: 0.95rem;">予測対象 (目的変数 - y)</label>
-                            <select id="mapTargetCol" style="padding: 6px; font-size: 0.95rem;"></select>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label style="font-size: 0.95rem;">特徴量 (説明変数 - x)</label>
-                            <div id="mapFeatureCols" class="feature-list"></div>
-                        </div>
+                    <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">
+                        ※ファイルの最終列を目的変数(y)とし、それ以外の全カラムを特徴量(x)として自動選択しています。数値カラムのみ使用可能です。
+                    </p>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="font-size: 0.95rem;">予測対象 (目的変数 - y)</label>
+                        <select id="mapTargetCol" style="padding: 6px; font-size: 0.95rem;"></select>
                     </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label style="font-size: 0.95rem;">特徴量 (説明変数 - x)</label>
+                        <div id="mapFeatureCols" class="feature-list"></div>
+                    </div>
+                </div>
 
-                    <details class="advanced-settings">
-                        <summary class="advanced-summary">
-                            <span style="display: inline-flex; align-items: center; gap: 8px;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                                詳細パラメータ設定
-                            </span>
-                        </summary>
-                        <div class="advanced-content">
-                            <div>
-                                <div class="range-container">
-                                    <label style="font-size: 0.95rem; color: #94a3b8;">訓練データの割合</label>
-                                    <span id="valSplit" class="range-val" style="font-size: 1.05rem;">80%</span>
-                                </div>
-                                <input type="range" id="paramSplit" min="50" max="90" step="5" value="80">
+                <details class="advanced-settings">
+                    <summary class="advanced-summary">
+                        <span style="display: inline-flex; align-items: center; gap: 8px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                            詳細パラメータ設定
+                        </span>
+                    </summary>
+                    <div class="advanced-content">
+                        <div>
+                            <div class="range-container">
+                                <label style="font-size: 0.95rem; color: #94a3b8;">訓練データの割合</label>
+                                <span id="valSplit" class="range-val" style="font-size: 1.05rem;">80%</span>
                             </div>
+                            <input type="range" id="paramSplit" min="50" max="90" step="5" value="80">
+                        </div>
 
-                            <div style="margin-top: 8px;">
-                                <div class="toggle-container" style="margin-bottom: 8px;">
-                                    <label class="switch">
-                                        <input type="checkbox" id="paramKFold" checked>
-                                        <span class="slider"></span>
-                                    </label>
-                                    <span style="font-size: 1rem;">K分割交差検証 (K-Fold)</span>
-                                </div>
-                                <div id="kFoldConfigArea" style="border-left: 2px solid #334155; padding-left: 10px; margin-left: 6px;">
-                                    <div class="range-container">
-                                        <label style="font-size: 0.95rem; color: #94a3b8;">検証分割数 (K)</label>
-                                        <span id="valK" class="range-val" style="font-size: 1.05rem;">5</span>
-                                    </div>
-                                    <input type="range" id="paramK" min="2" max="10" step="1" value="5">
-                                </div>
-                                <div id="holdoutNoteArea" class="hidden" style="border-left: 2px solid #06b6d4; padding-left: 10px; margin-left: 6px; font-size: 0.8rem; color: #94a3b8; margin-top: 6px;">
-                                    ※ オフ時は訓練データを <span style="color: #38bdf8; font-weight: 700;">約8:2 (学習約80% / 検証約20%)</span> にホールドアウト分割して検証します（テストデータは完全隔離）。
-                                </div>
-                            </div>
-
-                            <div class="toggle-container" style="margin-top: 8px;">
+                        <div style="margin-top: 8px;">
+                            <div class="toggle-container" style="margin-bottom: 8px;">
                                 <label class="switch">
-                                    <input type="checkbox" id="paramNormalize" checked>
+                                    <input type="checkbox" id="paramKFold" checked>
                                     <span class="slider"></span>
                                 </label>
-                                <span style="font-size: 1rem;">データの標準化を行う (目的変数含む)</span>
+                                <span style="font-size: 1rem;">K分割交差検証 (K-Fold)</span>
                             </div>
+                            <div id="kFoldConfigArea" style="border-left: 2px solid #334155; padding-left: 10px; margin-left: 6px;">
+                                <div class="range-container">
+                                    <label style="font-size: 0.95rem; color: #94a3b8;">検証分割数 (K)</label>
+                                    <span id="valK" class="range-val" style="font-size: 1.05rem;">5</span>
+                                </div>
+                                <input type="range" id="paramK" min="2" max="10" step="1" value="5">
+                            </div>
+                            <div id="holdoutNoteArea" class="hidden" style="border-left: 2px solid #06b6d4; padding-left: 10px; margin-left: 6px; font-size: 0.8rem; color: #94a3b8; margin-top: 6px;">
+                                ※ オフ時は訓練データを <span style="color: #38bdf8; font-weight: 700;">約8:2 (学習約80% / 検証約20%)</span> にホールドアウト分割して検証します（テストデータは完全隔離）。
+                            </div>
+                        </div>
 
-                            <div style="margin-top: 8px; border-top: 1px solid #33415550; padding-top: 10px;">
-                                <label style="font-size: 0.95rem; color: #94a3b8; display: block; margin-bottom: 4px;">最適化アルゴリズム</label>
-                                <select id="paramOptimizer" style="padding: 6px; font-size: 1rem;">
-                                    <option value="adam">Adam</option>
-                                    <option value="sgd">SGD</option>
-                                    <option value="rmsprop">RMSprop</option>
+                        <div class="toggle-container" style="margin-top: 8px;">
+                            <label class="switch">
+                                <input type="checkbox" id="paramNormalize" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span style="font-size: 1rem;">データの標準化を行う (目的変数含む)</span>
+                        </div>
+
+                        <div style="margin-top: 8px; border-top: 1px solid #33415550; padding-top: 10px;">
+                            <label style="font-size: 0.95rem; color: #94a3b8; display: block; margin-bottom: 4px;">最適化アルゴリズム</label>
+                            <select id="paramOptimizer" style="padding: 6px; font-size: 1rem;">
+                                <option value="adam">Adam</option>
+                                <option value="sgd">SGD</option>
+                                <option value="rmsprop">RMSprop</option>
+                            </select>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                            <div>
+                                <label style="font-size: 0.95rem; color: #94a3b8; display: block; margin-bottom: 4px;">学習率 (LR)</label>
+                                <select id="paramLR" style="padding: 6px; font-size: 1rem;">
+                                    <option value="0.001">0.001 (推奨)</option>
+                                    <option value="0.01">0.01</option>
+                                    <option value="0.05">0.05</option>
+                                    <option value="0.0001">0.0001</option>
                                 </select>
                             </div>
-
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                                <div>
-                                    <label style="font-size: 0.95rem; color: #94a3b8; display: block; margin-bottom: 4px;">学習率 (LR)</label>
-                                    <select id="paramLR" style="padding: 6px; font-size: 1rem;">
-                                        <option value="0.001">0.001 (推奨)</option>
-                                        <option value="0.01">0.01</option>
-                                        <option value="0.05">0.05</option>
-                                        <option value="0.0001">0.0001</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label style="font-size: 0.95rem; color: #94a3b8; display: block; margin-bottom: 4px;">バッチサイズ</label>
-                                    <select id="paramBatch" style="padding: 6px; font-size: 1rem;">
-                                        <option value="8">8</option>
-                                        <option value="16" selected>16</option>
-                                        <option value="32">32</option>
-                                        <option value="64">64</option>
-                                    </select>
-                                </div>
-                            </div>
-
                             <div>
-                                <div class="range-container">
-                                    <label style="font-size: 0.95rem; color: #94a3b8;">エポック数 (学習回数)</label>
-                                    <span id="valEpochs" class="range-val" style="font-size: 1.05rem;">100</span>
-                                </div>
-                                <input type="range" id="paramEpochs" min="10" max="300" step="10" value="100">
-                            </div>
-
-                            <!-- 乱数シード設定（再現性確保） -->
-                            <div style="margin-top: 8px; border-top: 1px solid #33415550; padding-top: 10px;">
-                                <div class="toggle-container" style="margin-bottom: 8px;">
-                                    <label class="switch">
-                                        <input type="checkbox" id="paramUseSeed" checked>
-                                        <span class="slider"></span>
-                                    </label>
-                                    <span style="font-size: 1rem;">乱数シードを固定する (データ分割・初期重みの再現)</span>
-                                </div>
-                                <div id="seedInputArea" style="border-left: 2px solid #334155; padding-left: 10px; margin-left: 6px; display: flex; align-items: center; gap: 8px;">
-                                    <div style="flex: 1;">
-                                        <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 2px;">シード値 (Seed)</label>
-                                        <input type="number" id="paramSeedVal" value="42" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; color: #f1f5f9; padding: 6px 10px; border-radius: 6px; font-size: 0.95rem; outline: none;">
-                                    </div>
-                                    <button type="button" id="btnRandomizeSeed" style="margin-top: 18px; background-color: #334155; color: #f1f5f9; border: 1px solid #475569; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-                                            <circle cx="12" cy="12" r="1" fill="currentColor"/>
-                                            <circle cx="16" cy="8" r="1" fill="currentColor"/>
-                                            <circle cx="8" cy="8" r="1" fill="currentColor"/>
-                                            <circle cx="8" cy="16" r="1" fill="currentColor"/>
-                                            <circle cx="16" cy="16" r="1" fill="currentColor"/>
-                                        </svg>
-                                        変更
-                                    </button>
-                                </div>
-                                <div style="font-size: 0.76rem; color: #64748b; margin-top: 6px; line-height: 1.4;">
-                                    ※ データ分割、Fold割り当て、層の初期重み（glorotNormal）をシードで固定します（WebGL並列演算の都合上、極微小な丸め誤差が生じる場合があります）。
-                                </div>
+                                <label style="font-size: 0.95rem; color: #94a3b8; display: block; margin-bottom: 4px;">バッチサイズ</label>
+                                <select id="paramBatch" style="padding: 6px; font-size: 1rem;">
+                                    <option value="8">8</option>
+                                    <option value="16" selected>16</option>
+                                    <option value="32">32</option>
+                                    <option value="64">64</option>
+                                </select>
                             </div>
                         </div>
-                    </details>
 
-                    <button id="trainBtn" class="btn-train" disabled>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                        学習を開始する (ライブラリ未読込)
-                    </button>
-                </div>
-            </aside>
-
-            <main style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="panel">
-                    <div class="dashboard-status">
-                        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                            <span id="statusBadge" class="status-badge">
-                                <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #f59e0b;"></span>
-                                ライブラリ読み込み待機中
-                            </span>
-                            <span id="epochProgressText" class="epoch-text hidden">Epoch 0 / 100</span>
-                        </div>
-                        <div style="font-size: 0.85rem; color: #94a3b8; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
-                            <div style="display: flex; gap: 16px;">
-                                <div>訓練データ: <span id="numTrainSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
-                                <div>テストデータ: <span id="numTestSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
+                        <div>
+                            <div class="range-container">
+                                <label style="font-size: 0.95rem; color: #94a3b8;">エポック数 (学習回数)</label>
+                                <span id="valEpochs" class="range-val" style="font-size: 1.05rem;">100</span>
                             </div>
-                            <div id="skippedDataInfo" class="hidden" style="color: #f59e0b; font-size: 0.8rem; text-align: right;">
-                                <!-- 補完メッセージ動的挿入 -->
+                            <input type="range" id="paramEpochs" min="10" max="300" step="10" value="100">
+                        </div>
+
+                        <!-- 乱数シード設定（再現性確保） -->
+                        <div style="margin-top: 8px; border-top: 1px solid #33415550; padding-top: 10px;">
+                            <div class="toggle-container" style="margin-bottom: 8px;">
+                                <label class="switch">
+                                    <input type="checkbox" id="paramUseSeed" checked>
+                                    <span class="slider"></span>
+                                </label>
+                                <span style="font-size: 1rem;">乱数シードを固定する (データ分割・初期重みの再現)</span>
+                            </div>
+                            <div id="seedInputArea" style="border-left: 2px solid #334155; padding-left: 10px; margin-left: 6px; display: flex; align-items: center; gap: 8px;">
+                                <div style="flex: 1;">
+                                    <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 2px;">シード値 (Seed)</label>
+                                    <input type="number" id="paramSeedVal" value="42" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; color: #f1f5f9; padding: 6px 10px; border-radius: 6px; font-size: 0.95rem; outline: none;">
+                                </div>
+                                <button type="button" id="btnRandomizeSeed" style="margin-top: 18px; background-color: #334155; color: #f1f5f9; border: 1px solid #475569; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                                        <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                                        <circle cx="16" cy="8" r="1" fill="currentColor"/>
+                                        <circle cx="8" cy="8" r="1" fill="currentColor"/>
+                                        <circle cx="8" cy="16" r="1" fill="currentColor"/>
+                                        <circle cx="16" cy="16" r="1" fill="currentColor"/>
+                                    </svg>
+                                    変更
+                                </button>
+                            </div>
+                            <div style="font-size: 0.76rem; color: #64748b; margin-top: 6px; line-height: 1.4;">
+                                ※ データ分割、Fold割り当て、層の初期重み（glorotNormal）をシードで固定します（WebGL並列演算の都合上、極微小な丸め誤差が生じる場合があります）。
                             </div>
                         </div>
                     </div>
-                    <div class="progress-bar-container">
-                        <div id="progressBar" class="progress-bar"></div>
+                </details>
+
+                <button id="trainBtn" class="btn-train" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    学習を開始する (ライブラリ未読込)
+                </button>
+            </section>
+
+            <!-- 2. 学習ステータスと統計指標 -->
+            <section class="panel">
+                <div class="dashboard-status">
+                    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                        <span id="statusBadge" class="status-badge">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #f59e0b;"></span>
+                            ライブラリ読み込み待機中
+                        </span>
+                        <span id="epochProgressText" class="epoch-text hidden">Epoch 0 / 100</span>
+                    </div>
+                    <div style="font-size: 0.85rem; color: #94a3b8; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                        <div style="display: flex; gap: 16px;">
+                            <div>訓練データ: <span id="numTrainSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
+                            <div>テストデータ: <span id="numTestSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
+                        </div>
+                        <div id="skippedDataInfo" class="hidden" style="color: #f59e0b; font-size: 0.8rem; text-align: right;"></div>
                     </div>
                 </div>
+                <div class="progress-bar-container">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
 
-                <div class="stats-grid">
+                <div class="stats-grid" style="margin-top: 20px;">
                     <div class="stat-card">
                         <div class="stat-label">現在の平均損失 (Loss)</div>
                         <div id="statLoss" class="stat-value stat-loss">-</div>
@@ -595,6 +581,14 @@
                         <div id="statR2" class="stat-value stat-r2">-</div>
                     </div>
                 </div>
+            </section>
+
+            <!-- 3. チャートセクション -->
+            <section class="panel">
+                <h2 class="panel-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #38bdf8;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    2. 学習モニタリングと評価チャート
+                </h2>
 
                 <div class="charts-grid">
                     <div class="chart-box">
@@ -626,7 +620,7 @@
                     </div>
                 </div>
 
-                <div id="exportArea" class="export-card hidden" style="margin-top: 0;">
+                <div id="exportArea" class="export-card hidden">
                     <p style="font-size: 1rem; color: #10b981; font-weight: 700; margin-bottom: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                         学習が完了しました！
@@ -650,554 +644,547 @@
                         </button>
                     </div>
                 </div>
+            </section>
 
-                <!-- 1. ニューラルネットワークと学習の理論 (Trainデータの取扱い) -->
-                <details class="accordion-panel">
-                    <summary class="accordion-summary">
-                        <span style="display: flex; align-items: center; gap: 8px;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #818cf8;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 9 6 6M15 9l-6 6"/></svg>
-                            ニューラルネットワークと学習の理論 (Trainデータの取扱い)
-                        </span>
-                        <span style="font-size: 0.8rem; font-weight: normal; color: #94a3b8;">クリックして展開</span>
-                    </summary>
-                    <div class="accordion-content">
-                        <!-- 基礎解説セクション -->
-                        <div class="concept-section">
-                            <h3 class="concept-title">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                                そもそもニューラルネットワークとは？
-                            </h3>
-                            <p class="concept-text">
-                                ニューラルネットワーク（Neural Network）とは、人間の脳にある無数の神経細胞（ニューロン）が信号を伝え合う仕組みを模した<strong>数理モデル</strong>です。
-                            </p>
-                            <p class="concept-text">
-                                入力されたデータに対し、各ノード（神経細胞）が<strong>「重み（信号伝達の強さ）」</strong>と<strong>「バイアス（基準値の調整）」</strong>を掛け合わせ、活性化関数（ReLUなど）を通して次の層へバトンを渡します。この層が何重にも連なることで、単純な直線（線形）では表現できない複雑な<strong>非線形関係やパターンを自動的に近似</strong>できます。
-                            </p>
+            <!-- 4. 理論・仕組みの解説アコーディオン -->
+            <details class="accordion-panel">
+                <summary class="accordion-summary">
+                    <span style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #818cf8;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 9 6 6M15 9l-6 6"/></svg>
+                        ニューラルネットワークと学習の理論 (Trainデータの取扱い)
+                    </span>
+                    <span style="font-size: 0.8rem; font-weight: normal; color: #94a3b8;">クリックして展開</span>
+                </summary>
+                <div class="accordion-content">
+                    <div class="concept-section">
+                        <h3 class="concept-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                            そもそもニューラルネットワークとは？
+                        </h3>
+                        <p class="concept-text">
+                            ニューラルネットワーク（Neural Network）とは、人間の脳にある無数の神経細胞（ニューロン）が信号を伝え合う仕組みを模した<strong>数理モデル</strong>です。
+                        </p>
+                        <p class="concept-text">
+                            入力されたデータに対し、各ノード（神経細胞）が<strong>「重み（信号伝達の強さ）」</strong>と<strong>「バイアス（基準値の調整）」</strong>を掛け合わせ、活性化関数（ReLUなど）を通して次の層へバトンを渡します。この層が何重にも連なることで、単純な直線（線形）では表現できない複雑な<strong>非線形関係やパターンを自動的に近似</strong>できます。
+                        </p>
 
-                            <!-- 数式解説ボックス -->
-                            <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 14px;">
-                                <div style="font-size: 0.9rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
-                                    ノード（単一ニューロン）の数理モデル
+                        <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 14px;">
+                            <div style="font-size: 0.9rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+                                ノード（単一ニューロン）の数理モデル
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: #e2e8f0; line-height: 1.6;">
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.98rem; letter-spacing: 0.8px;">
+                                    <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">① 線形結合（重み付き和とバイアス）:</span>
+                                    <span style="color: #38bdf8; font-weight: 600;">z</span> = 
+                                    w<sub>1</sub>x<sub>1</sub> + 
+                                    w<sub>2</sub>x<sub>2</sub> + ... + 
+                                    w<sub>m</sub>x<sub>m</sub> + b
+                                    = <span style="font-size: 1.1rem; font-weight: 600;">∑</span> w<sub>j</sub>x<sub>j</sub> + b
                                 </div>
-                                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: #e2e8f0; line-height: 1.6;">
-                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.98rem; letter-spacing: 0.8px;">
-                                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">① 線形結合（重み付き和とバイアス）:</span>
-                                        <span style="color: #38bdf8; font-weight: 600;">z</span> = 
-                                        w<sub>1</sub>x<sub>1</sub> + 
-                                        w<sub>2</sub>x<sub>2</sub> + ... + 
-                                        w<sub>m</sub>x<sub>m</sub> + b
-                                        = <span style="font-size: 1.1rem; font-weight: 600;">∑</span> w<sub>j</sub>x<sub>j</sub> + b
-                                    </div>
-                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.98rem; letter-spacing: 0.8px;">
-                                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">② 活性化関数（ReLUによる非線形変換）:</span>
-                                        <span style="color: #38bdf8; font-weight: 600;">a</span> = <span style="font-weight: 700; color: #22d3ee;">ReLU</span>(z) = max(0, z)
-                                        <span style="color: #94a3b8; font-size: 0.82rem; margin-left: 8px;">（※ 0以下の信号を遮断し、0超の信号だけを流す）</span>
-                                    </div>
-                                    <div style="font-size: 0.8rem; color: #94a3b8; line-height: 1.5; padding-left: 4px;">
-                                        ・<span style="color: #cbd5e1;">x<sub>1</sub>, ..., x<sub>m</sub></span>: 入力特徴量　
-                                        ・<span style="color: #cbd5e1;">w<sub>j</sub></span>: ノード間の信号伝達を調整する<strong>「重み (Weight)」</strong>（※多層モデルでは個々の重みを単独で特徴量重要度とみなすことはできません）<br>
-                                        ・<span style="color: #cbd5e1;">b</span>: 発火しやすさの基準値を底上げ・抑制する<strong>「バイアス (Bias)」</strong>
-                                    </div>
-                                    <div style="background-color: rgba(30, 41, 59, 0.6); border-radius: 6px; padding: 10px 14px; font-size: 0.85rem; color: #cbd5e1; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; letter-spacing: 0.5px;">
-                                        <strong style="color: #a5b4fc; display: block; margin-bottom: 4px;">多層化による全体の伝播式（本モデル）:</strong>
-                                        <span>
-                                            h<sup>(1)</sup> = ReLU(W<sup>(1)</sup>x + b<sup>(1)</sup>) ➔ 
-                                            h<sup>(2)</sup> = ReLU(W<sup>(2)</sup>h<sup>(1)</sup> + b<sup>(2)</sup>) ➔ 
-                                            ŷ = W<sup>(3)</sup>h<sup>(2)</sup> + b<sup>(3)</sup> <span style="color: #94a3b8; font-size: 0.8rem;">(線形出力・予測値)</span>
-                                        </span>
-                                    </div>
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.98rem; letter-spacing: 0.8px;">
+                                    <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">② 活性化関数（ReLUによる非線形変換）:</span>
+                                    <span style="color: #38bdf8; font-weight: 600;">a</span> = <span style="font-weight: 700; color: #22d3ee;">ReLU</span>(z) = max(0, z)
+                                    <span style="color: #94a3b8; font-size: 0.82rem; margin-left: 8px;">（※ 0以下の信号を遮断し、0超の信号だけを流す）</span>
+                                </div>
+                                <div style="font-size: 0.8rem; color: #94a3b8; line-height: 1.5; padding-left: 4px;">
+                                    ・<span style="color: #cbd5e1;">x<sub>1</sub>, ..., x<sub>m</sub></span>: 入力特徴量　
+                                    ・<span style="color: #cbd5e1;">w<sub>j</sub></span>: ノード間の信号伝達を調整する<strong>「重み (Weight)」</strong>（※多層モデルでは個々の重みを単独で特徴量重要度とみなすことはできません）<br>
+                                    ・<span style="color: #cbd5e1;">b</span>: 発火しやすさの基準値を底上げ・抑制する<strong>「バイアス (Bias)」</strong>
+                                </div>
+                                <div style="background-color: rgba(30, 41, 59, 0.6); border-radius: 6px; padding: 10px 14px; font-size: 0.85rem; color: #cbd5e1; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; letter-spacing: 0.5px;">
+                                    <strong style="color: #a5b4fc; display: block; margin-bottom: 4px;">多層化による全体の伝播式（本モデル）:</strong>
+                                    <span>
+                                        h<sup>(1)</sup> = ReLU(W<sup>(1)</sup>x + b<sup>(1)</sup>) ➔ 
+                                        h<sup>(2)</sup> = ReLU(W<sup>(2)</sup>h<sup>(1)</sup> + b<sup>(2)</sup>) ➔ 
+                                        ŷ = W<sup>(3)</sup>h<sup>(2)</sup> + b<sup>(3)</sup> <span style="color: #94a3b8; font-size: 0.8rem;">(線形出力・予測値)</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 幾何学的視点コラム -->
+                        <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 16px; margin-top: 14px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                                <div style="font-size: 0.95rem; font-weight: 700; color: #f59e0b; display: flex; align-items: center; gap: 8px;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                                    幾何学的視点: ReLUネットワークの正体＝「有限個の超平面をつなぎ合わせた折り紙（多面体）」
+                                </div>
+                                <span style="font-size: 0.75rem; color: #38bdf8; background-color: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 8px; border-radius: 4px; font-weight: 600;">
+                                    ※ 本アプリのモデルも全隠れ層で ReLU を採用中
+                                </span>
+                            </div>
+                            <p class="concept-text" style="margin-bottom: 10px;">
+                                本アプリのニューラルネットワークも、後述の構成図にある通り<strong>2つの隠れ層（32ユニット / 16ユニット）すべてに活性化関数として「ReLU」を採用</strong>しています。<br>
+                                「複雑な非線形カーブを学習する」と聞くと滑らかな曲面を想像しがちですが、数学的には、本モデルを含むReLUネットワークの正体は<strong>「超多次元空間において、多数の平面領域をつなぎ合わせた連続区分線形関数（Continuous Piecewise Linear Function）」</strong>です。
+                            </p>
+
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 12px;">
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
+                                    <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">① 1次元で見れば「多数の関節を持つ折れ線グラフ」</div>
+                                    入力が1つの場合、モデルの出力は<strong>多数の折れ曲がり（関節）を持つ折れ線</strong>になります。層（深さ）やノード（幅）が増えると、作られる線形領域（直線の区間）の理論上の最大数は指数関数的に増大します。関節が小間隔で並ぶことで、マクロな視点ではあたかも綺麗な滑らかな曲線に見えているのです。
+                                </div>
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
+                                    <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">② 多次元では「超平面領域のパッチワーク（折り紙）」</div>
+                                    入力が2次元なら「折り目だらけの立体的な多面体サーフェス」、本アプリのような複数次元なら「有限個ではあるものの多数の超平面領域からなるパッチワーク」となります。曲線を微小な直線メッシュで近似する数値計算と同じ幾何学的構造です。
                                 </div>
                             </div>
 
-                            <!-- 幾何学的視点コラム -->
-                            <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 16px; margin-top: 14px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-                                    <div style="font-size: 0.95rem; font-weight: 700; color: #f59e0b; display: flex; align-items: center; gap: 8px;">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                                        幾何学的視点: ReLUネットワークの正体＝「有限個の超平面をつなぎ合わせた折り紙（多面体）」
-                                    </div>
-                                    <span style="font-size: 0.75rem; color: #38bdf8; background-color: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 8px; border-radius: 4px; font-weight: 600;">
-                                        ※ 本アプリのモデルも全隠れ層で ReLU を採用中
-                                    </span>
+                            <div style="border-top: 1px dashed #334155; padding-top: 10px; font-size: 0.83rem; color: #94a3b8; line-height: 1.6;">
+                                <strong style="color: #34d399; display: block; margin-bottom: 4px;">【実務上の決定的な2大特徴】</strong>
+                                ・<span style="color: #f1f5f9; font-weight: 600;">局所的な線形性と勾配伝播:</span> 各線形領域の内部では局所勾配が一定で、特に正の領域では微分が1となるため、シグモイド関数等に比べ飽和に由来する勾配消失を大幅に緩和できます。ただし、負の領域で勾配が0になるDead ReLUや、多層化に伴う重み積に起因する勾配消失・勾配爆発は依然として起こり得ます。<br>
+                                ・<span style="color: #f1f5f9; font-weight: 600;">領域外の外挿（Extrapolation）はアフィン関数:</span> ある固定方向に沿って入力を十分遠くまで動かすと、有限のReLUネットワークは最終的に同一の活性化パターンに入り、その方向上ではアフィン関数（直線）として外挿されます（※多次元では進む方向によって傾きが異なります）。これが「学習データ範囲外への外挿に注意が必要」と言われる数学的理由です。
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div class="arch-title">本モデルのレイヤー（層）構成</div>
+                        <div class="arch-flow">
+                            <span id="architectureInputs" class="arch-node input">入力層 (特徴量: Feature_1, Feature_2, Feature_3)</span>
+                            <span class="arch-arrow">➔</span>
+                            <span class="arch-node hidden-layer">Dense (32ユニット / ReLU)</span>
+                            <span class="arch-arrow">➔</span>
+                            <span class="arch-node hidden-layer">Dense (16ユニット / ReLU)</span>
+                            <span class="arch-arrow">➔</span>
+                            <span class="arch-node output">出力層 (Linear / 予測値)</span>
+                        </div>
+                    </div>
+
+                    <div class="concept-section" style="margin-bottom: 0;">
+                        <h3 class="concept-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                            1エポック内で何が行われているのか？（逆誤差伝播法の位置づけ）
+                        </h3>
+                        <p class="concept-text">
+                            <strong>「1エポック」</strong>とは、用意したすべての訓練データを<strong>モデルが1巡学習すること</strong>を指します。<br>
+                            1エポックの中では、データを小さな塊（バッチサイズ: 例16件）に分け、以下の<strong>4つのステップを何十回も繰り返して</strong>少しずつ賢くなっていきます。
+                        </p>
+
+                        <div class="epoch-cycle-grid">
+                            <div class="cycle-step-card">
+                                <div class="cycle-step-num">
+                                    <span>STEP 1</span>
+                                    <span class="flow-direction-badge flow-forward">入力 ➔ 出力</span>
                                 </div>
-                                <p class="concept-text" style="margin-bottom: 10px;">
-                                    本アプリのニューラルネットワークも、後述の構成図にある通り<strong>2つの隠れ層（32ユニット / 16ユニット）すべてに活性化関数として「ReLU」を採用</strong>しています。<br>
-                                    「複雑な非線形カーブを学習する」と聞くと滑らかな曲面を想像しがちですが、数学的には、本モデルを含むReLUネットワークの正体は<strong>「超多次元空間において、多数の平面領域をつなぎ合わせた連続区分線形関数（Continuous Piecewise Linear Function）」</strong>です。
+                                <div class="cycle-step-name">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                                    順伝播 (Forward)
+                                </div>
+                                <p class="cycle-step-desc">
+                                    入力層から隠れ層を経て出力層へとデータをそのまま流し、現在の重みを使ってモデルが<strong>仮の予測値</strong>を算出します。
                                 </p>
-
-                                <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 12px;">
-                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
-                                        <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">① 1次元で見れば「多数の関節を持つ折れ線グラフ」</div>
-                                        入力が1つの場合、モデルの出力は<strong>多数の折れ曲がり（関節）を持つ折れ線</strong>になります。層（深さ）やノード（幅）が増えると、作られる線形領域（直線の区間）の理論上の最大数は指数関数的に増大します。関節が小間隔で並ぶことで、マクロな視点ではあたかも綺麗な滑らかな曲線に見えているのです。
-                                    </div>
-                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
-                                        <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">② 多次元では「超平面領域のパッチワーク（折り紙）」</div>
-                                        入力が2次元なら「折り目だらけの立体的な多面体サーフェス」、本アプリのような複数次元なら「有限個ではあるものの多数の超平面領域からなるパッチワーク」となります。曲線を微小な直線メッシュで近似する数値計算と同じ幾何学的構造です。
-                                    </div>
-                                </div>
-
-                                <div style="border-top: 1px dashed #334155; padding-top: 10px; font-size: 0.83rem; color: #94a3b8; line-height: 1.6;">
-                                    <strong style="color: #34d399; display: block; margin-bottom: 4px;">【実務上の決定的な2大特徴】</strong>
-                                    ・<span style="color: #f1f5f9; font-weight: 600;">局所的な線形性と勾配伝播:</span> 各線形領域の内部では局所勾配が一定で、特に正の領域では微分が1となるため、シグモイド関数等に比べ飽和に由来する勾配消失を大幅に緩和できます。ただし、負の領域で勾配が0になるDead ReLUや、多層化に伴う重み積に起因する勾配消失・勾配爆発は依然として起こり得ます。<br>
-                                    ・<span style="color: #f1f5f9; font-weight: 600;">領域外の外挿（Extrapolation）はアフィン関数:</span> ある固定方向に沿って入力を十分遠くまで動かすと、有限のReLUネットワークは最終的に同一の活性化パターンに入り、その方向上ではアフィン関数（直線）として外挿されます（※多次元では進む方向によって傾きが異なります）。これが「学習データ範囲外への外挿に注意が必要」と言われる数学的理由です。
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- ネットワーク構成ノード図 -->
-                        <div style="margin-bottom: 20px;">
-                            <div class="arch-title">本モデルのレイヤー（層）構成</div>
-                            <div class="arch-flow">
-                                <span id="architectureInputs" class="arch-node input">入力層 (特徴量: Feature_1, Feature_2, Feature_3)</span>
-                                <span class="arch-arrow">➔</span>
-                                <span class="arch-node hidden-layer">Dense (32ユニット / ReLU)</span>
-                                <span class="arch-arrow">➔</span>
-                                <span class="arch-node hidden-layer">Dense (16ユニット / ReLU)</span>
-                                <span class="arch-arrow">➔</span>
-                                <span class="arch-node output">出力層 (Linear / 予測値)</span>
-                            </div>
-                        </div>
-
-                        <!-- 1エポック内の学習サイクルと逆誤差伝播法 -->
-                        <div class="concept-section" style="margin-bottom: 0;">
-                            <h3 class="concept-title">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-                                1エポック内で何が行われているのか？（逆誤差伝播法の位置づけ）
-                            </h3>
-                            <p class="concept-text">
-                                <strong>「1エポック」</strong>とは、用意したすべての訓練データを<strong>モデルが1巡学習すること</strong>を指します。<br>
-                                1エポックの中では、データを小さな塊（バッチサイズ: 例16件）に分け、以下の<strong>4つのステップを何十回も繰り返して</strong>少しずつ賢くなっていきます。
-                            </p>
-
-                            <div class="epoch-cycle-grid">
-                                <div class="cycle-step-card">
-                                    <div class="cycle-step-num">
-                                        <span>STEP 1</span>
-                                        <span class="flow-direction-badge flow-forward">入力 ➔ 出力</span>
-                                    </div>
-                                    <div class="cycle-step-name">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
-                                        順伝播 (Forward)
-                                    </div>
-                                    <p class="cycle-step-desc">
-                                        入力層から隠れ層を経て出力層へとデータをそのまま流し、現在の重みを使ってモデルが<strong>仮の予測値</strong>を算出します。
-                                    </p>
-                                </div>
-
-                                <div class="cycle-step-card">
-                                    <div class="cycle-step-num">
-                                        <span>STEP 2</span>
-                                        <span class="flow-direction-badge" style="background-color: rgba(245, 158, 11, 0.2); color: #fbbf24;">比較</span>
-                                    </div>
-                                    <div class="cycle-step-name">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
-                                        誤差の算出 (Loss)
-                                    </div>
-                                    <p class="cycle-step-desc">
-                                        モデルの予測値と正解データの実測値を突き合わせ、どれだけズレているか（<strong>平均二乗誤差: MSE</strong>）を算出します。
-                                    </p>
-                                </div>
-
-                                <div class="cycle-step-card">
-                                    <div class="cycle-step-num">
-                                        <span>STEP 3</span>
-                                        <span class="flow-direction-badge flow-backward">出力 ➔ 入力</span>
-                                    </div>
-                                    <div class="cycle-step-name">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
-                                        逆誤差伝播法
-                                    </div>
-                                    <p class="cycle-step-desc">
-                                        生じた誤差を出力層から入力層へ向かって<strong>逆向きに遡らせ</strong>、「どの重みがどれくらい誤差の原因になったか（勾配・偏微分）」を数学的に割り出します。
-                                    </p>
-                                </div>
-
-                                <div class="cycle-step-card">
-                                    <div class="cycle-step-num">
-                                        <span>STEP 4</span>
-                                        <span class="flow-direction-badge flow-update">最適化器</span>
-                                    </div>
-                                    <div class="cycle-step-name">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
-                                        重みの微調整
-                                    </div>
-                                    <p class="cycle-step-desc">
-                                        逆誤差伝播で求めた勾配と学習率（Learning Rate）を基に、オプティマイザ（Adam等）が誤差を減らす方向へ<strong>重みをミリ単位で更新</strong>します。
-                                    </p>
-                                </div>
                             </div>
 
-                            <p class="concept-text" style="margin-top: 14px; font-size: 0.82rem; color: #94a3b8;">
-                                ※ この4ステップをバッチ単位でぐるぐると回して1エポックが終わると、最後に<strong>検証データ（Valデータ）</strong>を使って「今の重みで未知のデータに通用するか？」をテストし、グラフに Val Loss としてプロットされます。
-                            </p>
-                        </div>
-
-                        <!-- 逆誤差伝播法の数理メカニズム -->
-                        <div class="concept-section" style="margin-top: 20px; margin-bottom: 0;">
-                            <h3 class="concept-title">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
-                                逆誤差伝播法の数式メカニズム（連鎖律と数値の具体例）
-                            </h3>
-                            <p class="concept-text">
-                                「出力で生じたズレ（誤差）を、どうやって入力側の各重みに配分するのか？」<br>
-                                その数学的な鍵が高校数学で習う<strong>「合成関数の微分（連鎖律: Chain Rule）」</strong>です。途中の変数を介して掛け算で勾配（坂の傾き）をバケツリレーのように後ろから前へ伝えます。
-                            </p>
-
-                            <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
-                                <div style="font-size: 0.88rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px;">
-                                    基本原理: 誤差の定義式と連鎖律（Chain Rule）による勾配導出
+                            <div class="cycle-step-card">
+                                <div class="cycle-step-num">
+                                    <span>STEP 2</span>
+                                    <span class="flow-direction-badge" style="background-color: rgba(245, 158, 11, 0.2); color: #fbbf24;">比較</span>
                                 </div>
-
-                                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
-                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
-                                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">① 単一サンプルの二乗誤差損失（Loss）の定義式:</span>
-                                        <span style="color: #fbbf24; font-weight: 700;">L</span> = 
-                                        <span style="font-size: 1.05rem;">½</span> ( <span style="color: #38bdf8; font-weight: 600;">ŷ</span> - <span style="color: #34d399; font-weight: 600;">y</span> )<sup>2</sup>
-                                        <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px;">（※ 連鎖律の計算を分かりやすくするための教育的定義。実装上のMSEは ½ が付かない MSE = (1/n)∑(ŷᵢ - yᵢ)² であり、以下の数値例の勾配は実装MSEと定数倍[2倍]異なります）</span>
-                                    </div>
-
-                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
-                                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">② 途中の微分の分解（行間の導出ステップ）:</span>
-                                        <div style="padding-left: 6px; display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
-                                            <div>
-                                                ・<span style="color: #e2e8f0; font-weight: 600;">誤差 L を予測値 ŷ で微分:</span> 
-                                                <span style="color: #fbbf24; font-weight: 700;">∂L / ∂ŷ</span> = 2 × ½ ( ŷ - y )<sup>2 - 1</sup> = <strong style="color: #ffffff;">( ŷ - y )</strong>
-                                                <span style="color: #94a3b8; font-size: 0.8rem;">（＝予測と正解の単純な「ズレ幅」）</span>
-                                            </div>
-                                            <div>
-                                                ・<span style="color: #e2e8f0; font-weight: 600;">予測値 ŷ ( = w · x ) を重み w で微分:</span> 
-                                                <span style="color: #22d3ee; font-weight: 700;">∂ŷ / ∂w</span> = <strong style="color: #ffffff;">x</strong>
-                                                <span style="color: #94a3b8; font-size: 0.8rem;">（＝入力された「データ信号の大きさ」そのもの）</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.95rem; letter-spacing: 0.6px; color: #e2e8f0;">
-                                        <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">③ 合成関数の微分（連鎖律: Chain Rule）による結合:</span>
-                                        <span style="color: #38bdf8; font-weight: 700;">∂L / ∂w</span> = 
-                                        ( <span style="color: #fbbf24; font-weight: 700;">∂L / ∂ŷ</span> ) × 
-                                        ( <span style="color: #22d3ee; font-weight: 700;">∂ŷ / ∂w</span> )
-                                        = <strong style="color: #38bdf8;">( ŷ - y ) × x</strong>
-                                    </div>
+                                <div class="cycle-step-name">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+                                    誤差の算出 (Loss)
                                 </div>
+                                <p class="cycle-step-desc">
+                                    モデルの予測値と正解データの実測値を突き合わせ、どれだけズレているか（<strong>平均二乗誤差: MSE</strong>）を算出します。
+                                </p>
                             </div>
 
-                            <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
-                                    <div style="font-size: 0.88rem; font-weight: 700; color: #34d399;">
-                                        ごく簡単な数値具体例（入力 x = 2、正解 y = 10 の場合）
-                                    </div>
-                                    <span style="font-size: 0.75rem; color: #f59e0b; background-color: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); padding: 2px 8px; border-radius: 4px;">
-                                        ※ 線形・活性化関数無しの単純例
-                                    </span>
+                            <div class="cycle-step-card">
+                                <div class="cycle-step-num">
+                                    <span>STEP 3</span>
+                                    <span class="flow-direction-badge flow-backward">出力 ➔ 入力</span>
                                 </div>
-
-                                <div style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin-bottom: 8px;">
-                                    ※ 理解しやすさを最優先するため、<strong>活性化関数（ReLU等の非線形変換）やバイアスを省いた、最も初歩的な1入力・1出力の線形モデル（ŷ = w · x）</strong>を想定しています。
+                                <div class="cycle-step-name">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
+                                    逆誤差伝播法
                                 </div>
+                                <p class="cycle-step-desc">
+                                    生じた誤差を出力層から入力層へ向かって<strong>逆向きに遡らせ</strong>、「どの重みがどれくらい誤差の原因になったか（勾配・偏微分）」を数学的に割り出します。
+                                </p>
+                            </div>
 
-                                <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.7;">
-                                    現在の重みを <span style="color: #38bdf8; font-weight: 700;">w = 3</span>、学習率を <span style="color: #34d399; font-weight: 700;">η = 0.1</span> と仮定します。
+                            <div class="cycle-step-card">
+                                <div class="cycle-step-num">
+                                    <span>STEP 4</span>
+                                    <span class="flow-direction-badge flow-update">最適化器</span>
                                 </div>
-
-                                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.88rem;">
-                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
-                                        <span style="color: #22d3ee; font-weight: 700;">1. 順伝播（仮の予測）:</span><br>
-                                        ŷ = w × x = 3 × 2 = <strong style="color: #ffffff;">6</strong> <span style="color: #94a3b8; font-size: 0.8rem;">（正解 10 より 4 足りない）</span>
-                                    </div>
-                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
-                                        <span style="color: #fb7185; font-weight: 700;">2. 逆誤差伝播（勾配の計算）:</span><br>
-                                        ∂L / ∂w = ( ŷ - y ) × x = ( 6 - 10 ) × 2 = <strong style="color: #ffffff;">-8</strong> <span style="color: #94a3b8; font-size: 0.8rem;">（傾きは「マイナス8」と判明）</span>
-                                    </div>
-                                    <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
-                                        <span style="color: #34d399; font-weight: 700;">3. 重みの更新（最急降下法 / SGD の基本例）:</span><br>
-                                        新w = w - η × (傾き) = 3 - 0.1 × ( -8 ) = 3 + 0.8 = <strong style="color: #34d399;">3.8</strong>
-                                        <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">
-                                            ※ 最も基礎的なSGDの更新式です。本アプリで採用している<strong>Adam</strong>は、過去の勾配の勢い（モメンタム）と変動幅の移動平均を考慮してステップ幅を賢く自動調整します。
-                                        </div>
-                                    </div>
+                                <div class="cycle-step-name">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+                                    重みの微調整
                                 </div>
-
-                                <p class="concept-text" style="margin-top: 10px; font-size: 0.82rem; color: #94a3b8; line-height: 1.6;">
-                                    ➔ 重みが <strong style="color: #cbd5e1;">3 から 3.8 へと自動的に増えました</strong>。次の予測値は <strong style="color: #34d399;">3.8 × 2 = 7.6</strong> となり、正解の 10 にグッと近づきます！<br>
-                                    ※ 実際の多層ネットワークでは、層と層の間に<strong>活性化関数（ReLUなど）の傾き（ReLUなら入力が0超で1、0以下で0）</strong>が掛け算で挟まりながら、入力層へ向かって順番に連鎖律で遡っていきます。
+                                <p class="cycle-step-desc">
+                                    逆誤差伝播で求めた勾配と学習率（Learning Rate）を基に、オプティマイザ（Adam等）が誤差を減らす方向へ<strong>重みをミリ単位で更新</strong>します。
                                 </p>
                             </div>
                         </div>
 
-                        <!-- エポック・バッチ・K-Fold階層構造 -->
-                        <div class="concept-section" style="margin-top: 20px; margin-bottom: 0; border-color: #0284c7; background-color: rgba(2, 132, 199, 0.04);">
-                            <h3 class="concept-title" style="color: #38bdf8;">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-                                学習の入れ子構造（エポック・K-Fold・バッチ・重み引き継ぎの仕組み）
-                            </h3>
-                            <p class="concept-text">
-                                学習の処理は、大きな枠組みから微細な更新まで<strong>4層の入れ子（マトリョーシカ）構造</strong>で行われています。
+                        <p class="concept-text" style="margin-top: 14px; font-size: 0.82rem; color: #94a3b8;">
+                            ※ この4ステップをバッチ単位でぐるぐると回して1エポックが終わると、最後に<strong>検証データ（Valデータ）</strong>を使って「今の重みで未知のデータに通用するか？」をテストし、グラフに Val Loss としてプロットされます。
+                        </p>
+                    </div>
+
+                    <!-- 逆誤差伝播法の数理メカニズム -->
+                    <div class="concept-section" style="margin-top: 20px; margin-bottom: 0;">
+                        <h3 class="concept-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
+                            逆誤差伝播法の数式メカニズム（連鎖律と数値の具体例）
+                        </h3>
+                        <p class="concept-text">
+                            「出力で生じたズレ（誤差）を、どうやって入力側の各重みに配分するのか？」<br>
+                            その数学的な鍵が高校数学で習う<strong>「合成関数の微分（連鎖律: Chain Rule）」</strong>です。途中の変数を介して掛け算で勾配（坂の傾き）をバケツリレーのように後ろから前へ伝えます。
+                        </p>
+
+                        <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
+                            <div style="font-size: 0.88rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px;">
+                                基本原理: 誤差の定義式と連鎖律（Chain Rule）による勾配導出
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
+                                    <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">① 単一サンプルの二乗誤差損失（Loss）の定義式:</span>
+                                    <span style="color: #fbbf24; font-weight: 700;">L</span> = 
+                                    <span style="font-size: 1.05rem;">½</span> ( <span style="color: #38bdf8; font-weight: 600;">ŷ</span> - <span style="color: #34d399; font-weight: 600;">y</span> )<sup>2</sup>
+                                    <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px;">（※ 連鎖律の計算を分かりやすくするための教育的定義。実装上のMSEは ½ が付かない MSE = (1/n)∑(ŷᵢ - yᵢ)² であり、以下の数値例の勾配は実装MSEと定数倍[2倍]異なります）</span>
+                                </div>
+
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
+                                    <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">② 途中の微分の分解（行間の導出ステップ）:</span>
+                                    <div style="padding-left: 6px; display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
+                                        <div>
+                                            ・<span style="color: #e2e8f0; font-weight: 600;">誤差 L を予測値 ŷ で微分:</span> 
+                                            <span style="color: #fbbf24; font-weight: 700;">∂L / ∂ŷ</span> = 2 × ½ ( ŷ - y )<sup>2 - 1</sup> = <strong style="color: #ffffff;">( ŷ - y )</strong>
+                                            <span style="color: #94a3b8; font-size: 0.8rem;">（＝予測と正解の単純な「ズレ幅」）</span>
+                                        </div>
+                                        <div>
+                                            ・<span style="color: #e2e8f0; font-weight: 600;">予測値 ŷ ( = w · x ) を重み w で微分:</span> 
+                                            <span style="color: #22d3ee; font-weight: 700;">∂ŷ / ∂w</span> = <strong style="color: #ffffff;">x</strong>
+                                            <span style="color: #94a3b8; font-size: 0.8rem;">（＝入力された「データ信号の大きさ」そのもの）</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.95rem; letter-spacing: 0.6px; color: #e2e8f0;">
+                                    <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">③ 合成関数の微分（連鎖律: Chain Rule）による結合:</span>
+                                    <span style="color: #38bdf8; font-weight: 700;">∂L / ∂w</span> = 
+                                    ( <span style="color: #fbbf24; font-weight: 700;">∂L / ∂ŷ</span> ) × 
+                                    ( <span style="color: #22d3ee; font-weight: 700;">∂ŷ / ∂w</span> )
+                                    = <strong style="color: #38bdf8;">( ŷ - y ) × x</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+                                <div style="font-size: 0.88rem; font-weight: 700; color: #34d399;">
+                                    ごく簡単な数値具体例（入力 x = 2、正解 y = 10 の場合）
+                                </div>
+                                <span style="font-size: 0.75rem; color: #f59e0b; background-color: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); padding: 2px 8px; border-radius: 4px;">
+                                    ※ 線形・活性化関数無しの単純例
+                                </span>
+                            </div>
+
+                            <div style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin-bottom: 8px;">
+                                ※ 理解しやすさを最優先するため、<strong>活性化関数（ReLU等の非線形変換）やバイアスを省いた、最も初歩的な1入力・1出力の線形モデル（ŷ = w · x）</strong>を想定しています。
+                            </div>
+
+                            <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.7;">
+                                現在の重みを <span style="color: #38bdf8; font-weight: 700;">w = 3</span>、学習率を <span style="color: #34d399; font-weight: 700;">η = 0.1</span> と仮定します。
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.88rem;">
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
+                                    <span style="color: #22d3ee; font-weight: 700;">1. 順伝播（仮の予測）:</span><br>
+                                    ŷ = w × x = 3 × 2 = <strong style="color: #ffffff;">6</strong> <span style="color: #94a3b8; font-size: 0.8rem;">（正解 10 より 4 足りない）</span>
+                                </div>
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
+                                    <span style="color: #fb7185; font-weight: 700;">2. 逆誤差伝播（勾配の計算）:</span><br>
+                                    ∂L / ∂w = ( ŷ - y ) × x = ( 6 - 10 ) × 2 = <strong style="color: #ffffff;">-8</strong> <span style="color: #94a3b8; font-size: 0.8rem;">（傾きは「マイナス8」と判明）</span>
+                                </div>
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
+                                    <span style="color: #34d399; font-weight: 700;">3. 重みの更新（最急降下法 / SGD の基本例）:</span><br>
+                                    新w = w - η × (傾き) = 3 - 0.1 × ( -8 ) = 3 + 0.8 = <strong style="color: #34d399;">3.8</strong>
+                                    <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">
+                                        ※ 最も基礎的なSGDの更新式です。本アプリで採用している<strong>Adam</strong>は、過去の勾配の勢い（モメンタム）と変動幅の移動平均を考慮してステップ幅を賢く自動調整します。
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="concept-text" style="margin-top: 10px; font-size: 0.82rem; color: #94a3b8; line-height: 1.6;">
+                                ➔ 重みが <strong style="color: #cbd5e1;">3 から 3.8 へと自動的に増えました</strong>。次の予測値は <strong style="color: #34d399;">3.8 × 2 = 7.6</strong> となり、正解の 10 にグッと近づきます！<br>
+                                ※ 実際の多層ネットワークでは、層と層の間に<strong>活性化関数（ReLUなど）の傾き（ReLUなら入力が0超で1、0以下で0）</strong>が掛け算で挟まりながら、入力層へ向かって順番に連鎖律で遡っていきます。
                             </p>
+                        </div>
+                    </div>
 
-                            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
-                                <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #818cf8; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
-                                    <div style="font-weight: 700; color: #a5b4fc; font-size: 0.9rem; margin-bottom: 4px;">
-                                        ① 1エポック内でK個のモデルが順番に（直列に）1巡学習する
-                                    </div>
-                                    <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                        「Epoch 1」の間に、<strong>Model 1からModel Kまでの全モデルがそれぞれの担当Trainデータで順番に1巡</strong>します。本アプリでは全モデルの1巡が終わった時点で進捗バーが1エポック分進み、K個のLossの平均値がグラフに記録されます。
-                                    </div>
+                    <!-- エポック・バッチ・K-Fold階層構造 -->
+                    <div class="concept-section" style="margin-top: 20px; margin-bottom: 0; border-color: #0284c7; background-color: rgba(2, 132, 199, 0.04);">
+                        <h3 class="concept-title" style="color: #38bdf8;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                            学習の入れ子構造（エポック・K-Fold・バッチ・重み引き継ぎの仕組み）
+                        </h3>
+                        <p class="concept-text">
+                            学習の処理は、大きな枠組みから微細な更新まで<strong>4層の入れ子（マトリョーシカ）構造</strong>で行われています。
+                        </p>
+
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
+                            <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #818cf8; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                <div style="font-weight: 700; color: #a5b4fc; font-size: 0.9rem; margin-bottom: 4px;">
+                                    ① 1エポック内でK個のモデルが順番に（直列に）1巡学習する
                                 </div>
-
-                                <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #06b6d4; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
-                                    <div style="font-weight: 700; color: #22d3ee; font-size: 0.9rem; margin-bottom: 4px;">
-                                        ② 各FoldのTrainデータをさらに小さな「バッチ」に分割
-                                    </div>
-                                    <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                        例えばTrainが400件、K=5の場合、1つのモデルが学習するデータは<strong>320件</strong>（残り80件はVal）。<br>
-                                        この320件を一度に丸呑みせず、バッチサイズが16なら <strong>320 ÷ 16 = 20個の小包（ミニバッチ）</strong> に分割して順番に投入します。
-                                    </div>
+                                <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                    「Epoch 1」の間に、<strong>Model 1からModel Kまでの全モデルがそれぞれの担当Trainデータで順番に1巡</strong>します。本アプリでは全モデルの1巡が終わった時点で進捗バーが1エポック分進み、K個のLossの平均値がグラフに記録されます。
                                 </div>
+                            </div>
 
-                                <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #34d399; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
-                                    <div style="font-weight: 700; color: #34d399; font-size: 0.9rem; margin-bottom: 4px;">
-                                        ③ 1エポックの中でAdamは何十回も重みを更新している！（直列処理）
-                                    </div>
-                                    <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                        各バッチは並列ではなく、バッチ1 ➔ バッチ2 ➔ … と<strong>直列（逐次的）に順番に処理</strong>されます。<br>
-                                        <strong>【16件はどう使われる？】</strong> 16件のデータをまとめて流し、それぞれのデータから生じた<strong>勾配（傾き）の「平均値」</strong>を算出します。1件ずつのブレやノイズをならしたこの「平均勾配」を使い、1バッチにつき1回だけAdamが重みを更新します。<br>
-                                        そして、<strong>直前のバッチで賢くなった最新の重みを受け継いだ状態で次のバッチ（次の16件）が計算</strong>されます。つまり1エポック内でAdamは各モデルにつき<strong>直列に20回</strong>（100エポックなら計2,000回）も重みを微調整し続けています。
-                                    </div>
+                            <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #06b6d4; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                <div style="font-weight: 700; color: #22d3ee; font-size: 0.9rem; margin-bottom: 4px;">
+                                    ② 各FoldのTrainデータをさらに小さな「バッチ」に分割
                                 </div>
+                                <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                    例えばTrainが400件、K=5の場合、1つのモデルが学習するデータは<strong>320件</strong>（残り80件はVal）。<br>
+                                    この320件を一度に丸呑みせず、バッチサイズが16なら <strong>320 ÷ 16 = 20個の小包（ミニバッチ）</strong> に分割して順番に投入します。
+                                </div>
+                            </div>
 
-                                <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #fbbf24; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
-                                    <div style="font-weight: 700; color: #fbbf24; font-size: 0.9rem; margin-bottom: 4px;">
-                                        ④ 次のエポックへ「何」を引き継いで「どう」改善するのか？
-                                    </div>
-                                    <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                        引き継がれるのは<strong>「直前のエポックの最後（例: 20回目）の更新で得られた最新の重み（Weight）」</strong>です。重みはリセットされず蓄積されます。<br>
-                                        次のエポックでは、データを再度ランダムにシャッフルした上で、<strong>賢くなった重みを初期値として再スタート</strong>します。前エポックで取りこぼした誤差をさらに削り落とすように、Adamがより理想的な重みへと収束させていきます。
-                                    </div>
+                            <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #34d399; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                <div style="font-weight: 700; color: #34d399; font-size: 0.9rem; margin-bottom: 4px;">
+                                    ③ 1エポックの中でAdamは何十回も重みを更新している！（直列処理）
+                                </div>
+                                <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                    各バッチは並列ではなく、バッチ1 ➔ バッチ2 ➔ … と<strong>直列（逐次的）に順番に処理</strong>されます。<br>
+                                    <strong>【16件はどう使われる？】</strong> 16件のデータをまとめて流し、それぞれのデータから生じた<strong>勾配（傾き）の「平均値」</strong>を算出します。1件ずつのブレやノイズをならしたこの「平均勾配」を使い、1バッチにつき1回だけAdamが重みを更新します。<br>
+                                    そして、<strong>直前のバッチで賢くなった最新の重みを受け継いだ状態で次のバッチ（次の16件）が計算</strong>されます。つまり1エポック内でAdamは各モデルにつき<strong>直列に20回</strong>（100エポックなら計2,000回）も重みを微調整し続けています。
+                                </div>
+                            </div>
+
+                            <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #fbbf24; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                <div style="font-weight: 700; color: #fbbf24; font-size: 0.9rem; margin-bottom: 4px;">
+                                    ④ 次のエポックへ「何」を引き継いで「どう」改善するのか？
+                                </div>
+                                <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                    引き継がれるのは<strong>「直前のエポックの最後（例: 20回目）の更新で得られた最新の重み（Weight）」</strong>です。重みはリセットされず蓄積されます。<br>
+                                    次のエポックでは、データを再度ランダムにシャッフルした上で、<strong>賢くなった重みを初期値として再スタート</strong>します。前エポックで取りこぼした誤差をさらに削り落とすように、Adamがより理想的な重みへと収束させていきます。
                                 </div>
                             </div>
                         </div>
                     </div>
-                </details>
+                </div>
+            </details>
 
-                <!-- 2. データ全体の分割と検証フロー (Train・Testの取扱い) -->
-                <details class="accordion-panel">
-                    <summary class="accordion-summary">
-                        <span style="display: flex; align-items: center; gap: 8px;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #06b6d4;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-                            データ全体の分割と検証フロー (Train・Testの取扱い)
-                        </span>
-                        <span style="font-size: 0.8rem; font-weight: normal; color: #94a3b8;">クリックして展開</span>
-                    </summary>
-                    <div class="accordion-content">
-                        <div class="pipeline-step">
-                            <div class="pipeline-step-header">
-                                <span>Step 1: 全体データセットの分割 ➔ Testデータを完全隔離</span>
-                                <span style="font-size: 0.8rem; color: #94a3b8;">※最初の1回のみ実行</span>
+            <!-- 5. データ全体の分割と検証フロー -->
+            <details class="accordion-panel">
+                <summary class="accordion-summary">
+                    <span style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #06b6d4;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        データ全体の分割と検証フロー (Train・Testの取扱い)
+                    </span>
+                    <span style="font-size: 0.8rem; font-weight: normal; color: #94a3b8;">クリックして展開</span>
+                </summary>
+                <div class="accordion-content">
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-header">
+                            <span>Step 1: 全体データセットの分割 ➔ Testデータを完全隔離</span>
+                            <span style="font-size: 0.8rem; color: #94a3b8;">※最初の1回のみ実行</span>
+                        </div>
+                        <div class="pipeline-visual-bar">
+                            <div class="bar-segment bar-train" style="width: 80%;">
+                                訓練データ (Train: 80%)
                             </div>
-                            <div class="pipeline-visual-bar">
-                                <div class="bar-segment bar-train" style="width: 80%;">
-                                    訓練データ (Train: 80%)
-                                </div>
-                                <div class="bar-segment bar-test-locked" style="width: 20%;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline; margin-right:4px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                                    テスト (20%)
-                                </div>
+                            <div class="bar-segment bar-test-locked" style="width: 20%;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline; margin-right:4px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                テスト (20%)
                             </div>
-                            <div class="bar-caption-row">
-                                <span style="color: #60a5fa;">▲ モデル学習・検証に使用</span>
-                                <span style="color: #fb7185;">▲ 完全隔離（学習時は一切非接触）</span>
-                            </div>
-                            <p class="pipeline-note">
-                                <strong>データリーク（情報のカンニング）の防止:</strong> テストデータは金庫に保管するように隔離され、標準化のための平均・標準偏差の算出やモデル訓練には一切関与しません（※スライダー初期値等のUI表示用統計を除く）。
-                            </p>
+                        </div>
+                        <div class="bar-caption-row">
+                            <span style="color: #60a5fa;">▲ モデル学習・検証に使用</span>
+                            <span style="color: #fb7185;">▲ 完全隔離（学習時は一切非接触）</span>
+                        </div>
+                        <p class="pipeline-note">
+                            <strong>データリーク（情報のカンニング）の防止:</strong> テストデータは金庫に保管するように隔離され、標準化のための平均・標準偏差の算出やモデル訓練には一切関与しません（※スライダー初期値等のUI表示用統計を除く）。
+                        </p>
+                    </div>
+
+                    <div class="pipeline-arrow">▼</div>
+
+                    <div class="pipeline-step">
+                        <div class="pipeline-step-header">
+                            <span>Step 2: Train 内部のみで行われる検証分割 (K-Fold CV / ホールドアウト)</span>
+                            <span style="font-size: 0.8rem; color: #06b6d4;">K=5 の場合の例 (オフ時はTrain内部を約8:2分割)</span>
                         </div>
 
-                        <div class="pipeline-arrow">▼</div>
-
-                        <div class="pipeline-step">
-                            <div class="pipeline-step-header">
-                                <span>Step 2: Train 内部のみで行われる検証分割 (K-Fold CV / ホールドアウト)</span>
-                                <span style="font-size: 0.8rem; color: #06b6d4;">K=5 の場合の例 (オフ時はTrain内部を約8:2分割)</span>
-                            </div>
-
-                            <div class="kfold-legend">
-                                <span><span class="legend-dot" style="background-color: #818cf8;"></span>学習データ (Train)</span>
-                                <span><span class="legend-dot" style="background-color: #06b6d4;"></span>検証データ (Val)</span>
-                            </div>
-
-                            <div class="kfold-grid">
-                                <div class="kfold-row">
-                                    <span class="kfold-tag">Fold 1</span>
-                                    <div class="kfold-bar-box">
-                                        <div class="kfold-cell kfold-val-cell">検証</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                    </div>
-                                    <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 1</span>
-                                </div>
-                                <div class="kfold-row">
-                                    <span class="kfold-tag">Fold 2</span>
-                                    <div class="kfold-bar-box">
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-val-cell">検証</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                    </div>
-                                    <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 2</span>
-                                </div>
-                                <div class="kfold-row">
-                                    <span class="kfold-tag">Fold 3</span>
-                                    <div class="kfold-bar-box">
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-val-cell">検証</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                    </div>
-                                    <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 3</span>
-                                </div>
-                                <div class="kfold-row">
-                                    <span class="kfold-tag">Fold 4</span>
-                                    <div class="kfold-bar-box">
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-val-cell">検証</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                    </div>
-                                    <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 4</span>
-                                </div>
-                                <div class="kfold-row">
-                                    <span class="kfold-tag">Fold 5</span>
-                                    <div class="kfold-bar-box">
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-train-cell">学習</div>
-                                        <div class="kfold-cell kfold-val-cell">検証</div>
-                                    </div>
-                                    <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 5</span>
-                                </div>
-                            </div>
-                            <p class="pipeline-note" style="margin-top: 8px;">
-                                ※ K-Foldオフ（K=1）時も、Train内部を <strong>約8:2（学習約80% / 検証約20%）</strong> にホールドアウト分割して学習中のVal Lossを測定します。テストデータは学習中一切非接触のまま隔離されます。
-                            </p>
+                        <div class="kfold-legend">
+                            <span><span class="legend-dot" style="background-color: #818cf8;"></span>学習データ (Train)</span>
+                            <span><span class="legend-dot" style="background-color: #06b6d4;"></span>検証データ (Val)</span>
                         </div>
 
-                        <div class="pipeline-arrow">▼</div>
-
-                        <div class="pipeline-step" style="border-color: rgba(16, 185, 129, 0.4); background-color: rgba(16, 185, 129, 0.03);">
-                            <div class="pipeline-step-header" style="color: #10b981;">
-                                <span>Step 3: 学習完了後 ➔ 推論と、隔離していたTestデータの最終検証</span>
-                                <span style="font-size: 0.8rem; color: #34d399;">※ ここで初めてTestデータが登場！</span>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem;">
-                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                                    <span class="arch-node hidden-layer" style="padding: 4px 10px; font-size: 0.8rem; white-space: nowrap;">Model 1 ... Model K</span>
-                                    <span style="color: #94a3b8; white-space: nowrap;">➔ 出力を平均 ➔</span>
-                                    <span style="background-color: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.4); padding: 4px 10px; border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                                        保管していた Testデータ (20%)
-                                    </span>
-                                    <span style="color: #94a3b8; white-space: nowrap;">を入力</span>
+                        <div class="kfold-grid">
+                            <div class="kfold-row">
+                                <span class="kfold-tag">Fold 1</span>
+                                <div class="kfold-bar-box">
+                                    <div class="kfold-cell kfold-val-cell">検証</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
                                 </div>
-                                <div style="background-color: #0f172a; border-radius: 6px; padding: 10px 14px; border: 1px solid #334155; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; gap: 8px;">
-                                    <div>
-                                        <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">テスト評価値</div>
-                                        <div style="color: #34d399; font-weight: 700; white-space: nowrap;">テスト MAE</div>
-                                    </div>
-                                    <div style="border-left: 1px solid #334155; border-right: 1px solid #334155;">
-                                        <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">汎化性能の決定係数</div>
-                                        <div style="color: #fbbf24; font-weight: 700; white-space: nowrap;">テスト R²</div>
-                                    </div>
-                                    <div>
-                                        <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">相関の可視化</div>
-                                        <div style="color: #38bdf8; font-weight: 700; white-space: nowrap;">実測 vs 予測 散布図</div>
-                                    </div>
+                                <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 1</span>
+                            </div>
+                            <div class="kfold-row">
+                                <span class="kfold-tag">Fold 2</span>
+                                <div class="kfold-bar-box">
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-val-cell">検証</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 2</span>
+                            </div>
+                            <div class="kfold-row">
+                                <span class="kfold-tag">Fold 3</span>
+                                <div class="kfold-bar-box">
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-val-cell">検証</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 3</span>
+                            </div>
+                            <div class="kfold-row">
+                                <span class="kfold-tag">Fold 4</span>
+                                <div class="kfold-bar-box">
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-val-cell">検証</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 4</span>
+                            </div>
+                            <div class="kfold-row">
+                                <span class="kfold-tag">Fold 5</span>
+                                <div class="kfold-bar-box">
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-train-cell">学習</div>
+                                    <div class="kfold-cell kfold-val-cell">検証</div>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 5</span>
+                            </div>
+                        </div>
+                        <p class="pipeline-note" style="margin-top: 8px;">
+                            ※ K-Foldオフ（K=1）時も、Train内部を <strong>約8:2（学習約80% / 検証約20%）</strong> にホールドアウト分割して学習中のVal Lossを測定します。テストデータは学習中一切非接触のまま隔離されます。
+                        </p>
+                    </div>
+
+                    <div class="pipeline-arrow">▼</div>
+
+                    <div class="pipeline-step" style="border-color: rgba(16, 185, 129, 0.4); background-color: rgba(16, 185, 129, 0.03);">
+                        <div class="pipeline-step-header" style="color: #10b981;">
+                            <span>Step 3: 学習完了後 ➔ 推論と、隔離していたTestデータの最終検証</span>
+                            <span style="font-size: 0.8rem; color: #34d399;">※ ここで初めてTestデータが登場！</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                <span class="arch-node hidden-layer" style="padding: 4px 10px; font-size: 0.8rem; white-space: nowrap;">Model 1 ... Model K</span>
+                                <span style="color: #94a3b8; white-space: nowrap;">➔ 出力を平均 ➔</span>
+                                <span style="background-color: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.4); padding: 4px 10px; border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                    保管していた Testデータ (20%)
+                                </span>
+                                <span style="color: #94a3b8; white-space: nowrap;">を入力</span>
+                            </div>
+                            <div style="background-color: #0f172a; border-radius: 6px; padding: 10px 14px; border: 1px solid #334155; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; gap: 8px;">
+                                <div>
+                                    <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">テスト評価値</div>
+                                    <div style="color: #34d399; font-weight: 700; white-space: nowrap;">テスト MAE</div>
+                                </div>
+                                <div style="border-left: 1px solid #334155; border-right: 1px solid #334155;">
+                                    <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">汎化性能の決定係数</div>
+                                    <div style="color: #fbbf24; font-weight: 700; white-space: nowrap;">テスト R²</div>
+                                </div>
+                                <div>
+                                    <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">相関の可視化</div>
+                                    <div style="color: #38bdf8; font-weight: 700; white-space: nowrap;">実測 vs 予測 散布図</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </details>
-            </main>
+                </div>
+            </details>
         </div>
 
+        <!-- 運用・予測タブ：こちらも一列に縦並び表示 -->
         <div id="tabPredictArea" class="main-grid hidden">
-            <aside style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="panel">
-                    <h2 class="panel-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #10b981;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        Step 1: モデルファイルの読み込み
-                    </h2>
-                    <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
-                        [訓練タブ] で保存したモデルファイル (.json) を選択またはドラッグ＆ドロップしてください。
+            <!-- Step 1: モデルファイルの読み込み -->
+            <section class="panel">
+                <h2 class="panel-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #10b981;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Step 1: モデルファイルの読み込み
+                </h2>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
+                    [訓練タブ] で保存したモデルファイル (.json) を選択またはドラッグ＆ドロップしてください。
+                </p>
+
+                <label class="upload-area" id="modelDropArea" style="border-color: #10b98140;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 6px;"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+                    <div>モデルJSONを選択</div>
+                    <p>またはドラッグ＆ドロップ (.json)</p>
+                    <div id="loadedModelName" class="filename" style="color: #10b981;">未読込</div>
+                    <input type="file" id="paramModelInput" accept=".json" style="display: none;">
+                </label>
+
+                <div id="modelMetaInfo" class="col-mapping hidden" style="border-color: #10b98140; margin-top: 15px;">
+                    <div class="col-mapping-header" style="border-bottom-color: #10b98120;">
+                        <span style="color: #10b981; display: inline-flex; align-items: center; gap: 6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                            読み込み成功
+                        </span>
+                        <span id="modelMetaK" style="color: #ffffff;">- Fold Ensemble</span>
+                    </div>
+                    <div style="font-size: 0.85rem;">
+                        <div style="margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                            予測対象: <span id="modelMetaTarget" style="color: #ffffff; font-weight: bold;">-</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            使用するデータ項目 (<span id="modelMetaFeaturesCount">0</span>個):
+                        </div>
+                        <div id="modelMetaFeaturesList" style="color: #06b6d4; font-family: monospace; padding-left: 10px; margin-top: 4px; line-height: 1.4;">-</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2: 条件の調整とリアルタイム予測 -->
+            <section class="panel">
+                <h2 class="panel-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #06b6d4;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    Step 2: 条件の調整とリアルタイム予測
+                </h2>
+
+                <div id="inferencePlaceholder" style="text-align: center; padding: 40px 20px; color: #94a3b8;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 16px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <p style="font-weight: 700; margin-bottom: 4px; font-size: 1rem;">まだモデルが読み込まれていません</p>
+                    <p style="font-size: 0.85rem;">上のパネルから、保存したモデルファイル (.json) を選択してください。</p>
+                </div>
+
+                <div id="inferenceFormArea" class="hidden">
+                    <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 16px;">
+                        各スライダーを左右に動かすと、モデルが条件に合わせて自動で計算し、即座に予測結果を出力します。
                     </p>
+                    <div id="dynamicInputsContainer" class="dynamic-form-grid"></div>
 
-                    <label class="upload-area" id="modelDropArea" style="border-color: #10b98140;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 6px;"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
-                        <div>モデルJSONを選択</div>
-                        <p>またはドラッグ＆ドロップ (.json)</p>
-                        <div id="loadedModelName" class="filename" style="color: #10b981;">未読込</div>
-                        <input type="file" id="paramModelInput" accept=".json" style="display: none;">
-                    </label>
-
-                    <div id="modelMetaInfo" class="col-mapping hidden" style="border-color: #10b98140; margin-top: 15px;">
-                        <div class="col-mapping-header" style="border-bottom-color: #10b98120;">
-                            <span style="color: #10b981; display: inline-flex; align-items: center; gap: 6px;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                                読み込み成功
-                            </span>
-                            <span id="modelMetaK" style="color: #ffffff;">- Fold Ensemble</span>
-                        </div>
-                        <div style="font-size: 0.85rem;">
-                            <div style="margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-                                予測対象: <span id="modelMetaTarget" style="color: #ffffff; font-weight: bold;">-</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 6px;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                                使用するデータ項目 (<span id="modelMetaFeaturesCount">0</span>個):
-                            </div>
-                            <div id="modelMetaFeaturesList" style="color: #06b6d4; font-family: monospace; padding-left: 10px; margin-top: 4px; line-height: 1.4;">-</div>
-                        </div>
+                    <div class="prediction-box">
+                        <p id="predResultTitle" style="font-size: 1rem; color: #94a3b8; font-weight: 700;">予測結果 (K-Fold アンサンブル出力)</p>
+                        <div id="predictedResult" class="prediction-value">-</div>
+                        <p id="targetUnitLabel" style="font-size: 0.85rem; color: #64748b; font-weight: bold;">(目的変数のスケール)</p>
                     </div>
                 </div>
-            </aside>
-
-            <main style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="panel">
-                    <h2 class="panel-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #06b6d4;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                        Step 2: 条件の調整とリアルタイム予測
-                    </h2>
-
-                    <div id="inferencePlaceholder" style="text-align: center; padding: 40px 20px; color: #94a3b8;">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 16px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        <p style="font-weight: 700; margin-bottom: 4px; font-size: 1rem;">まだモデルが読み込まれていません</p>
-                        <p style="font-size: 0.85rem;">左側のパネルから、保存したモデルファイル (.json) を選択してください。</p>
-                    </div>
-
-                    <div id="inferenceFormArea" class="hidden">
-                        <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 16px;">
-                            各スライダーを左右に動かすと、モデルが条件に合わせて自動で計算し、即座に予測結果を出力します。
-                        </p>
-                        <div id="dynamicInputsContainer" class="dynamic-form-grid">
-                            <!-- 動的スライダー追加エリア -->
-                        </div>
-
-                        <div class="prediction-box">
-                            <p id="predResultTitle" style="font-size: 1rem; color: #94a3b8; font-weight: 700;">予測結果 (K-Fold アンサンブル出力)</p>
-                            <div id="predictedResult" class="prediction-value">-</div>
-                            <p id="targetUnitLabel" style="font-size: 0.85rem; color: #64748b; font-weight: bold;">(目的変数のスケール)</p>
-                        </div>
-                    </div>
-                </div>
-            </main>
+            </section>
         </div>
     </div>
 
@@ -1213,8 +1200,10 @@
                 card.classList.remove('active');
             });
             const selectedRadio = document.querySelector(`input[value="${sourceType}"]`);
-            selectedRadio.checked = true;
-            selectedRadio.closest('.source-card').classList.add('active');
+            if (selectedRadio) {
+                selectedRadio.checked = true;
+                selectedRadio.closest('.source-card').classList.add('active');
+            }
         }
 
         function injectScript(src) {
@@ -1229,7 +1218,8 @@
         }
 
         async function startLoadingLibraries() {
-            const selectedVal = document.querySelector('input[name="libSource"]:checked').value;
+            const selectedRadio = document.querySelector('input[name="libSource"]:checked');
+            const selectedVal = selectedRadio ? selectedRadio.value : 'online';
             loadBtn.disabled = true;
             loadBtn.innerText = "読み込み中...";
             
@@ -1248,14 +1238,20 @@
             }
 
             try {
-                loadStatus.innerHTML = "1/3: TensorFlow.js を読み込み中...";
-                await injectScript(sources.tf);
+                if (typeof tf === 'undefined') {
+                    loadStatus.innerHTML = "1/3: TensorFlow.js を読み込み中...";
+                    await injectScript(sources.tf);
+                }
 
-                loadStatus.innerHTML = "2/3: Chart.js を読み込み中...";
-                await injectScript(sources.chart);
+                if (typeof Chart === 'undefined') {
+                    loadStatus.innerHTML = "2/3: Chart.js を読み込み中...";
+                    await injectScript(sources.chart);
+                }
 
-                loadStatus.innerHTML = "3/3: PapaParse を読み込み中...";
-                await injectScript(sources.papa);
+                if (typeof Papa === 'undefined') {
+                    loadStatus.innerHTML = "3/3: PapaParse を読み込み中...";
+                    await injectScript(sources.papa);
+                }
 
                 loadStatus.innerHTML = "ライブラリの読み込みに成功しました。起動しています...";
                 
@@ -1283,7 +1279,6 @@
             }
         }
 
-        // --- Core Application Logic ---
         let paramSourceType, panelSimulation, panelUpload, paramFileInput, uploadedFileName, dropArea;
         let columnMappingArea, lblRowsCount, mapTargetCol, mapFeatureCols;
         let paramSamples, valSamples, paramSplit, valSplit, paramEpochs, valEpochs, paramNormalize, paramOptimizer, paramLR, paramBatch;
@@ -1310,6 +1305,7 @@
 
         function switchTab(tab) {
             if (isTraining) return; 
+            if (!tabTrainBtn || !tabPredictBtn) return;
             tabTrainBtn.classList.remove('active');
             tabPredictBtn.classList.remove('active');
             tabTrainArea.classList.add('hidden');
@@ -1578,8 +1574,13 @@
         }
 
         function setupCharts() {
-            const lossCtx = document.getElementById('lossChart').getContext('2d');
-            const predCtx = document.getElementById('predChart').getContext('2d');
+            const lossCanvas = document.getElementById('lossChart');
+            const predCanvas = document.getElementById('predChart');
+            const residualCanvas = document.getElementById('residualChart');
+            if (!lossCanvas || !predCanvas || !residualCanvas) return;
+
+            const lossCtx = lossCanvas.getContext('2d');
+            const predCtx = predCanvas.getContext('2d');
 
             lossChart = new Chart(lossCtx, {
                 type: 'line',
@@ -1620,7 +1621,7 @@
                 }
             });
 
-            const residualCtx = document.getElementById('residualChart').getContext('2d');
+            const residualCtx = residualCanvas.getContext('2d');
             residualChart = new Chart(residualCtx, {
                 type: 'bar',
                 data: {
