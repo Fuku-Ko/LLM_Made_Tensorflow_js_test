@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>お手軽機械学習</title>
-    <!-- ニューラルネットワーク風SVGファビコン -->
+    <!-- 完全オフライン対応 of ニューラルネットワーク風SVGファビコン -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231e293b'/%3E%3Cline x1='8' y1='10' x2='16' y2='6' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='10' x2='16' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='22' x2='16' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='22' x2='16' y2='26' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='6' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='16' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='26' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Ccircle cx='8' cy='10' r='3' fill='%23c084fc'/%3E%3Ccircle cx='8' cy='22' r='3' fill='%23c084fc'/%3E%3Ccircle cx='16' cy='6' r='3' fill='%23818cf8'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23818cf8'/%3E%3Ccircle cx='16' cy='26' r='3' fill='%23818cf8'/%3E%3Ccircle cx='24' cy='16' r='3' fill='%2306b6d4'/%3E%3C/svg%3E">
 
-    <!-- スタイリング（完全1列レイアウト＆フラットダークテーマ） -->
+    <!-- ピュアCSSスタイリング（完全1列レイアウト＆フラットダークテーマ） -->
     <style>
         html { font-size: 20px; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -55,7 +55,7 @@
         .btn-load:hover { background-color: #06b6d4; }
         .load-status { margin-top: 16px; font-size: 0.95rem; color: #f59e0b; min-height: 20px; }
 
-        /* タブ */
+        /* タブナビゲーション */
         .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid #1e293b; padding-bottom: 10px; }
         .tab-btn {
             background: none; border: none; color: #94a3b8; padding: 12px 20px;
@@ -72,7 +72,7 @@
         .btn-reset { background-color: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 10px 18px; border-radius: 6px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
         .btn-reset:hover { background-color: #334155; color: #ffffff; }
 
-        /* 常に1列（シングルカラム）で上から下へ流れるレイアウト */
+        /* 常に一列（シングルカラム）で上から下へ流れるコンテナ */
         .single-column-flow {
             display: flex !important;
             flex-direction: column !important;
@@ -370,6 +370,7 @@
             </button>
         </div>
 
+        <!-- 訓練エリア（完全1列フロー） -->
         <div id="tabTrainArea" class="single-column-flow">
             <!-- 1. パラメータとデータセット設定パネル -->
             <div class="panel">
@@ -532,7 +533,7 @@
                                 </button>
                             </div>
                             <div style="font-size: 0.76rem; color: #64748b; margin-top: 6px; line-height: 1.4;">
-                                ※ データ分割、Fold割り当て、層の初期重み（glorotNormal）をシードで固定します。
+                                ※ データ分割、Fold割り当て、層の初期重み（glorotNormal）をシードで固定します（WebGL並列演算の都合上、極微小な丸め誤差が生じる場合があります）。
                             </div>
                         </div>
                     </div>
@@ -659,6 +660,7 @@
                     <span style="font-size: 0.8rem; font-weight: normal; color: #94a3b8;">クリックして展開</span>
                 </summary>
                 <div class="accordion-content">
+                    <!-- 基礎解説セクション -->
                     <div class="concept-section">
                         <h3 class="concept-title">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
@@ -671,6 +673,7 @@
                             入力されたデータに対し、各ノード（神経細胞）が<strong>「重み（信号伝達の強さ）」</strong>と<strong>「バイアス（基準値の調整）」</strong>を掛け合わせ、活性化関数（ReLUなど）を通して次の層へバトンを渡します。この層が何重にも連なることで、単純な直線（線形）では表現できない複雑な<strong>非線形関係やパターンを自動的に近似</strong>できます。
                         </p>
 
+                        <!-- 数式解説ボックス -->
                         <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 14px;">
                             <div style="font-size: 0.9rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
@@ -692,7 +695,7 @@
                                 </div>
                                 <div style="font-size: 0.8rem; color: #94a3b8; line-height: 1.5; padding-left: 4px;">
                                     ・<span style="color: #cbd5e1;">x<sub>1</sub>, ..., x<sub>m</sub></span>: 入力特徴量　
-                                    ・<span style="color: #cbd5e1;">w<sub>j</sub></span>: ノード間の信号伝達を調整する<strong>「重み (Weight)」</strong><br>
+                                    ・<span style="color: #cbd5e1;">w<sub>j</sub></span>: ノード間の信号伝達を調整する<strong>「重み (Weight)」</strong>（※多層モデルでは個々の重みを単独で特徴量重要度とみなすことはできません）<br>
                                     ・<span style="color: #cbd5e1;">b</span>: 発火しやすさの基準値を底上げ・抑制する<strong>「バイアス (Bias)」</strong>
                                 </div>
                                 <div style="background-color: rgba(30, 41, 59, 0.6); border-radius: 6px; padding: 10px 14px; font-size: 0.85rem; color: #cbd5e1; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; letter-spacing: 0.5px;">
@@ -706,6 +709,7 @@
                             </div>
                         </div>
 
+                        <!-- 幾何学的視点コラム -->
                         <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 16px; margin-top: 14px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
                                 <div style="font-size: 0.95rem; font-weight: 700; color: #f59e0b; display: flex; align-items: center; gap: 8px;">
@@ -720,6 +724,23 @@
                                 本アプリのニューラルネットワークも、後述の構成図にある通り<strong>2つの隠れ層（32ユニット / 16ユニット）すべてに活性化関数として「ReLU」を採用</strong>しています。<br>
                                 「複雑な非線形カーブを学習する」と聞くと滑らかな曲面を想像しがちですが、数学的には、本モデルを含むReLUネットワークの正体は<strong>「超多次元空間において、多数の平面領域をつなぎ合わせた連続区分線形関数（Continuous Piecewise Linear Function）」</strong>です。
                             </p>
+
+                            <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 12px;">
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
+                                    <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">① 1次元で見れば「多数の関節を持つ折れ線グラフ」</div>
+                                    入力が1つの場合、モデルの出力は<strong>多数の折れ曲がり（関節）を持つ折れ線</strong>になります。層（深さ）やノード（幅）が増えると、作られる線形領域（直線の区間）の理論上の最大数は指数関数的に増大します。関節が小間隔で並ぶことで、マクロな視点ではあたかも綺麗な滑らかな曲線に見えているのです。
+                                </div>
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
+                                    <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">② 多次元では「超平面領域のパッチワーク（折り紙）」</div>
+                                    入力が2次元なら「折り目だらけの立体的な多面体サーフェス」、本アプリのような複数次元なら「有限個ではあるものの多数の超平面領域からなるパッチワーク」となります。曲線を微小な直線メッシュで近似する数値計算と同じ幾何学的構造です。
+                                </div>
+                            </div>
+
+                            <div style="border-top: 1px dashed #334155; padding-top: 10px; font-size: 0.83rem; color: #94a3b8; line-height: 1.6;">
+                                <strong style="color: #34d399; display: block; margin-bottom: 4px;">【実務上の決定的な2大特徴】</strong>
+                                ・<span style="color: #f1f5f9; font-weight: 600;">局所的な線形性と勾配伝播:</span> 各線形領域の内部では局所勾配が一定で、特に正の領域では微分が1となるため、シグモイド関数等に比べ飽和に由来する勾配消失を大幅に緩和できます。ただし、負の領域で勾配が0になるDead ReLUや、多層化に伴う重み積に起因する勾配消失・勾配爆発は依然として起こり得ます。<br>
+                                ・<span style="color: #f1f5f9; font-weight: 600;">領域外の外挿（Extrapolation）はアフィン関数:</span> ある固定方向に沿って入力を十分遠くまで動かすと、有限のReLUネットワークは最終的に同一の活性化パターンに入り、その方向上ではアフィン関数（直線）として外挿されます（※多次元では進む方向によって傾きが異なります）。これが「学習データ範囲外への外挿に注意が必要」と言われる数学的理由です。
+                            </div>
                         </div>
                     </div>
 
@@ -738,7 +759,7 @@
                     </div>
 
                     <!-- 1エポック内の学習サイクルと逆誤差伝播法 -->
-                    <div class="concept-section" style="margin-bottom: 0;">
+                    <div class="concept-section" style="margin-bottom: 20px;">
                         <h3 class="concept-title">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
                             1エポック内で何が行われているのか？（逆誤差伝播法の位置づけ）
@@ -805,6 +826,156 @@
                                 </p>
                             </div>
                         </div>
+
+                        <p class="concept-text" style="margin-top: 14px; font-size: 0.82rem; color: #94a3b8;">
+                            ※ この4ステップをバッチ単位でぐるぐると回して1エポックが終わると、最後に<strong>検証データ（Valデータ）</strong>を使って「今の重みで未知のデータに通用するか？」をテストし、グラフに Val Loss としてプロットされます。
+                        </p>
+                    </div>
+
+                    <!-- 逆誤差伝播法の数理メカニズム -->
+                    <div class="concept-section" style="margin-bottom: 20px;">
+                        <h3 class="concept-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
+                            逆誤差伝播法の数式メカニズム（連鎖律と数値の具体例）
+                        </h3>
+                        <p class="concept-text">
+                            「出力で生じたズレ（誤差）を、どうやって入力側の各重みに配分するのか？」<br>
+                            その数学的な鍵が高校数学で習う<strong>「合成関数の微分（連鎖律: Chain Rule）」</strong>です。途中の変数を介して掛け算で勾配（坂の傾き）をバケツリレーのように後ろから前へ伝えます。
+                        </p>
+
+                        <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
+                            <div style="font-size: 0.88rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px;">
+                                基本原理: 誤差の定義式と連鎖律（Chain Rule）による勾配導出
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
+                                    <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">① 単一サンプルの二乗誤差損失（Loss）の定義式:</span>
+                                    <span style="color: #fbbf24; font-weight: 700;">L</span> = 
+                                    <span style="font-size: 1.05rem;">½</span> ( <span style="color: #38bdf8; font-weight: 600;">ŷ</span> - <span style="color: #34d399; font-weight: 600;">y</span> )<sup>2</sup>
+                                    <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px;">（※ 連鎖律の計算を分かりやすくするための教育的定義。実装上のMSEは ½ が付かない MSE = (1/n)∑(ŷᵢ - yᵢ)² であり、以下の数値例の勾配は実装MSEと定数倍[2倍]異なります）</span>
+                                </div>
+
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
+                                    <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">② 途中の微分の分解（行間の導出ステップ）:</span>
+                                    <div style="padding-left: 6px; display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
+                                        <div>
+                                            ・<span style="color: #e2e8f0; font-weight: 600;">誤差 L を予測値 ŷ で微分:</span> 
+                                            <span style="color: #fbbf24; font-weight: 700;">∂L / ∂ŷ</span> = 2 × ½ ( ŷ - y )<sup>2 - 1</sup> = <strong style="color: #ffffff;">( ŷ - y )</strong>
+                                            <span style="color: #94a3b8; font-size: 0.8rem;">（＝予測と正解の単純な「ズレ幅」）</span>
+                                        </div>
+                                        <div>
+                                            ・<span style="color: #e2e8f0; font-weight: 600;">予測値 ŷ ( = w · x ) を重み w で微分:</span> 
+                                            <span style="color: #22d3ee; font-weight: 700;">∂ŷ / ∂w</span> = <strong style="color: #ffffff;">x</strong>
+                                            <span style="color: #94a3b8; font-size: 0.8rem;">（＝入力された「データ信号の大きさ」そのもの）</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.95rem; letter-spacing: 0.6px; color: #e2e8f0;">
+                                    <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">③ 合成関数の微分（連鎖律: Chain Rule）による結合:</span>
+                                    <span style="color: #38bdf8; font-weight: 700;">∂L / ∂w</span> = 
+                                    ( <span style="color: #fbbf24; font-weight: 700;">∂L / ∂ŷ</span> ) × 
+                                    ( <span style="color: #22d3ee; font-weight: 700;">∂ŷ / ∂w</span> )
+                                    = <strong style="color: #38bdf8;">( ŷ - y ) × x</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+                                <div style="font-size: 0.88rem; font-weight: 700; color: #34d399;">
+                                    ごく簡単な数値具体例（入力 x = 2、正解 y = 10 の場合）
+                                </div>
+                                <span style="font-size: 0.75rem; color: #f59e0b; background-color: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); padding: 2px 8px; border-radius: 4px;">
+                                    ※ 線形・活性化関数無しの単純例
+                                </span>
+                            </div>
+
+                            <div style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin-bottom: 8px;">
+                                ※ 理解しやすさを最優先するため、<strong>活性化関数（ReLU等の非線形変換）やバイアスを省いた、最も初歩的な1入力・1出力の線形モデル（ŷ = w · x）</strong>を想定しています。
+                            </div>
+
+                            <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.7;">
+                                現在の重みを <span style="color: #38bdf8; font-weight: 700;">w = 3</span>、学習率を <span style="color: #34d399; font-weight: 700;">η = 0.1</span> と仮定します。
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.88rem;">
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
+                                    <span style="color: #22d3ee; font-weight: 700;">1. 順伝播（仮の予測）:</span><br>
+                                    ŷ = w × x = 3 × 2 = <strong style="color: #ffffff;">6</strong> <span style="color: #94a3b8; font-size: 0.8rem;">（正解 10 より 4 足りない）</span>
+                                </div>
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
+                                    <span style="color: #fb7185; font-weight: 700;">2. 逆誤差伝播（勾配の計算）:</span><br>
+                                    ∂L / ∂w = ( ŷ - y ) × x = ( 6 - 10 ) × 2 = <strong style="color: #ffffff;">-8</strong> <span style="color: #94a3b8; font-size: 0.8rem;">（傾きは「マイナス8」と判明）</span>
+                                </div>
+                                <div style="background-color: #1e293b; border-radius: 6px; padding: 8px 12px;">
+                                    <span style="color: #34d399; font-weight: 700;">3. 重みの更新（最急降下法 / SGD の基本例）:</span><br>
+                                    新w = w - η × (傾き) = 3 - 0.1 × ( -8 ) = 3 + 0.8 = <strong style="color: #34d399;">3.8</strong>
+                                    <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">
+                                        ※ 最も基礎的なSGDの更新式です。本アプリで採用している<strong>Adam</strong>は、過去の勾配の勢い（モメンタム）と変動幅の移動平均を考慮してステップ幅を賢く自動調整します。
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="concept-text" style="margin-top: 10px; font-size: 0.82rem; color: #94a3b8; line-height: 1.6;">
+                                ➔ 重みが <strong style="color: #cbd5e1;">3 から 3.8 へと自動的に増えました</strong>。次の予測値は <strong style="color: #34d399;">3.8 × 2 = 7.6</strong> となり、正解の 10 にグッと近づきます！<br>
+                                ※ 実際の多層ネットワークでは、層と層の間に<strong>活性化関数（ReLUなど）の傾き（ReLUなら入力が0超で1、0以下で0）</strong>が掛け算で挟まりながら、入力層へ向かって順番に連鎖律で遡っていきます。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- エポック・バッチ・K-Fold階層構造 -->
+                    <div class="concept-section" style="margin-bottom: 0; border-color: #0284c7; background-color: rgba(2, 132, 199, 0.04);">
+                        <h3 class="concept-title" style="color: #38bdf8;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                            学習の入れ子構造（エポック・K-Fold・バッチ・重み引き継ぎの仕組み）
+                        </h3>
+                        <p class="concept-text">
+                            学習の処理は、大きな枠組みから微細な更新まで<strong>4層の入れ子（マトリョーシカ）構造</strong>で行われています。
+                        </p>
+
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
+                            <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #818cf8; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                <div style="font-weight: 700; color: #a5b4fc; font-size: 0.9rem; margin-bottom: 4px;">
+                                    ① 1エポック内でK個のモデルが順番に（直列に）1巡学習する
+                                </div>
+                                <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                    「Epoch 1」の間に、<strong>Model 1からModel Kまでの全モデルがそれぞれの担当Trainデータで順番に1巡</strong>します。本アプリでは全モデルの1巡が終わった時点で進捗バーが1エポック分進み、K個のLossの平均値がグラフに記録されます。
+                                </div>
+                            </div>
+
+                            <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #06b6d4; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                <div style="font-weight: 700; color: #22d3ee; font-size: 0.9rem; margin-bottom: 4px;">
+                                    ② 各FoldのTrainデータをさらに小さな「バッチ」に分割
+                                </div>
+                                <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                    例えばTrainが400件、K=5の場合、1つのモデルが学習するデータは<strong>320件</strong>（残り80件はVal）。<br>
+                                    この320件を一度に丸呑みせず、バッチサイズが16なら <strong>320 ÷ 16 = 20個の小包（ミニバッチ）</strong> に分割して順番に投入します。
+                                </div>
+                            </div>
+
+                            <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #34d399; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                <div style="font-weight: 700; color: #34d399; font-size: 0.9rem; margin-bottom: 4px;">
+                                    ③ 1エポックの中でAdamは何十回も重みを更新している！（直列処理）
+                                </div>
+                                <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                    各バッチは並列ではなく、バッチ1 ➔ バッチ2 ➔ … と<strong>直列（逐次的）に順番に処理</strong>されます。<br>
+                                    <strong>【16件はどう使われる？】</strong> 16件のデータをまとめて流し、それぞれのデータから生じた<strong>勾配（傾き）の「平均値」</strong>を算出します。1件ずつのブレやノイズをならしたこの「平均勾配」を使い、1バッチにつき1回だけAdamが重みを更新します。<br>
+                                    そして、<strong>直前のバッチで賢くなった最新の重みを受け継いだ状態で次のバッチ（次の16件）が計算</strong>されます。つまり1エポック内でAdamは各モデルにつき<strong>直列に20回</strong>（100エポックなら計2,000回）も重みを微調整し続けています。
+                                </div>
+                            </div>
+
+                            <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #fbbf24; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
+                                <div style="font-weight: 700; color: #fbbf24; font-size: 0.9rem; margin-bottom: 4px;">
+                                    ④ 次のエポックへ「何」を引き継いで「どう」改善するのか？
+                                </div>
+                                <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
+                                    引き継がれるのは<strong>「直前のエポックの最後（例: 20回目）の更新で得られた最新の重み（Weight）」</strong>です。重みはリセットされず蓄積されます。<br>
+                                    次のエポックでは、データを再度ランダムにシャッフルした上で、<strong>賢くなった重みを初期値として再スタート</strong>します。前エポックで取りこぼした誤差をさらに削り落とすように、Adamがより理想的な重みへと収束させていきます。
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </details>
@@ -838,7 +1009,7 @@
                             <span style="color: #fb7185;">▲ 完全隔離（学習時は一切非接触）</span>
                         </div>
                         <p class="pipeline-note">
-                            <strong>データリーク（情報のカンニング）の防止:</strong> テストデータは金庫に保管するように隔離され、標準化のための平均・標準偏差の算出やモデル訓練には一切関与しません。
+                            <strong>データリーク（情報のカンニング）の防止:</strong> テストデータは金庫に保管するように隔離され、標準化のための平均・標準偏差の算出やモデル訓練には一切関与しません（※スライダー初期値等のUI表示用統計を除く）。
                         </p>
                     </div>
 
@@ -847,7 +1018,7 @@
                     <div class="pipeline-step">
                         <div class="pipeline-step-header">
                             <span>Step 2: Train 内部のみで行われる検証分割 (K-Fold CV / ホールドアウト)</span>
-                            <span style="font-size: 0.8rem; color: #06b6d4;">K=5 の場合の例</span>
+                            <span style="font-size: 0.8rem; color: #06b6d4;">K=5 の場合の例 (オフ時はTrain内部を約8:2分割)</span>
                         </div>
 
                         <div class="kfold-legend">
@@ -912,11 +1083,49 @@
                                 <span style="font-size: 0.75rem; color: #818cf8; width: 66px; text-align: right; white-space: nowrap; flex-shrink: 0;">➔ Model 5</span>
                             </div>
                         </div>
+                        <p class="pipeline-note" style="margin-top: 8px;">
+                            ※ K-Foldオフ（K=1）時も、Train内部を <strong>約8:2（学習約80% / 検証約20%）</strong> にホールドアウト分割して学習中のVal Lossを測定します。テストデータは学習中一切非接触のまま隔離されます。
+                        </p>
+                    </div>
+
+                    <div class="pipeline-arrow">▼</div>
+
+                    <div class="pipeline-step" style="border-color: rgba(16, 185, 129, 0.4); background-color: rgba(16, 185, 129, 0.03);">
+                        <div class="pipeline-step-header" style="color: #10b981;">
+                            <span>Step 3: 学習完了後 ➔ 推論と、隔離していたTestデータの最終検証</span>
+                            <span style="font-size: 0.8rem; color: #34d399;">※ ここで初めてTestデータが登場！</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                <span class="arch-node hidden-layer" style="padding: 4px 10px; font-size: 0.8rem; white-space: nowrap;">Model 1 ... Model K</span>
+                                <span style="color: #94a3b8; white-space: nowrap;">➔ 出力を平均 ➔</span>
+                                <span style="background-color: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.4); padding: 4px 10px; border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                    保管していた Testデータ (20%)
+                                </span>
+                                <span style="color: #94a3b8; white-space: nowrap;">を入力</span>
+                            </div>
+                            <div style="background-color: #0f172a; border-radius: 6px; padding: 10px 14px; border: 1px solid #334155; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; gap: 8px;">
+                                <div>
+                                    <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">テスト評価値</div>
+                                    <div style="color: #34d399; font-weight: 700; white-space: nowrap;">テスト MAE</div>
+                                </div>
+                                <div style="border-left: 1px solid #334155; border-right: 1px solid #334155;">
+                                    <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">汎化性能の決定係数</div>
+                                    <div style="color: #fbbf24; font-weight: 700; white-space: nowrap;">テスト R²</div>
+                                </div>
+                                <div>
+                                    <div style="color: #94a3b8; font-size: 0.75rem; white-space: nowrap;">相関の可視化</div>
+                                    <div style="color: #38bdf8; font-weight: 700; white-space: nowrap;">実測 vs 予測 散布図</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </details>
         </div>
 
+        <!-- 予測推論エリア（完全1列フロー） -->
         <div id="tabPredictArea" class="single-column-flow hidden">
             <!-- Step 1: モデルファイルの読み込み -->
             <div class="panel">
@@ -1736,7 +1945,7 @@
             if (predChartSubtitle) predChartSubtitle.innerText = useKFold ? "アンサンブル予測プロット" : "単一モデル予測プロット";
             predChart.data.datasets[0].label = useKFold ? "アンサンブル予測結果" : "単一モデル予測結果";
 
-            // 再現性確保用パラメータ設定オブジェクト
+            // 再現性確保用パラメータ設定オブジェクト（JSONメタデータ同封用）
             const trainingConfig = {
                 seed: useSeed ? currentSeed : null,
                 trainSplitPercent: parseInt(paramSplit.value),
