@@ -533,7 +533,7 @@
                                 </button>
                             </div>
                             <div style="font-size: 0.76rem; color: #64748b; margin-top: 6px; line-height: 1.4;">
-                                ※ データ分割、Fold割り当て、層の初期重み（glorotNormal）をシードで固定します（Tensorflow.jsのエポック間でのデータシャッフルやWebGL並列演算の都合上、誤差が生じる場合があります）。
+                                ※ データ分割、Fold割り当て、層の初期重み（glorotNormal）をシードで固定します（WebGL並列演算の都合上、誤差が生じる場合があります）。
                             </div>
                         </div>
                     </div>
@@ -2053,28 +2053,48 @@
                     tensors.push({ xs: tf.tensor2d(finalFoldTrainX), ys: tf.tensor2d(finalFoldTrainY), valXs: tf.tensor2d(finalFoldValX), valYs: tf.tensor2d(finalFoldValY) });
                 }
 
+
                 updateStatus(`K分割交差検証を実行中 (K=${K})...`, "progress");
+
+                // 各Fold用のインデックス配列を事前に用意
+                const foldIndicesList = [];
+                for (let k = 0; k < K; k++) {
+                    foldIndicesList.push(Array.from({ length: foldTrainXs[k].length }, (_, i) => i));
+                }
 
                 try {
                     for (let epoch = 0; epoch < epochs; epoch++) {
                         let epochLossSum = 0; let epochValLossSum = 0; const foldLosses = [];
                         for (let k = 0; k < K; k++) {
                             const foldTensor = tensors[k];
-                            const fitHistory = await models[k].fit(foldTensor.xs, foldTensor.ys, { epochs: 1, batchSize: batch, validationData: [foldTensor.valXs, foldTensor.valYs], verbose: 0, shuffle: true });
+
+                            // シード付き乱数(rng)を使ってインデックスをシャッフル
+                            seededShuffle(foldIndicesList[k], rng);
+
+                            // シャッフルした順序でエポック専用テンソルを抽出
+                            const shuffledIndicesTensor = tf.tensor1d(foldIndicesList[k], 'int32');
+                            const epochXs = tf.gather(foldTensor.xs, shuffledIndicesTensor);
+                            const epochYs = tf.gather(foldTensor.ys, shuffledIndicesTensor);
+                            shuffledIndicesTensor.dispose();
+
+                            // シャッフル済みテンソルを渡し、TF内部のシャッフルは false に設定
+                            const fitHistory = await models[k].fit(epochXs, epochYs, { 
+                                epochs: 1, 
+                                batchSize: batch, 
+                                validationData: [foldTensor.valXs, foldTensor.valYs], 
+                                verbose: 0, 
+                                shuffle: false 
+                            });
+
+                            // 使い終わったテンソルを即時解放（メモリリーク防止）
+                            epochXs.dispose();
+                            epochYs.dispose();
+
                             const trainL = fitHistory.history.loss[0]; const valL = fitHistory.history.val_loss[0];
                             epochLossSum += trainL; epochValLossSum += valL;
                             foldLosses.push({ fold: k + 1, trainLoss: trainL, valLoss: valL });
                             lossChart.data.datasets[2 + k * 2].data.push(trainL); lossChart.data.datasets[2 + k * 2 + 1].data.push(valL);
                         }
-                        const avgLoss = epochLossSum / K; const avgValLoss = epochValLossSum / K;
-                        const cur = epoch + 1; const pct = (cur / epochs) * 100;
-                        trainingHistory.epochs.push({ epoch: cur, avgTrainLoss: avgLoss, avgValLoss: avgValLoss, folds: foldLosses });
-
-                        progressBar.style.width = `${pct}%`; epochProgressText.innerText = `Epoch ${cur} / ${epochs} (K-Fold)`;
-                        statLoss.innerText = avgLoss.toFixed(4); statValLoss.innerText = avgValLoss.toFixed(4);
-                        lossChart.data.labels.push(cur); lossChart.data.datasets[0].data.push(avgLoss); lossChart.data.datasets[1].data.push(avgValLoss);
-                        lossChart.update('none');
-                    }
 
                     updateStatus("K-Fold予測アンサンブル評価中...", "progress");
 
@@ -2247,19 +2267,43 @@
                 const model = buildModel(inputDim, opt, lr, singleModelSeed);
 
                 try {
-                    await model.fit(xs, ys, {
-                        epochs: epochs, batchSize: batch, validationData: [valXs, valYs], shuffle: true,
-                        callbacks: {
-                            onEpochEnd: (epoch, logs) => {
-                                const cur = epoch + 1; const pct = (cur / epochs) * 100;
-                                trainingHistory.epochs.push({ epoch: cur, trainLoss: logs.loss, valLoss: logs.val_loss });
-                                progressBar.style.width = `${pct}%`; epochProgressText.innerText = `Epoch ${cur} / ${epochs}`;
-                                statLoss.innerText = logs.loss.toFixed(4); statValLoss.innerText = logs.val_loss.toFixed(4);
-                                lossChart.data.labels.push(cur); lossChart.data.datasets[0].data.push(logs.loss); lossChart.data.datasets[1].data.push(logs.val_loss);
-                                lossChart.update('none');
-                            }
-                        }
-                    });
+                    const singleTrainIndices = Array.from({ length: finalTrainX.length }, (_, i) => i);
+
+                    for (let epoch = 0; epoch < epochs; epoch++) {
+                        // シード付き乱数(rng)でインデックスをシャッフル
+                        seededShuffle(singleTrainIndices, rng);
+
+                        const shuffledIndicesTensor = tf.tensor1d(singleTrainIndices, 'int32');
+                        const epochXs = tf.gather(xs, shuffledIndicesTensor);
+                        const epochYs = tf.gather(ys, shuffledIndicesTensor);
+                        shuffledIndicesTensor.dispose();
+
+                        const fitHistory = await model.fit(epochXs, epochYs, {
+                            epochs: 1,
+                            batchSize: batch,
+                            validationData: [valXs, valYs],
+                            verbose: 0,
+                            shuffle: false
+                        });
+
+                        epochXs.dispose();
+                        epochYs.dispose();
+
+                        const trainLoss = fitHistory.history.loss[0];
+                        const valLoss = fitHistory.history.val_loss[0];
+                        const cur = epoch + 1; 
+                        const pct = (cur / epochs) * 100;
+
+                        trainingHistory.epochs.push({ epoch: cur, trainLoss: trainLoss, valLoss: valLoss });
+                        progressBar.style.width = `${pct}%`; 
+                        epochProgressText.innerText = `Epoch ${cur} / ${epochs}`;
+                        statLoss.innerText = trainLoss.toFixed(4); 
+                        statValLoss.innerText = valLoss.toFixed(4);
+                        lossChart.data.labels.push(cur); 
+                        lossChart.data.datasets[0].data.push(trainLoss); 
+                        lossChart.data.datasets[1].data.push(valLoss);
+                        lossChart.update('none');
+                    }
 
                     updateStatus("隔離していたテストデータで最終評価中...", "progress");
                     const predsArray = tf.tidy(() => {
