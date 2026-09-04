@@ -70,15 +70,15 @@
         .btn-reset { background-color: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 10px 18px; border-radius: 6px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
         .btn-reset:hover { background-color: #334155; color: #ffffff; }
 
-        /* 二列配置を解除し、上から下へ一列に並ぶレイアウトに変更 */
+        /* 左右2列の分割を完全に解除し、画面幅に関わらず上から下へ1列に並ぶレイアウト */
         .main-grid { 
-            display: flex; 
-            flex-direction: column; 
+            display: flex !important; 
+            flex-direction: column !important; 
             gap: 24px; 
             width: 100%;
         }
 
-        .panel { background-color: rgba(30, 41, 59, 0.4); border: 1px solid #1e293b; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .panel { background-color: rgba(30, 41, 59, 0.4); border: 1px solid #1e293b; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); width: 100%; }
         .panel-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #334155; color: #ffffff; display: flex; align-items: center; gap: 8px; }
 
         .advanced-settings { background-color: rgba(15, 23, 42, 0.5); border: 1px solid #334155; border-radius: 8px; margin-top: 16px; margin-bottom: 16px; overflow: hidden; }
@@ -363,7 +363,7 @@
             </button>
         </div>
 
-        <!-- 訓練タブ：一列に順番に表示 -->
+        <!-- 訓練タブ：asideやmainで左右に分断せず、直下に順番に一列で配置 -->
         <div id="tabTrainArea" class="main-grid">
             <!-- 1. パラメータ設定セクション -->
             <section class="panel">
@@ -1117,7 +1117,7 @@
             </details>
         </div>
 
-        <!-- 運用・予測タブ：こちらも一列に縦並び表示 -->
+        <!-- 運用・予測タブ：こちらも左右に分断せず、上から下へ素直に一列で配置 -->
         <div id="tabPredictArea" class="main-grid hidden">
             <!-- Step 1: モデルファイルの読み込み -->
             <section class="panel">
