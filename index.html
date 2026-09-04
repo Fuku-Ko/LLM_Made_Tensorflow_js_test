@@ -2095,6 +2095,16 @@
                             foldLosses.push({ fold: k + 1, trainLoss: trainL, valLoss: valL });
                             lossChart.data.datasets[2 + k * 2].data.push(trainL); lossChart.data.datasets[2 + k * 2 + 1].data.push(valL);
                         }
+                        
+                        const avgLoss = epochLossSum / K; const avgValLoss = epochValLossSum / K;
+                        const cur = epoch + 1; const pct = (cur / epochs) * 100;
+                        trainingHistory.epochs.push({ epoch: cur, avgTrainLoss: avgLoss, avgValLoss: avgValLoss, folds: foldLosses });
+
+                        progressBar.style.width = `${pct}%`; epochProgressText.innerText = `Epoch ${cur} / ${epochs} (K-Fold)`;
+                        statLoss.innerText = avgLoss.toFixed(4); statValLoss.innerText = avgValLoss.toFixed(4);
+                        lossChart.data.labels.push(cur); lossChart.data.datasets[0].data.push(avgLoss); lossChart.data.datasets[1].data.push(avgValLoss);
+                        lossChart.update('none');
+                    }
 
                     updateStatus("K-Fold予測アンサンブル評価中...", "progress");
 
