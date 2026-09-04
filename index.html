@@ -7,7 +7,7 @@
     <!-- 完全オフライン対応 of ニューラルネットワーク風SVGファビコン -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231e293b'/%3E%3Cline x1='8' y1='10' x2='16' y2='6' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='10' x2='16' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='22' x2='16' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='8' y1='22' x2='16' y2='26' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='6' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='16' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Cline x1='16' y1='26' x2='24' y2='16' stroke='%23475569' stroke-width='1.5'/%3E%3Ccircle cx='8' cy='10' r='3' fill='%23c084fc'/%3E%3Ccircle cx='8' cy='22' r='3' fill='%23c084fc'/%3E%3Ccircle cx='16' cy='6' r='3' fill='%23818cf8'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23818cf8'/%3E%3Ccircle cx='16' cy='26' r='3' fill='%23818cf8'/%3E%3Ccircle cx='24' cy='16' r='3' fill='%2306b6d4'/%3E%3C/svg%3E">
 
-    <!-- ピュアCSSスタイリング -->
+    <!-- ピュアCSSスタイリング（フラットデザイン） -->
     <style>
         html { font-size: 20px; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -198,7 +198,6 @@
         .arch-node.output { border-color: #34d399; color: #34d399; }
         .arch-arrow { color: #475569; }
 
-        /* ニューラルネットワーク基礎解説＆逆誤差伝播法ステップ図のスタイリング */
         .concept-section {
             background-color: #0f172a;
             border: 1px solid #334155;
@@ -282,7 +281,6 @@
         .flow-backward { background-color: rgba(244, 63, 94, 0.2); color: #fb7185; }
         .flow-update { background-color: rgba(16, 185, 129, 0.2); color: #34d399; }
 
-        /* パイプライン解説図用のスタイリング（折り返し防止とクリーン配置） */
         .pipeline-card { background-color: transparent; border: none; padding: 0; margin-top: 0; }
         .pipeline-title { font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
         .pipeline-step { background-color: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; position: relative; }
@@ -328,7 +326,7 @@
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                             インターネット経由 (CDN)
                         </h4>
-                        <p>推奨。インターネットから最新のライブラリ（jsDelivr）をダウンロードして実行します。</p>
+                        <p>推奨。インターネットから動作確認済みの指定バージョンをjsDelivr経由で読み込みます。</p>
                     </div>
                 </div>
 
@@ -417,7 +415,7 @@
                             <span id="lblRowsCount" style="color: #06b6d4;">0行検出</span>
                         </div>
                         <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">
-                            ※ファイルの最終列を目的変数(y)とし、それ以外の全カラムを特徴量(x)として自動選択しています。必要に応じて変更してください。
+                            ※ファイルの最終列を目的変数(y)とし、それ以外の全カラムを特徴量(x)として自動選択しています。数値カラムのみ使用可能です。
                         </p>
                         <div class="form-group" style="margin-bottom: 10px;">
                             <label style="font-size: 0.95rem;">予測対象 (目的変数 - y)</label>
@@ -461,7 +459,7 @@
                                     <input type="range" id="paramK" min="2" max="10" step="1" value="5">
                                 </div>
                                 <div id="holdoutNoteArea" class="hidden" style="border-left: 2px solid #06b6d4; padding-left: 10px; margin-left: 6px; font-size: 0.8rem; color: #94a3b8; margin-top: 6px;">
-                                    ※ オフ時は訓練データを <span style="color: #38bdf8; font-weight: 700;">8:2 (学習80% / 検証20%)</span> にホールドアウト分割して検証します（テストデータは完全隔離）。
+                                    ※ オフ時は訓練データを <span style="color: #38bdf8; font-weight: 700;">約8:2 (学習約80% / 検証約20%)</span> にホールドアウト分割して検証します（テストデータは完全隔離）。
                                 </div>
                             </div>
 
@@ -511,13 +509,14 @@
                                 <input type="range" id="paramEpochs" min="10" max="300" step="10" value="100">
                             </div>
 
+                            <!-- 乱数シード設定（再現性確保） -->
                             <div style="margin-top: 8px; border-top: 1px solid #33415550; padding-top: 10px;">
                                 <div class="toggle-container" style="margin-bottom: 8px;">
                                     <label class="switch">
                                         <input type="checkbox" id="paramUseSeed" checked>
                                         <span class="slider"></span>
                                     </label>
-                                    <span style="font-size: 1rem;">乱数シードを固定する (再現性確保)</span>
+                                    <span style="font-size: 1rem;">乱数シードを固定する (データ分割・初期重みの再現)</span>
                                 </div>
                                 <div id="seedInputArea" style="border-left: 2px solid #334155; padding-left: 10px; margin-left: 6px; display: flex; align-items: center; gap: 8px;">
                                     <div style="flex: 1;">
@@ -535,6 +534,9 @@
                                         </svg>
                                         変更
                                     </button>
+                                </div>
+                                <div style="font-size: 0.76rem; color: #64748b; margin-top: 6px; line-height: 1.4;">
+                                    ※ データ分割、Fold割り当て、層の初期重み（glorotNormal）をシードで固定します（WebGL並列演算の都合上、極微小な丸め誤差が生じる場合があります）。
                                 </div>
                             </div>
                         </div>
@@ -563,7 +565,7 @@
                                 <div>テストデータ: <span id="numTestSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
                             </div>
                             <div id="skippedDataInfo" class="hidden" style="color: #f59e0b; font-size: 0.8rem; text-align: right;">
-                                <!-- メッセージが動的に挿入されます -->
+                                <!-- 補完メッセージ動的挿入 -->
                             </div>
                         </div>
                     </div>
@@ -624,7 +626,6 @@
                     </div>
                 </div>
 
-                <!-- 学習完了時のエクスポートカード（常時見逃さないよう独立配置） -->
                 <div id="exportArea" class="export-card hidden" style="margin-top: 0;">
                     <p style="font-size: 1rem; color: #10b981; font-weight: 700; margin-bottom: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
@@ -709,7 +710,7 @@
                                 </div>
                             </div>
 
-                            <!-- 幾何学的視点コラム：超多面体と折り紙（区分線形関数） -->
+                            <!-- 幾何学的視点コラム -->
                             <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 16px; margin-top: 14px;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
                                     <div style="font-size: 0.95rem; font-weight: 700; color: #f59e0b; display: flex; align-items: center; gap: 8px;">
@@ -722,7 +723,7 @@
                                 </div>
                                 <p class="concept-text" style="margin-bottom: 10px;">
                                     本アプリのニューラルネットワークも、後述の構成図にある通り<strong>2つの隠れ層（32ユニット / 16ユニット）すべてに活性化関数として「ReLU」を採用</strong>しています。<br>
-                                    「複雑な非線形カーブを学習する」と聞くと、滑らかな曲面を想像しがちですが、数学的には、本モデルを含むReLUネットワークの正体は<strong>「超多次元空間において、多数の平面領域をつなぎ合わせた連続区分線形関数（Continuous Piecewise Linear Function）」</strong>です。
+                                    「複雑な非線形カーブを学習する」と聞くと滑らかな曲面を想像しがちですが、数学的には、本モデルを含むReLUネットワークの正体は<strong>「超多次元空間において、多数の平面領域をつなぎ合わせた連続区分線形関数（Continuous Piecewise Linear Function）」</strong>です。
                                 </p>
 
                                 <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 12px;">
@@ -758,7 +759,7 @@
                             </div>
                         </div>
 
-                        <!-- 1エポック内の学習サイクルと逆誤差伝播法の解説セクション -->
+                        <!-- 1エポック内の学習サイクルと逆誤差伝播法 -->
                         <div class="concept-section" style="margin-bottom: 0;">
                             <h3 class="concept-title">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
@@ -770,7 +771,6 @@
                             </p>
 
                             <div class="epoch-cycle-grid">
-                                <!-- Step 1: 順伝播 -->
                                 <div class="cycle-step-card">
                                     <div class="cycle-step-num">
                                         <span>STEP 1</span>
@@ -785,7 +785,6 @@
                                     </p>
                                 </div>
 
-                                <!-- Step 2: 誤差の計算 -->
                                 <div class="cycle-step-card">
                                     <div class="cycle-step-num">
                                         <span>STEP 2</span>
@@ -800,7 +799,6 @@
                                     </p>
                                 </div>
 
-                                <!-- Step 3: 逆誤差伝播法 -->
                                 <div class="cycle-step-card">
                                     <div class="cycle-step-num">
                                         <span>STEP 3</span>
@@ -815,7 +813,6 @@
                                     </p>
                                 </div>
 
-                                <!-- Step 4: パラメータ更新 -->
                                 <div class="cycle-step-card">
                                     <div class="cycle-step-num">
                                         <span>STEP 4</span>
@@ -836,7 +833,7 @@
                             </p>
                         </div>
 
-                        <!-- 逆誤差伝播法の数理メカニズム（連鎖律と数値具体例） -->
+                        <!-- 逆誤差伝播法の数理メカニズム -->
                         <div class="concept-section" style="margin-top: 20px; margin-bottom: 0;">
                             <h3 class="concept-title">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
@@ -847,14 +844,12 @@
                                 その数学的な鍵が高校数学で習う<strong>「合成関数の微分（連鎖律: Chain Rule）」</strong>です。途中の変数を介して掛け算で勾配（坂の傾き）をバケツリレーのように後ろから前へ伝えます。
                             </p>
 
-                            <!-- 基本原理と損失関数の導出プロセス -->
                             <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
                                 <div style="font-size: 0.88rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px;">
                                     基本原理: 誤差の定義式と連鎖律（Chain Rule）による勾配導出
                                 </div>
 
                                 <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
-                                    <!-- 損失関数の定義式 -->
                                     <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
                                         <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">① 単一サンプルの二乗誤差損失（Loss）の定義式:</span>
                                         <span style="color: #fbbf24; font-weight: 700;">L</span> = 
@@ -862,7 +857,6 @@
                                         <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px;">（※ 連鎖律の計算を分かりやすくするための教育的定義。実装上のMSEは ½ が付かない MSE = (1/n)∑(ŷᵢ - yᵢ)² であり、以下の数値例の勾配は実装MSEと定数倍[2倍]異なります）</span>
                                     </div>
 
-                                    <!-- 途中の行間（微分ステップ） -->
                                     <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
                                         <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">② 途中の微分の分解（行間の導出ステップ）:</span>
                                         <div style="padding-left: 6px; display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
@@ -879,7 +873,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- 連鎖律による結合 -->
                                     <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.95rem; letter-spacing: 0.6px; color: #e2e8f0;">
                                         <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">③ 合成関数の微分（連鎖律: Chain Rule）による結合:</span>
                                         <span style="color: #38bdf8; font-weight: 700;">∂L / ∂w</span> = 
@@ -890,7 +883,6 @@
                                 </div>
                             </div>
 
-                            <!-- 1入力・1出力のシンプルな数値具体例 -->
                             <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
                                     <div style="font-size: 0.88rem; font-weight: 700; color: #34d399;">
@@ -934,7 +926,7 @@
                             </div>
                         </div>
 
-                        <!-- エポック・バッチ・K-Fold・重み引き継ぎの階層関係解説 -->
+                        <!-- エポック・バッチ・K-Fold階層構造 -->
                         <div class="concept-section" style="margin-top: 20px; margin-bottom: 0; border-color: #0284c7; background-color: rgba(2, 132, 199, 0.04);">
                             <h3 class="concept-title" style="color: #38bdf8;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
@@ -945,7 +937,6 @@
                             </p>
 
                             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
-                                <!-- 階層 1: K分割交差検証 -->
                                 <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #818cf8; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
                                     <div style="font-weight: 700; color: #a5b4fc; font-size: 0.9rem; margin-bottom: 4px;">
                                         ① 1エポック内でK個のモデルが順番に（直列に）1巡学習する
@@ -955,7 +946,6 @@
                                     </div>
                                 </div>
 
-                                <!-- 階層 2: ミニバッチ分割 -->
                                 <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #06b6d4; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
                                     <div style="font-weight: 700; color: #22d3ee; font-size: 0.9rem; margin-bottom: 4px;">
                                         ② 各FoldのTrainデータをさらに小さな「バッチ」に分割
@@ -966,7 +956,6 @@
                                     </div>
                                 </div>
 
-                                <!-- 階層 3: Adamの実行回数 -->
                                 <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #34d399; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
                                     <div style="font-weight: 700; color: #34d399; font-size: 0.9rem; margin-bottom: 4px;">
                                         ③ 1エポックの中でAdamは何十回も重みを更新している！（直列処理）
@@ -978,7 +967,6 @@
                                     </div>
                                 </div>
 
-                                <!-- 階層 4: 次のエポックへの引き継ぎ -->
                                 <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #fbbf24; border-radius: 4px 8px 8px 4px; padding: 10px 14px;">
                                     <div style="font-weight: 700; color: #fbbf24; font-size: 0.9rem; margin-bottom: 4px;">
                                         ④ 次のエポックへ「何」を引き継いで「どう」改善するのか？
@@ -1003,7 +991,6 @@
                         <span style="font-size: 0.8rem; font-weight: normal; color: #94a3b8;">クリックして展開</span>
                     </summary>
                     <div class="accordion-content">
-                        <!-- ステップ 1: Train/Test 分割と隔離 -->
                         <div class="pipeline-step">
                             <div class="pipeline-step-header">
                                 <span>Step 1: 全体データセットの分割 ➔ Testデータを完全隔離</span>
@@ -1029,11 +1016,10 @@
 
                         <div class="pipeline-arrow">▼</div>
 
-                        <!-- ステップ 2: Train内でのK分割交差検証 -->
                         <div class="pipeline-step">
                             <div class="pipeline-step-header">
                                 <span>Step 2: Train 内部のみで行われる検証分割 (K-Fold CV / ホールドアウト)</span>
-                                <span style="font-size: 0.8rem; color: #06b6d4;">K=5 の場合の例 (オフ時はTrain内部を8:2分割)</span>
+                                <span style="font-size: 0.8rem; color: #06b6d4;">K=5 の場合の例 (オフ時はTrain内部を約8:2分割)</span>
                             </div>
 
                             <div class="kfold-legend">
@@ -1099,13 +1085,12 @@
                                 </div>
                             </div>
                             <p class="pipeline-note" style="margin-top: 8px;">
-                                ※ K-Foldオフ（K=1）時も、Train内部を <strong>8:2（学習80% / 検証20%）</strong> にホールドアウト分割して学習中のVal Lossを測定します。テストデータは学習中一切非接触のまま隔離されます。
+                                ※ K-Foldオフ（K=1）時も、Train内部を <strong>約8:2（学習約80% / 検証約20%）</strong> にホールドアウト分割して学習中のVal Lossを測定します。テストデータは学習中一切非接触のまま隔離されます。
                             </p>
                         </div>
 
                         <div class="pipeline-arrow">▼</div>
 
-                        <!-- ステップ 3: アンサンブルと、隔離されていたTestデータの投入 -->
                         <div class="pipeline-step" style="border-color: rgba(16, 185, 129, 0.4); background-color: rgba(16, 185, 129, 0.03);">
                             <div class="pipeline-step-header" style="color: #10b981;">
                                 <span>Step 3: 学習完了後 ➔ 推論と、隔離していたTestデータの最終検証</span>
@@ -1244,7 +1229,8 @@
         }
 
         async function startLoadingLibraries() {
-            const selectedVal = document.querySelector('input[name="libSource"]:checked').value;
+            const selectedRadio = document.querySelector('input[name="libSource"]:checked');
+            const selectedVal = selectedRadio ? selectedRadio.value : 'online';
             loadBtn.disabled = true;
             loadBtn.innerText = "読み込み中...";
             
@@ -1434,8 +1420,10 @@
             if (type === 'success') { color = '#10b981'; badgeClass = 'status-badge success'; } 
             else if (type === 'error') { color = '#ef4444'; badgeClass = 'status-badge error'; } 
             else if (type === 'progress') { color = '#818cf8'; badgeClass = 'status-badge progress'; }
-            statusBadge.className = badgeClass;
-            statusBadge.innerHTML = `<span style="width: 8px; height: 8px; border-radius: 50%; background-color: ${color};"></span>${text}`;
+            if (statusBadge) {
+                statusBadge.className = badgeClass;
+                statusBadge.innerHTML = `<span style="width: 8px; height: 8px; border-radius: 50%; background-color: ${color};"></span>${text}`;
+            }
         }
 
         function setupEventHandlers() {
@@ -1551,7 +1539,6 @@
                 opt.value = header; opt.innerText = header;
                 mapTargetCol.appendChild(opt);
             });
-            // 最終列をデフォルトの目的変数に設定
             mapTargetCol.value = loadedCSVHeaders[loadedCSVHeaders.length - 1];
 
             updateFeatureCheckboxes();
@@ -1572,7 +1559,7 @@
                 const div = document.createElement('div');
                 div.className = 'feature-item';
                 const input = document.createElement('input');
-                input.type = 'checkbox'; input.value = header; input.id = `feat_${header}`; input.checked = true; // デフォルトで全選択
+                input.type = 'checkbox'; input.value = header; input.id = `feat_${header}`; input.checked = true;
                 const label = document.createElement('label');
                 label.htmlFor = `feat_${header}`; label.innerText = header;
                 div.appendChild(input); div.appendChild(label);
@@ -1659,7 +1646,6 @@
             });
         }
 
-        // 決定論的PRNG (Mulberry32)
         function createPRNG(seed) {
             let s = Math.floor(seed) >>> 0;
             return function() {
@@ -1670,7 +1656,6 @@
             };
         }
 
-        // シード指定シャッフル (Fisher-Yates)
         function seededShuffle(array, rng) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(rng() * (i + 1));
@@ -1681,7 +1666,6 @@
             return array;
         }
 
-        // 残差ヒストグラムのビン集計関数
         function buildHistogramData(data, numBins = 15) {
             if (!data || data.length === 0) return { labels: [], counts: [], mean: 0, std: 0 };
             let sum = 0;
@@ -1700,10 +1684,7 @@
             }
             const std = Math.sqrt(sqSum / data.length);
 
-            if (min === max) {
-                min -= 1;
-                max += 1;
-            }
+            if (min === max) { min -= 1; max += 1; }
 
             const binWidth = (max - min) / numBins;
             const counts = Array(numBins).fill(0);
@@ -1761,24 +1742,24 @@
             return data.map(row => row.map((val, idx) => val * (stds[idx] || 1) + means[idx]));
         }
 
-        function trainTestSplit(inputs, targets, ratio) {
-            const size = inputs.length; const indices = Array.from({ length: size }, (_, i) => i);
-            tf.util.shuffle(indices);
-            const trainSize = Math.floor(size * ratio);
-            const trainX = [], trainY = [], testX = [], testY = [];
-            for (let i = 0; i < size; i++) {
-                const idx = indices[i];
-                if (i < trainSize) { trainX.push(inputs[idx]); trainY.push(targets[idx]); } 
-                else { testX.push(inputs[idx]); testY.push(targets[idx]); }
-            }
-            return { trainX, trainY, testX, testY };
-        }
-
-        function buildModel(inputDim, optName, lr) {
+        function buildModel(inputDim, optName, lr, seed = null) {
             const model = tf.sequential();
-            model.add(tf.layers.dense({ inputShape: [inputDim], units: 32, activation: 'relu', kernelInitializer: 'glorotNormal' }));
-            model.add(tf.layers.dense({ units: 16, activation: 'relu', kernelInitializer: 'glorotNormal' }));
-            model.add(tf.layers.dense({ units: 1, activation: 'linear' }));
+            const initOptions1 = seed !== null ? { seed: (seed & 0xFFFFFFFF) } : undefined;
+            const initOptions2 = seed !== null ? { seed: ((seed + 1) & 0xFFFFFFFF) } : undefined;
+            const initOptions3 = seed !== null ? { seed: ((seed + 2) & 0xFFFFFFFF) } : undefined;
+
+            model.add(tf.layers.dense({
+                inputShape: [inputDim], units: 32, activation: 'relu',
+                kernelInitializer: seed !== null ? tf.initializers.glorotNormal(initOptions1) : 'glorotNormal'
+            }));
+            model.add(tf.layers.dense({
+                units: 16, activation: 'relu',
+                kernelInitializer: seed !== null ? tf.initializers.glorotNormal(initOptions2) : 'glorotNormal'
+            }));
+            model.add(tf.layers.dense({
+                units: 1, activation: 'linear',
+                kernelInitializer: seed !== null ? tf.initializers.glorotNormal(initOptions3) : 'glorotNormal'
+            }));
 
             let optimizer; const rate = parseFloat(lr);
             if (optName === 'adam') optimizer = tf.train.adam(rate);
@@ -1837,7 +1818,6 @@
         async function startNeuralTraining() {
             if (isTraining) return;
 
-            // 乱数シードの設定
             const useSeed = paramUseSeed.checked;
             const currentSeed = useSeed ? parseInt(paramSeedVal.value) || 42 : Math.floor(Math.random() * 100000);
             const rng = createPRNG(currentSeed);
@@ -1873,7 +1853,6 @@
 
                 if (selectedFeatures.length === 0) { updateStatus("特徴量を1つ以上選択してください", "error"); return; }
 
-                // 欠損値および数値型の厳密チェック (Number.isFinite)
                 let validRows = [];
                 let skippedRowsCount = 0;
                 let missingValuesCount = 0;
@@ -1898,7 +1877,6 @@
 
                 if (validRows.length < 10) { updateStatus(`有効なデータ行数が少なすぎます (${validRows.length}行)`, "error"); return; }
 
-                // Outer Train と Test の分割 (決定論的シャッフル)
                 const ratio = parseInt(paramSplit.value) / 100;
                 const trainSize = Math.floor(validRows.length * ratio);
                 const indices = Array.from({ length: validRows.length }, (_, i) => i);
@@ -1909,7 +1887,6 @@
                     else rawTestRows.push(validRows[indices[i]]);
                 }
 
-                // 全件欠損・非数値カラムのチェック
                 for (let j = 0; j < selectedFeatures.length; j++) {
                     let validCount = 0;
                     for (const row of rawTrainRows) {
@@ -1936,7 +1913,6 @@
             const useKFold = paramKFold.checked;
             const K = useKFold ? parseInt(paramK.value) : 1;
 
-            // Kの値に対するサンプル数チェック (各Fold最低2サンプル)
             const minValSamplesPerFold = 2;
             if (useKFold && Math.floor(rawTrainRows.length / K) < minValSamplesPerFold) {
                 updateStatus(`データ件数に対しK=${K}が大きすぎます（各Fold検証データが${minValSamplesPerFold}件未満）。Kを小さくしてください。`, "error");
@@ -1950,7 +1926,6 @@
             const opt = paramOptimizer.value;
             const lr = paramLR.value;
 
-            // スケール注記とグラフタイトルの動的更新
             const scaleNoteText = paramNormalize.checked ? "※標準化スケール" : "※元の生値スケール";
             if (lossScaleNote) lossScaleNote.innerText = scaleNoteText;
             if (valLossScaleNote) valLossScaleNote.innerText = scaleNoteText;
@@ -1995,7 +1970,6 @@
                         else rawFoldTrain.push(rawTrainRows[idx]);
                     }
 
-                    // 【Valリーク完全防止】Fold Trainのみで欠損値補完平均を計算
                     const foldFeatureSums = Array(numFeatures).fill(0);
                     const foldFeatureCounts = Array(numFeatures).fill(0);
                     for (const r of rawFoldTrain) {
@@ -2013,7 +1987,6 @@
                     foldTestXs.push(rawTestRows.map(imputeFold));
                 }
 
-                // UIスライダー用の統計はTrainデータのみから計算（Test完全隔離）
                 const allTrainImputed = foldTrainXs[0];
                 const globalMeans = Array(numFeatures).fill(0);
                 const globalMins = Array(numFeatures).fill(Infinity);
@@ -2044,7 +2017,6 @@
                         foldStats.push(null);
                     }
 
-                    // K-Foldの各モデルにFold固有の決定論的シード（アンサンブルの多様性を確保）を注入
                     const foldModelSeed = useSeed ? ((currentSeed + (k + 1) * 1000) >>> 0) : null;
                     models.push(buildModel(inputDim, opt, lr, foldModelSeed));
                     tensors.push({ xs: tf.tensor2d(finalFoldTrainX), ys: tf.tensor2d(finalFoldTrainY), valXs: tf.tensor2d(finalFoldValX), valYs: tf.tensor2d(finalFoldValY) });
@@ -2057,7 +2029,6 @@
                         let epochLossSum = 0; let epochValLossSum = 0; const foldLosses = [];
                         for (let k = 0; k < K; k++) {
                             const foldTensor = tensors[k];
-                            // 事前にseededShuffleで決定論的に整列済みのため、fit内部のTF非決定シャッフルは無効化
                             const fitHistory = await models[k].fit(foldTensor.xs, foldTensor.ys, { epochs: 1, batchSize: batch, validationData: [foldTensor.valXs, foldTensor.valYs], verbose: 0, shuffle: false });
                             const trainL = fitHistory.history.loss[0]; const valL = fitHistory.history.val_loss[0];
                             epochLossSum += trainL; epochValLossSum += valL;
@@ -2161,7 +2132,6 @@
                 }
 
             } else {
-                // 【非K-Fold（ホールドアウト: K=1）の検証分割と完全隔離】
                 const valRatio = 0.2;
                 const valSize = Math.max(1, Math.floor(rawTrainRows.length * valRatio));
                 const subTrainIndices = Array.from({ length: rawTrainRows.length }, (_, i) => i);
@@ -2177,7 +2147,6 @@
                 numTrainSamples.innerText = `${rawTrainRows.length}件 (学習:${rawSubTrain.length} / 検証:${rawVal.length} [約8:2])`;
                 numTestSamples.innerText = `${rawTestRows.length}件`;
 
-                // 【Val/Testリーク完全防止】Sub Trainのみで欠損値補完平均を計算
                 const subTrainSums = Array(numFeatures).fill(0);
                 const subTrainCounts = Array(numFeatures).fill(0);
                 for (const r of rawSubTrain) {
@@ -2195,7 +2164,6 @@
                 const testX = rawTestRows.map(imputeSubTrain);
                 const testY = rawTestRows.map(r => [r.y]);
 
-                // UIスライダー用統計はSubTrainのみから算出
                 const globalMeans = Array(numFeatures).fill(0);
                 const globalMins = Array(numFeatures).fill(Infinity);
                 const globalMaxs = Array(numFeatures).fill(-Infinity);
@@ -2231,7 +2199,6 @@
                 const valXs = tf.tensor2d(finalValX); const valYs = tf.tensor2d(finalValY);
                 const testXs = tf.tensor2d(finalTestX);
                 
-                // 単一モデル（Holdout）用のシードを注入
                 const singleModelSeed = useSeed ? currentSeed : null;
                 const model = buildModel(inputDim, opt, lr, singleModelSeed);
 
@@ -2359,7 +2326,10 @@
                     modelMetaInfo.classList.remove('hidden'); inferencePlaceholder.classList.add('hidden'); inferenceFormArea.classList.remove('hidden');
                     buildDynamicInferenceForm(); runInferenceCalculation();
 
-                } catch (err) { console.error(err); loadedModelName.innerText = "読込エラー"; alert("インポート失敗: " + err.message); }
+                } catch (err) {
+                    console.error(err);
+                    loadedModelName.innerHTML = `<span style="color: #ef4444;">読込失敗: ${err.message}</span>`;
+                }
             };
             reader.readAsText(file);
         }
@@ -2372,20 +2342,48 @@
                 const label = document.createElement('label'); label.innerText = feat;
 
                 let min = 0, max = 100, step = 1, def = 50;
+                let trainMin = min, trainMax = max;
+
                 if (importedPackage.globalMeans && importedPackage.globalMeans[idx] !== undefined) {
-                    def = importedPackage.globalMeans[idx]; min = importedPackage.globalMins[idx]; max = importedPackage.globalMaxs[idx];
-                    const rangeSpan = max - min;
-                    if (rangeSpan <= 0) { min = def - 1; max = def + 1; step = 0.01; } else if (rangeSpan < 2) step = 0.01; else if (rangeSpan < 20) step = 0.1; else step = 1;
-                    def = parseFloat(def.toFixed(2)); min = parseFloat(min.toFixed(2)); max = parseFloat(max.toFixed(2));
+                    def = importedPackage.globalMeans[idx]; 
+                    trainMin = importedPackage.globalMins[idx]; 
+                    trainMax = importedPackage.globalMaxs[idx];
+                    
+                    const span = trainMax - trainMin;
+                    const margin = span > 0 ? span * 0.25 : 1;
+                    min = trainMin - margin;
+                    max = trainMax + margin;
+
+                    const totalRange = max - min;
+                    if (totalRange <= 0) { min = def - 1; max = def + 1; step = 0.01; } 
+                    else if (totalRange < 2) step = 0.01; 
+                    else if (totalRange < 20) step = 0.1; 
+                    else step = 1;
+
+                    def = parseFloat(def.toFixed(2)); 
+                    min = parseFloat(min.toFixed(2)); 
+                    max = parseFloat(max.toFixed(2));
                 } else {
-                    if (feat === 'Feature_1' || feat === 'RM') { min = 3; max = 9; step = 0.1; def = 6; } else if (feat === 'Feature_2' || feat === 'LSTAT') { min = 1; max = 35; step = 0.5; def = 12; } else if (feat === 'Feature_3' || feat === 'DIS') { min = 1; max = 12; step = 0.1; def = 4; }
+                    if (feat === 'Feature_1' || feat === 'RM') { min = 2; max = 10; step = 0.1; def = 6; } 
+                    else if (feat === 'Feature_2' || feat === 'LSTAT') { min = 0; max = 40; step = 0.5; def = 12; } 
+                    else if (feat === 'Feature_3' || feat === 'DIS') { min = 0.5; max = 15; step = 0.1; def = 4; }
                 }
 
                 const valSpan = document.createElement('span'); valSpan.className = 'range-val'; valSpan.innerText = def; valSpan.id = `inf_val_${feat}`;
                 container.appendChild(label); container.appendChild(valSpan);
                 const range = document.createElement('input'); range.type = 'range'; range.id = `inf_range_${feat}`; range.min = min; range.max = max; range.step = step; range.value = def;
+                
+                const rangeGuide = document.createElement('div');
+                rangeGuide.style.display = 'flex';
+                rangeGuide.style.justifyContent = 'space-between';
+                rangeGuide.style.fontSize = '0.72rem';
+                rangeGuide.style.color = '#64748b';
+                rangeGuide.style.marginTop = '4px';
+                rangeGuide.innerHTML = `<span>← 外挿域</span><span>学習範囲: [${trainMin.toFixed(1)} ~ ${trainMax.toFixed(1)}]</span><span>外挿域 →</span>`;
+
                 range.addEventListener('input', () => { valSpan.innerText = range.value; runInferenceCalculation(); });
-                card.appendChild(container); card.appendChild(range); dynamicInputsContainer.appendChild(card);
+                card.appendChild(container); card.appendChild(range); card.appendChild(rangeGuide);
+                dynamicInputsContainer.appendChild(card);
             });
             targetUnitLabel.innerText = `目的変数: ${importedPackage.target}`;
         }
@@ -2393,7 +2391,10 @@
         function runInferenceCalculation() {
             if (!importedPackage) return;
             const rawInputValues = [];
-            for (const feat of importedPackage.features) { const range = document.getElementById(`inf_range_${feat}`); rawInputValues.push(parseFloat(range.value)); }
+            for (const feat of importedPackage.features) { 
+                const range = document.getElementById(`inf_range_${feat}`); 
+                rawInputValues.push(parseFloat(range.value)); 
+            }
             
             let ensemblePredictionSum = 0;
             tf.tidy(() => {
@@ -2439,3 +2440,6 @@
             numTrainSamples.innerText = '-'; numTestSamples.innerText = '-'; skippedDataInfo.classList.add('hidden'); statLoss.innerText = '-'; statValLoss.innerText = '-'; statMae.innerText = '-'; statR2.innerText = '-';
             updateStatus("学習準備完了");
         }
+    </script>
+</body>
+</html>
