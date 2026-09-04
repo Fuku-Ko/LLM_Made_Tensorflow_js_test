@@ -510,6 +510,33 @@
                                 </div>
                                 <input type="range" id="paramEpochs" min="10" max="300" step="10" value="100">
                             </div>
+
+                            <div style="margin-top: 8px; border-top: 1px solid #33415550; padding-top: 10px;">
+                                <div class="toggle-container" style="margin-bottom: 8px;">
+                                    <label class="switch">
+                                        <input type="checkbox" id="paramUseSeed" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span style="font-size: 1rem;">乱数シードを固定する (再現性確保)</span>
+                                </div>
+                                <div id="seedInputArea" style="border-left: 2px solid #334155; padding-left: 10px; margin-left: 6px; display: flex; align-items: center; gap: 8px;">
+                                    <div style="flex: 1;">
+                                        <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 2px;">シード値 (Seed)</label>
+                                        <input type="number" id="paramSeedVal" value="42" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; color: #f1f5f9; padding: 6px 10px; border-radius: 6px; font-size: 0.95rem; outline: none;">
+                                    </div>
+                                    <button type="button" id="btnRandomizeSeed" style="margin-top: 18px; background-color: #334155; color: #f1f5f9; border: 1px solid #475569; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                                            <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                                            <circle cx="16" cy="8" r="1" fill="currentColor"/>
+                                            <circle cx="8" cy="8" r="1" fill="currentColor"/>
+                                            <circle cx="8" cy="16" r="1" fill="currentColor"/>
+                                            <circle cx="16" cy="16" r="1" fill="currentColor"/>
+                                        </svg>
+                                        変更
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </details>
 
@@ -549,12 +576,12 @@
                     <div class="stat-card">
                         <div class="stat-label">現在の平均損失 (Loss)</div>
                         <div id="statLoss" class="stat-value stat-loss">-</div>
-                        <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">※標準化スケール</div>
+                        <div id="lossScaleNote" style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">※標準化スケール</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">検証平均損失 (Val Loss)</div>
                         <div id="statValLoss" class="stat-value stat-val-loss">-</div>
-                        <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">※標準化スケール</div>
+                        <div id="valLossScaleNote" style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">※標準化スケール</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">テスト MAE (平均絶対誤差)</div>
@@ -580,7 +607,7 @@
                     <div class="chart-box">
                         <div class="chart-header">
                             <span>テストデータ検証結果 (実測 vs 予測)</span>
-                            <span style="color: #94a3b8; font-size: 0.8rem;">アンサンブル予測プロット</span>
+                            <span id="predChartSubtitle" style="color: #94a3b8; font-size: 0.8rem;">アンサンブル予測プロット</span>
                         </div>
                         <div class="chart-container">
                             <canvas id="predChart"></canvas>
@@ -1278,6 +1305,7 @@
         let trainBtn, resetDemoBtn, statusBadge, epochProgressText, progressBar, architectureInputs;
         let numTrainSamples, numTestSamples, statLoss, statValLoss, statMae, statR2;
         let paramKFold, kFoldConfigArea, holdoutNoteArea, paramK, valK;
+        let paramUseSeed, seedInputArea, paramSeedVal, btnRandomizeSeed;
         let skippedDataInfo;
 
         let exportArea, exportModelBtn, exportHistoryBtn;
@@ -1346,6 +1374,11 @@
             paramK = document.getElementById('paramK');
             valK = document.getElementById('valK');
 
+            paramUseSeed = document.getElementById('paramUseSeed');
+            seedInputArea = document.getElementById('seedInputArea');
+            paramSeedVal = document.getElementById('paramSeedVal');
+            btnRandomizeSeed = document.getElementById('btnRandomizeSeed');
+
             trainBtn = document.getElementById('trainBtn');
             resetDemoBtn = document.getElementById('resetDemoBtn');
             statusBadge = document.getElementById('statusBadge');
@@ -1411,6 +1444,20 @@
             paramEpochs.addEventListener('input', () => valEpochs.innerText = paramEpochs.value);
             paramK.addEventListener('input', () => valK.innerText = paramK.value);
             
+            if (paramUseSeed) {
+                paramUseSeed.addEventListener('change', () => {
+                    const active = paramUseSeed.checked;
+                    if (seedInputArea) seedInputArea.style.opacity = active ? '1' : '0.4';
+                    if (paramSeedVal) paramSeedVal.disabled = !active;
+                    if (btnRandomizeSeed) btnRandomizeSeed.disabled = !active;
+                });
+            }
+            if (btnRandomizeSeed && paramSeedVal) {
+                btnRandomizeSeed.addEventListener('click', () => {
+                    paramSeedVal.value = Math.floor(Math.random() * 100000);
+                });
+            }
+
             paramKFold.addEventListener('change', () => {
                 if (paramKFold.checked) {
                     kFoldConfigArea.classList.remove('hidden');
@@ -1612,53 +1659,77 @@
             });
         }
 
-        function buildHistogramData(residuals, binCount = 15) {
-            if (!residuals || residuals.length === 0) return { labels: [], counts: [], mean: 0, std: 0 };
-            let min = Infinity, max = -Infinity, sum = 0;
-            for (const r of residuals) {
-                if (r < min) min = r;
-                if (r > max) max = r;
-                sum += r;
+        // 決定論的PRNG (Mulberry32)
+        function createPRNG(seed) {
+            let s = Math.floor(seed) >>> 0;
+            return function() {
+                s = (s + 0x6D2B79F5) >>> 0;
+                let t = Math.imul(s ^ (s >>> 15), 1 | s);
+                t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+                return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+            };
+        }
+
+        // シード指定シャッフル (Fisher-Yates)
+        function seededShuffle(array, rng) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(rng() * (i + 1));
+                const temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
             }
-            const n = residuals.length;
-            const mean = sum / n;
-            let varianceSum = 0;
-            for (const r of residuals) varianceSum += Math.pow(r - mean, 2);
-            const std = Math.sqrt(varianceSum / n);
+            return array;
+        }
+
+        // 残差ヒストグラムのビン集計関数
+        function buildHistogramData(data, numBins = 15) {
+            if (!data || data.length === 0) return { labels: [], counts: [], mean: 0, std: 0 };
+            let sum = 0;
+            let min = Infinity;
+            let max = -Infinity;
+            for (let i = 0; i < data.length; i++) {
+                const v = data[i];
+                sum += v;
+                if (v < min) min = v;
+                if (v > max) max = v;
+            }
+            const mean = sum / data.length;
+            let sqSum = 0;
+            for (let i = 0; i < data.length; i++) {
+                sqSum += Math.pow(data[i] - mean, 2);
+            }
+            const std = Math.sqrt(sqSum / data.length);
 
             if (min === max) {
-                return {
-                    labels: [min.toFixed(2)],
-                    counts: [n],
-                    mean,
-                    std
-                };
+                min -= 1;
+                max += 1;
             }
 
-            const step = (max - min) / binCount;
-            const counts = Array(binCount).fill(0);
+            const binWidth = (max - min) / numBins;
+            const counts = Array(numBins).fill(0);
             const labels = [];
 
-            for (let i = 0; i < binCount; i++) {
-                const binStart = min + i * step;
-                const binEnd = binStart + step;
-                labels.push(`${binStart.toFixed(1)}~${binEnd.toFixed(1)}`);
+            for (let b = 0; b < numBins; b++) {
+                const bStart = min + b * binWidth;
+                const bEnd = bStart + binWidth;
+                labels.push(`${bStart.toFixed(2)} ~ ${bEnd.toFixed(2)}`);
             }
 
-            for (const r of residuals) {
-                let binIdx = Math.floor((r - min) / step);
-                if (binIdx >= binCount) binIdx = binCount - 1;
-                counts[binIdx]++;
+            for (let i = 0; i < data.length; i++) {
+                let bIdx = Math.floor((data[i] - min) / binWidth);
+                if (bIdx >= numBins) bIdx = numBins - 1;
+                if (bIdx < 0) bIdx = 0;
+                counts[bIdx]++;
             }
 
             return { labels, counts, mean, std };
         }
 
-        function generateSyntheticData(samples) {
+        function generateSyntheticData(samples, rng = Math.random) {
             const inputs = []; const targets = [];
             for (let i = 0; i < samples; i++) {
-                const f1 = 3 + Math.random() * 6; const f2 = 1 + Math.random() * 34; const f3 = 1 + Math.random() * 11;
-                const noise = (Math.random() - 0.5) * 4;
+                const f1 = 3 + rng() * 6; const f2 = 1 + rng() * 34; const f3 = 1 + rng() * 11;
+                const noise = (rng() - 0.5) * 4;
                 const base = (5.2 * f1) - (0.4 * f2) - (0.6 * f3) + 15 + noise;
                 inputs.push([f1, f2, f3]); targets.push([Math.max(5, Math.min(100, base))]);
             }
@@ -1766,6 +1837,11 @@
         async function startNeuralTraining() {
             if (isTraining) return;
 
+            // 乱数シードの設定
+            const useSeed = paramUseSeed.checked;
+            const currentSeed = useSeed ? parseInt(paramSeedVal.value) || 42 : Math.floor(Math.random() * 100000);
+            const rng = createPRNG(currentSeed);
+
             const source = paramSourceType.value;
             let inputs = []; let targets = [];
             let selectedFeatures = ["Feature_1", "Feature_2", "Feature_3"];
@@ -1775,14 +1851,14 @@
 
             if (source === 'simulation') {
                 const samples = parseInt(paramSamples.value);
-                const sim = generateSyntheticData(samples);
+                const sim = generateSyntheticData(samples, rng);
                 inputs = sim.inputs; targets = sim.targets;
                 skippedDataInfo.classList.add('hidden');
 
                 const ratio = parseInt(paramSplit.value) / 100;
                 const size = inputs.length;
                 const indices = Array.from({ length: size }, (_, i) => i);
-                tf.util.shuffle(indices);
+                seededShuffle(indices, rng);
                 const trainSize = Math.floor(size * ratio);
 
                 for (let i = 0; i < size; i++) {
@@ -1822,11 +1898,11 @@
 
                 if (validRows.length < 10) { updateStatus(`有効なデータ行数が少なすぎます (${validRows.length}行)`, "error"); return; }
 
-                // Outer Train と Test の分割
+                // Outer Train と Test の分割 (決定論的シャッフル)
                 const ratio = parseInt(paramSplit.value) / 100;
                 const trainSize = Math.floor(validRows.length * ratio);
                 const indices = Array.from({ length: validRows.length }, (_, i) => i);
-                tf.util.shuffle(indices);
+                seededShuffle(indices, rng);
 
                 for (let i = 0; i < validRows.length; i++) {
                     if (i < trainSize) rawTrainRows.push(validRows[indices[i]]);
@@ -1882,12 +1958,12 @@
             predChart.data.datasets[0].label = useKFold ? "アンサンブル予測結果" : "単一モデル予測結果";
 
             trainingHistory = {
-                metadata: { samples: rawTrainRows.length + rawTestRows.length, features: selectedFeatures, target: targetCol, epochs: epochs, batchSize: batch, optimizer: opt, learningRate: lr, kFold: K, normalized: paramNormalize.checked },
+                metadata: { samples: rawTrainRows.length + rawTestRows.length, features: selectedFeatures, target: targetCol, epochs: epochs, batchSize: batch, optimizer: opt, learningRate: lr, kFold: K, normalized: paramNormalize.checked, seed: useSeed ? currentSeed : null },
                 epochs: [], finalMetrics: {}
             };
 
             isTraining = true; trainBtn.disabled = true; exportArea.classList.add('hidden'); epochProgressText.classList.remove('hidden');
-            updateStatus(useKFold ? `K分割交差検証を構築中 (K=${K})...` : "ニューラルネットワーク構築中...", "progress");
+            updateStatus(useKFold ? `K分割交差検証を構築中 (K=${K}, Seed=${currentSeed})...` : `ニューラルネットワーク構築中 (Seed=${currentSeed})...`, "progress");
 
             lossChart.data.labels = [];
             lossChart.data.datasets = [
@@ -1908,7 +1984,7 @@
                 const foldTrainXs = []; const foldTrainYs = []; const foldValXs = []; const foldValYs = [];
                 const foldTestXs = [];
                 const trainIndices = Array.from({ length: rawTrainRows.length }, (_, i) => i);
-                tf.util.shuffle(trainIndices);
+                seededShuffle(trainIndices, rng);
 
                 for (let k = 0; k < K; k++) {
                     const valStart = k * foldSize; const valEnd = (k === K - 1) ? rawTrainRows.length : (k + 1) * foldSize;
@@ -1968,7 +2044,9 @@
                         foldStats.push(null);
                     }
 
-                    models.push(buildModel(inputDim, opt, lr));
+                    // K-Foldの各モデルにFold固有の決定論的シード（アンサンブルの多様性を確保）を注入
+                    const foldModelSeed = useSeed ? ((currentSeed + (k + 1) * 1000) >>> 0) : null;
+                    models.push(buildModel(inputDim, opt, lr, foldModelSeed));
                     tensors.push({ xs: tf.tensor2d(finalFoldTrainX), ys: tf.tensor2d(finalFoldTrainY), valXs: tf.tensor2d(finalFoldValX), valYs: tf.tensor2d(finalFoldValY) });
                 }
 
@@ -1979,7 +2057,8 @@
                         let epochLossSum = 0; let epochValLossSum = 0; const foldLosses = [];
                         for (let k = 0; k < K; k++) {
                             const foldTensor = tensors[k];
-                            const fitHistory = await models[k].fit(foldTensor.xs, foldTensor.ys, { epochs: 1, batchSize: batch, validationData: [foldTensor.valXs, foldTensor.valYs], verbose: 0 });
+                            // 事前にseededShuffleで決定論的に整列済みのため、fit内部のTF非決定シャッフルは無効化
+                            const fitHistory = await models[k].fit(foldTensor.xs, foldTensor.ys, { epochs: 1, batchSize: batch, validationData: [foldTensor.valXs, foldTensor.valYs], verbose: 0, shuffle: false });
                             const trainL = fitHistory.history.loss[0]; const valL = fitHistory.history.val_loss[0];
                             epochLossSum += trainL; epochValLossSum += valL;
                             foldLosses.push({ fold: k + 1, trainLoss: trainL, valLoss: valL });
@@ -2086,7 +2165,7 @@
                 const valRatio = 0.2;
                 const valSize = Math.max(1, Math.floor(rawTrainRows.length * valRatio));
                 const subTrainIndices = Array.from({ length: rawTrainRows.length }, (_, i) => i);
-                tf.util.shuffle(subTrainIndices);
+                seededShuffle(subTrainIndices, rng);
 
                 const rawVal = []; const rawSubTrain = [];
                 for (let i = 0; i < rawTrainRows.length; i++) {
@@ -2151,11 +2230,14 @@
                 const xs = tf.tensor2d(finalTrainX); const ys = tf.tensor2d(finalTrainY);
                 const valXs = tf.tensor2d(finalValX); const valYs = tf.tensor2d(finalValY);
                 const testXs = tf.tensor2d(finalTestX);
-                const model = buildModel(inputDim, opt, lr);
+                
+                // 単一モデル（Holdout）用のシードを注入
+                const singleModelSeed = useSeed ? currentSeed : null;
+                const model = buildModel(inputDim, opt, lr, singleModelSeed);
 
                 try {
                     await model.fit(xs, ys, {
-                        epochs: epochs, batchSize: batch, validationData: [valXs, valYs],
+                        epochs: epochs, batchSize: batch, validationData: [valXs, valYs], shuffle: false,
                         callbacks: {
                             onEpochEnd: (epoch, logs) => {
                                 const cur = epoch + 1; const pct = (cur / epochs) * 100;
@@ -2342,6 +2424,7 @@
             paramSourceType.value = 'simulation'; panelSimulation.classList.remove('hidden'); panelUpload.classList.add('hidden'); columnMappingArea.classList.add('hidden'); architectureInputs.innerText = "入力層 (特徴量: Feature_1, Feature_2, Feature_3)";
             paramSamples.value = 500; valSamples.innerText = '500'; paramSplit.value = 80; valSplit.innerText = '80%'; paramEpochs.value = 100; valEpochs.innerText = '100'; paramKFold.checked = true; kFoldConfigArea.classList.remove('hidden'); if (holdoutNoteArea) holdoutNoteArea.classList.add('hidden'); paramK.value = 5; valK.innerText = '5';
             paramNormalize.checked = true; paramOptimizer.value = 'adam'; paramLR.value = '0.001'; paramBatch.value = '16'; paramFileInput.value = ''; uploadedFileName.innerText = '未選択';
+            paramUseSeed.checked = true; seedInputArea.style.opacity = '1'; paramSeedVal.disabled = false; paramSeedVal.value = 42; btnRandomizeSeed.disabled = false;
             loadedCSVData = null; loadedCSVHeaders = []; modelPackage = null; trainingHistory = null; exportArea.classList.add('hidden'); progressBar.style.width = '0%'; epochProgressText.classList.add('hidden');
             if (lossScaleNote) lossScaleNote.innerText = "※標準化スケール";
             if (valLossScaleNote) valLossScaleNote.innerText = "※標準化スケール";
@@ -2356,6 +2439,3 @@
             numTrainSamples.innerText = '-'; numTestSamples.innerText = '-'; skippedDataInfo.classList.add('hidden'); statLoss.innerText = '-'; statValLoss.innerText = '-'; statMae.innerText = '-'; statR2.innerText = '-';
             updateStatus("学習準備完了");
         }
-    </script>
-</body>
-</html>
