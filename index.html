@@ -1592,12 +1592,19 @@
 
             loadedCSVHeaders.forEach(header => {
                 if (header === currentTarget) return;
+                // まともな数値が全く無い（明らかにカテゴリカルな）列は、デフォルトでチェックを外す
+                let hasNumeric = false;
+                if (loadedCSVData) {
+                    for (let i = 0; i < loadedCSVData.length; i++) {
+                        if (Number.isFinite(Number(loadedCSVData[i][header]))) { hasNumeric = true; break; }
+                    }
+                }
                 const div = document.createElement('div');
                 div.className = 'feature-item';
                 const input = document.createElement('input');
-                input.type = 'checkbox'; input.value = header; input.id = `feat_${header}`; input.checked = true;
+                input.type = 'checkbox'; input.value = header; input.id = `feat_${header}`; input.checked = hasNumeric;
                 const label = document.createElement('label');
-                label.htmlFor = `feat_${header}`; label.innerText = header;
+                label.htmlFor = `feat_${header}`; label.innerText = header + (hasNumeric ? '' : '（非数値のため除外）');
                 div.appendChild(input); div.appendChild(label);
                 mapFeatureCols.appendChild(div);
                 input.addEventListener('change', updateArchitecturePreview);
