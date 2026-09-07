@@ -1543,8 +1543,14 @@
                     loadedCSVData.forEach(row => {
                         loadedCSVHeaders.forEach(h => {
                             if (h !== targetC) {
-                                const v = Number(row[h]);
-                                if (!Number.isFinite(v)) initialMissing++;
+                                let rawVal = row[h];
+                                // 空文字やnullを確実に弾く
+                                if (rawVal === "" || rawVal === null || (typeof rawVal === 'string' && rawVal.trim() === '')) {
+                                    initialMissing++;
+                                } else {
+                                    const v = Number(rawVal);
+                                    if (!Number.isFinite(v)) initialMissing++;
+                                }
                             }
                         });
                     });
@@ -1891,17 +1897,30 @@
 
                 for (let i = 0; i < loadedCSVData.length; i++) {
                     const row = loadedCSVData[i];
-                    const targetRaw = Number(row[targetCol]);
+        
+                    // 1. 目的変数(y) の厳密な空チェック
+                    let rawY = row[targetCol];
+                    if (rawY === "" || rawY === null || (typeof rawY === 'string' && rawY.trim() === '')) {
+                        rawY = NaN; // 空白は明示的に NaN (欠損) にする
+                    }
+                    const targetRaw = Number(rawY);
                     if (!Number.isFinite(targetRaw)) { skippedRowsCount++; continue; }
-
+        
                     const rowData = { x: [], y: targetRaw };
+        
+                    // 2. 特徴量(x) の厳密な空チェック
                     for (let j = 0; j < selectedFeatures.length; j++) {
-                        const val = Number(row[selectedFeatures[j]]);
+                        let rawX = row[selectedFeatures[j]];
+                        if (rawX === "" || rawX === null || (typeof rawX === 'string' && rawX.trim() === '')) {
+                            rawX = NaN; // 空白は明示的に NaN (欠損) にする
+                        }
+                        const val = Number(rawX);
+                        
                         if (Number.isFinite(val)) {
                             rowData.x.push(val);
                         } else {
                             rowData.x.push(NaN);
-                            missingValuesCount++;
+                            missingValuesCount++; // ここで確実にカウントされる
                         }
                     }
                     validRows.push(rowData);
