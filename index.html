@@ -1536,7 +1536,27 @@
                     rebuildColumnMappingUI();
                     lblRowsCount.innerText = `${loadedCSVData.length}行を検出`;
                     columnMappingArea.classList.remove('hidden');
+                    
+                    // 特徴量の欠損値を事前カウントして通知
+                    let initialMissing = 0;
+                    const targetC = mapTargetCol.value;
+                    loadedCSVData.forEach(row => {
+                        loadedCSVHeaders.forEach(h => {
+                            if (h !== targetC) {
+                                const v = Number(row[h]);
+                                if (!Number.isFinite(v)) initialMissing++;
+                            }
+                        });
+                    });
+                    if (initialMissing > 0) {
+                        skippedDataInfo.innerHTML = `⚠️ 検出された特徴量の欠損値: <strong>${initialMissing}箇所</strong>（学習時にTrain平均値で自動補完されます）`;
+                        skippedDataInfo.classList.remove('hidden');
+                    } else {
+                        skippedDataInfo.innerHTML = `欠損値なし（全データ正常）`;
+                        skippedDataInfo.classList.remove('hidden');
+                    }
                     updateStatus("CSVファイルの読み込み完了", "success");
+
                 },
                 error: (err) => { updateStatus("パース失敗: " + err.message, "error"); }
             });
@@ -1907,17 +1927,18 @@
                         return;
                     }
                 }
-
-                let msg = "";
-                if (missingValuesCount > 0) msg += `特徴量の欠損値 ${missingValuesCount} 箇所を【各学習分割のTrain平均値】で個別に補完します（Val/Testリーク完全防止）。<br>`;
-                if (skippedRowsCount > 0) msg += `目的変数(y)が欠損または非数値の ${skippedRowsCount} 行は除外しました。`;
-                
-                if (msg) {
-                    skippedDataInfo.innerHTML = msg;
-                    skippedDataInfo.classList.remove('hidden');
+                let msgParts = [];
+                if (missingValuesCount > 0) {
+                    msgParts.push(`<span style="color: #38bdf8; font-weight: bold;">補完済み特徴量: ${missingValuesCount}箇所</span> (各FoldのTrain平均で補完)`);
                 } else {
-                    skippedDataInfo.classList.add('hidden');
+                    msgParts.push(`特徴量欠損: 0箇所`);
                 }
+                
+                if (skippedRowsCount > 0) {
+                    msgParts.push(`<span style="color: #fb7185;">目的変数欠損による除外: ${skippedRowsCount}行</span>`);
+                }
+                skippedDataInfo.innerHTML = msgParts.join(" | ");
+                skippedDataInfo.classList.remove('hidden');
             }
 
             const useKFold = paramKFold.checked;
@@ -1946,6 +1967,8 @@
             const trainingConfig = {
                 seed: useSeed ? currentSeed : null,
                 trainSplitPercent: parseInt(paramSplit.value),
+                imputedMissingCount: missingValuesCount, // ← 追加
+                skippedRowsCount: skippedRowsCount,     // ← 追加
                 kFold: K,
                 normalize: paramNormalize.checked,
                 optimizer: opt,
