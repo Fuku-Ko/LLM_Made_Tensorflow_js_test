@@ -1847,6 +1847,8 @@
 
         async function startNeuralTraining() {
             if (isTraining) return;
+            let skippedRowsCount = 0;
+            let missingValuesCount = 0;
 
             const useSeed = paramUseSeed.checked;
             const currentSeed = useSeed ? parseInt(paramSeedVal.value) || 42 : Math.floor(Math.random() * 100000);
@@ -1884,8 +1886,8 @@
                 if (selectedFeatures.length === 0) { updateStatus("特徴量を1つ以上選択してください", "error"); return; }
 
                 let validRows = [];
-                let skippedRowsCount = 0;
-                let missingValuesCount = 0;
+                skippedRowsCount = 0;
+                missingValuesCount = 0;
 
                 for (let i = 0; i < loadedCSVData.length; i++) {
                     const row = loadedCSVData[i];
