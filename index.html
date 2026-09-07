@@ -1942,32 +1942,65 @@
                 const trainSize = Math.floor(validRows.length * ratio);
                 const indices = Array.from({ length: validRows.length }, (_, i) => i);
                 seededShuffle(indices, rng);
-
+                
                 for (let i = 0; i < validRows.length; i++) {
                     if (i < trainSize) rawTrainRows.push(validRows[indices[i]]);
                     else rawTestRows.push(validRows[indices[i]]);
                 }
-
+                
+                // 訓練側・テスト側に含まれる欠損特徴量セル数を個別にカウント
+                const countMissingCells = (rows) => {
+                    let count = 0;
+                
+                    for (const row of rows) {
+                        for (const value of row.x) {
+                            if (Number.isNaN(value)) count++;
+                        }
+                    }
+                
+                    return count;
+                };
+                
+                const trainMissingCount = countMissingCells(rawTrainRows);
+                const testMissingCount = countMissingCells(rawTestRows);
+                
                 for (let j = 0; j < selectedFeatures.length; j++) {
                     let validCount = 0;
                     for (const row of rawTrainRows) {
                         if (!isNaN(row.x[j])) validCount++;
                     }
                     if (validCount === 0) {
-                        updateStatus(`特徴量「${selectedFeatures[j]}」に有効な数値データがありません`, "error");
+                        updateStatus(
+                            `特徴量「${selectedFeatures[j]}」に有効な数値データがありません`,
+                            "error"
+                        );
                         return;
                     }
                 }
+                
                 let msgParts = [];
+                
                 if (missingValuesCount > 0) {
-                    msgParts.push(`<span style="color: #38bdf8; font-weight: bold;">補完済み特徴量: ${missingValuesCount}箇所</span> (各FoldのTrain平均で補完)`);
+                    msgParts.push(
+                        `<span style="color: #38bdf8; font-weight: bold;">` +
+                        `補完済み特徴量: ${missingValuesCount}箇所` +
+                        `</span>` +
+                        ` (訓練側: ${trainMissingCount}箇所 / ` +
+                        `テスト側: ${testMissingCount}箇所、` +
+                        `各FoldのTrain平均で補完)`
+                    );
                 } else {
                     msgParts.push(`特徴量欠損: 0箇所`);
                 }
                 
                 if (skippedRowsCount > 0) {
-                    msgParts.push(`<span style="color: #fb7185;">目的変数欠損による除外: ${skippedRowsCount}行</span>`);
+                    msgParts.push(
+                        `<span style="color: #fb7185;">` +
+                        `目的変数欠損による除外: ${skippedRowsCount}行` +
+                        `</span>`
+                    );
                 }
+                
                 skippedDataInfo.innerHTML = msgParts.join(" | ");
                 skippedDataInfo.classList.remove('hidden');
             }
