@@ -1713,43 +1713,82 @@
         }
 
         function buildHistogramData(data, numBins = 15) {
-            if (!data || data.length === 0) return { labels: [], counts: [], mean: 0, std: 0 };
+            if (!data || data.length === 0) {
+                return {
+                    labels: [],
+                    counts: [],
+                    mean: 0,
+                    std: 0
+                };
+            }
+        
             let sum = 0;
-            let min = Infinity;
-            let max = -Infinity;
+            let actualMin = Infinity;
+            let actualMax = -Infinity;
+        
             for (let i = 0; i < data.length; i++) {
                 const v = data[i];
                 sum += v;
-                if (v < min) min = v;
-                if (v > max) max = v;
+        
+                if (v < actualMin) actualMin = v;
+                if (v > actualMax) actualMax = v;
             }
+        
             const mean = sum / data.length;
+        
             let sqSum = 0;
             for (let i = 0; i < data.length; i++) {
                 sqSum += Math.pow(data[i] - mean, 2);
             }
+        
             const std = Math.sqrt(sqSum / data.length);
-
-            if (min === max) { min -= 1; max += 1; }
-
+        
+            // 残差の絶対値の最大値を求め、
+            // ヒストグラムの範囲を -maxAbs ～ +maxAbs にする
+            let maxAbs = Math.max(
+                Math.abs(actualMin),
+                Math.abs(actualMax)
+            );
+        
+            // 全ての残差が0の場合、範囲が0にならないようにする
+            if (maxAbs === 0) {
+                maxAbs = 1;
+            }
+        
+            const min = -maxAbs;
+            const max = maxAbs;
+        
             const binWidth = (max - min) / numBins;
             const counts = Array(numBins).fill(0);
             const labels = [];
-
+        
             for (let b = 0; b < numBins; b++) {
                 const bStart = min + b * binWidth;
                 const bEnd = bStart + binWidth;
-                labels.push(`${bStart.toFixed(2)} ~ ${bEnd.toFixed(2)}`);
+        
+                labels.push(
+                    `${bStart.toFixed(2)} ~ ${bEnd.toFixed(2)}`
+                );
             }
-
+        
             for (let i = 0; i < data.length; i++) {
-                let bIdx = Math.floor((data[i] - min) / binWidth);
+                let bIdx = Math.floor(
+                    (data[i] - min) / binWidth
+                );
+        
+                // 最大値は計算上 numBins になるため、最後の区間に入れる
                 if (bIdx >= numBins) bIdx = numBins - 1;
                 if (bIdx < 0) bIdx = 0;
+        
                 counts[bIdx]++;
             }
-
-            return { labels, counts, mean, std };
+        
+            return {
+                labels,
+                counts,
+                mean,
+                std
+            };
         }
 
         function generateSyntheticData(samples, rng = Math.random) {
