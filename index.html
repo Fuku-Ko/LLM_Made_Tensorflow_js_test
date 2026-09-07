@@ -1589,14 +1589,17 @@
         function updateFeatureCheckboxes() {
             const currentTarget = mapTargetCol.value;
             mapFeatureCols.innerHTML = '';
-
+        
             loadedCSVHeaders.forEach(header => {
                 if (header === currentTarget) return;
                 // まともな数値が全く無い（明らかにカテゴリカルな）列は、デフォルトでチェックを外す
                 let hasNumeric = false;
                 if (loadedCSVData) {
                     for (let i = 0; i < loadedCSVData.length; i++) {
-                        if (Number.isFinite(Number(loadedCSVData[i][header]))) { hasNumeric = true; break; }
+                        const raw = loadedCSVData[i][header];
+                        // 空値・null・undefined・空文字・空白文字は無視（欠損として扱う）
+                        if (raw == null || String(raw).trim() === "") continue;
+                        if (Number.isFinite(Number(raw))) { hasNumeric = true; break; }
                     }
                 }
                 const div = document.createElement('div');
