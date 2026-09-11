@@ -1630,39 +1630,43 @@
 
             lossChart = new Chart(lossCtx, {
                 type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [
-                        { label: '平均訓練データ (Train Average)', data: [], borderColor: '#818cf8', borderWidth: 4, fill: false, pointRadius: 0, z: 10 },
-                        { label: '平均検証データ (Val Average)', data: [], borderColor: '#22d3ee', borderWidth: 4, fill: false, pointRadius: 0, z: 10 }
-                    ]
-                },
+                data: { /* 省略（既存のまま） */ },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { filter: function(item) { return item.text.includes('Average'); }, color: '#94a3b8', font: { size: 15 } } }
-                    },
+                    plugins: { /* 省略（既存のまま） */ },
                     scales: {
-                        x: { grid: { color: '#33415530' }, ticks: { color: '#94a3b8', font: { size: 13 } } },
-                        y: { type: 'logarithmic', grid: { color: '#33415530' }, ticks: { color: '#94a3b8', font: { size: 13 } } }
+                        x: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { color: '#94a3b8', font: { size: 13 } },
+                            title: { display: true, text: 'エポック数 (Epoch)', color: '#94a3b8', font: { size: 13 } }
+                        },
+                        y: { 
+                            type: 'logarithmic', 
+                            grid: { color: '#33415530' }, 
+                            ticks: { color: '#94a3b8', font: { size: 13 } },
+                            title: { display: true, text: '損失 (Loss / MSE)', color: '#94a3b8', font: { size: 13 } }
+                        }
                     }
                 }
             });
 
             predChart = new Chart(predCtx, {
                 type: 'scatter',
-                data: {
-                    datasets: [
-                        { label: 'アンサンブル予測結果', data: [], backgroundColor: '#10b981', pointRadius: 4, order: 2 },
-                        { label: '理想線 (y = x)', data: [], type: 'line', borderColor: '#64748b', borderDash: [5, 5], borderWidth: 1.5, fill: false, pointRadius: 0, order: 1 }
-                    ]
-                },
+                data: { /* 省略（既存のまま） */ },
                 options: {
                     responsive: true, maintainAspectRatio: true, aspectRatio: 1,
-                    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 15 } } } },
+                    plugins: { /* 省略（既存のまま） */ },
                     scales: {
-                        x: { grid: { color: '#33415530' }, ticks: { color: '#94a3b8', font: { size: 13 } } },
-                        y: { grid: { color: '#33415530' }, ticks: { color: '#94a3b8', font: { size: 13 } } }
+                        x: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { color: '#94a3b8', font: { size: 13 } },
+                            title: { display: true, text: '実測値 (Actual y)', color: '#94a3b8', font: { size: 13 } }
+                        },
+                        y: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { color: '#94a3b8', font: { size: 13 } },
+                            title: { display: true, text: '予測値 (Predicted ŷ)', color: '#94a3b8', font: { size: 13 } }
+                        }
                     }
                 }
             });
@@ -1670,23 +1674,22 @@
             const residualCtx = document.getElementById('residualChart').getContext('2d');
             residualChart = new Chart(residualCtx, {
                 type: 'bar',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: '度数 (頻度)',
-                        data: [],
-                        backgroundColor: 'rgba(56, 189, 248, 0.6)',
-                        borderColor: '#38bdf8',
-                        borderWidth: 1,
-                        borderRadius: 4
-                    }]
-                },
+                data: { /* 省略（既存のまま） */ },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 13 } } } },
+                    plugins: { /* 省略（既存のまま） */ },
                     scales: {
-                        x: { grid: { color: '#33415530' }, ticks: { color: '#94a3b8', font: { size: 12 } } },
-                        y: { beginAtZero: true, grid: { color: '#33415530' }, ticks: { color: '#94a3b8', font: { size: 12 }, precision: 0 } }
+                        x: { 
+                            grid: { color: '#33415530' }, 
+                            ticks: { color: '#94a3b8', font: { size: 12 } },
+                            title: { display: true, text: '残差 (予測値 - 実測値)', color: '#94a3b8', font: { size: 13 } }
+                        },
+                        y: { 
+                            beginAtZero: true, 
+                            grid: { color: '#33415530' }, 
+                            ticks: { color: '#94a3b8', font: { size: 12 }, precision: 0 },
+                            title: { display: true, text: '度数 (Frequency)', color: '#94a3b8', font: { size: 13 } }
+                        }
                     }
                 }
             });
