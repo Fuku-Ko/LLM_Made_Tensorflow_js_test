@@ -332,18 +332,23 @@
             -moz-appearance: textfield;
         }
         /* 外挿警告時のスタイリング */
-        .input-card.is-extrapolated label {
-            color: #fb7185 !important; /* 変数名をローズレッドに強調 */
-            font-weight: 700;
+        .input-card.is-extrapolated {
+            border-color: rgba(244, 63, 94, 0.4) !important;
+            background-color: rgba(244, 63, 94, 0.05) !important;
+        }
+        .input-card.is-extrapolated label,
+        .input-card.is-extrapolated .feature-label {
+            color: #fb7185 !important; /* 変数名を赤く */
+            font-weight: 700 !important;
         }
         .input-card.is-extrapolated .range-num-input {
             border-color: #f43f5e !important;
             color: #fb7185 !important;
-            background-color: rgba(244, 63, 94, 0.1) !important;
+            background-color: rgba(244, 63, 94, 0.15) !important;
         }
         .input-card.is-extrapolated .range-guide-center {
             color: #fb7185 !important;
-            font-weight: 700;
+            font-weight: 700 !important;
         }
         .input-card.is-extrapolated .range-guide-center::after {
             content: " ⚠️ 外挿中";
@@ -2728,16 +2733,27 @@
             importedPackage.features.forEach((feat, idx) => {
                 const card = document.createElement('div'); card.className = 'input-card';
                 const container = document.createElement('div'); container.className = 'range-container';
-                const label = document.createElement('label'); label.innerText = feat;
+                const label = document.createElement('label'); 
+                label.className = 'feature-label';
+                label.innerText = feat;
 
                 let min = 0, max = 100, step = 1, def = 50;
-                let trainMin = min, trainMax = max;
+                let trainMin = null, trainMax = null;
+
+                // 1. 保存された学習時最小・最大値があるか安全に取得
+                if (importedPackage.globalMins && importedPackage.globalMins[idx] !== undefined &&
+                    importedPackage.globalMaxs && importedPackage.globalMaxs[idx] !== undefined) {
+                    trainMin = Number(importedPackage.globalMins[idx]);
+                    trainMax = Number(importedPackage.globalMaxs[idx]);
+                }
 
                 if (importedPackage.globalMeans && importedPackage.globalMeans[idx] !== undefined) {
-                    def = importedPackage.globalMeans[idx]; 
-                    trainMin = importedPackage.globalMins[idx]; 
-                    trainMax = importedPackage.globalMaxs[idx];
+                    def = Number(importedPackage.globalMeans[idx]);
                     
+                    // 万一古いモデルで trainMin/Max が無かった場合の安全策
+                    if (trainMin === null || isNaN(trainMin)) trainMin = def * 0.7;
+                    if (trainMax === null || isNaN(trainMax)) trainMax = def * 1.3;
+
                     const span = trainMax - trainMin;
                     const margin = span > 0 ? span * 0.25 : 1;
                     min = trainMin - margin;
@@ -2753,9 +2769,10 @@
                     min = parseFloat(min.toFixed(2)); 
                     max = parseFloat(max.toFixed(2));
                 } else {
-                    if (feat === 'Feature_1' || feat === 'RM') { min = 2; max = 10; step = 0.1; def = 6; trainMin = 3; trainMax = 9; } 
-                    else if (feat === 'Feature_2' || feat === 'LSTAT') { min = 0; max = 40; step = 0.5; def = 12; trainMin = 2; trainMax = 35; } 
-                    else if (feat === 'Feature_3' || feat === 'DIS') { min = 0.5; max = 15; step = 0.1; def = 4; trainMin = 1; trainMax = 12; }
+                    if (feat === 'Feature_1' || feat === 'RM') { min = 2; max = 10; step = 0.1; def = 6; trainMin = 3.5; trainMax = 8.5; } 
+                    else if (feat === 'Feature_2' || feat === 'LSTAT') { min = 0; max = 40; step = 0.5; def = 12; trainMin = 3; trainMax = 30; } 
+                    else if (feat === 'Feature_3' || feat === 'DIS') { min = 0.5; max = 15; step = 0.1; def = 4; trainMin = 1.5; trainMax = 10; }
+                    else { min = 0; max = 100; step = 1; def = 50; trainMin = 20; trainMax = 80; }
                 }
 
                 const numInput = document.createElement('input');
@@ -2784,30 +2801,39 @@
                 rangeGuide.style.marginTop = '4px';
                 rangeGuide.innerHTML = `<span>← 外挿域</span><span class="range-guide-center">学習範囲: [${trainMin.toFixed(1)} ~ ${trainMax.toFixed(1)}]</span><span>外挿域 →</span>`;
 
-                // ★ 外挿域判定関数：学習データ範囲外ならカードに警告クラスを付与
+                // ★ 外挿判定：数値比較を Number 型に明示変換して安全に評価
                 const checkExtrapolation = (val) => {
-                    const isOut = (val < trainMin || val > trainMax);
-                    card.classList.toggle('is-extrapolated', isOut);
+                    const num = Number(val);
+                    if (isNaN(num) || trainMin === null || trainMax === null) return;
+                    
+                    // わずかな浮動小数点誤差を許容するため 1e-5 のバッファ
+                    const isOut = (num < (trainMin - 1e-5) || num > (trainMax + 1e-5));
+                    
+                    if (isOut) {
+                        card.classList.add('is-extrapolated');
+                    } else {
+                        card.classList.remove('is-extrapolated');
+                    }
                 };
 
                 // スライダー操作時
                 range.addEventListener('input', () => { 
                     numInput.value = range.value; 
-                    checkExtrapolation(parseFloat(range.value));
+                    checkExtrapolation(range.value);
                     runInferenceCalculation(); 
                 });
 
                 // キーボード直接入力時
                 numInput.addEventListener('input', () => {
-                    const typedVal = parseFloat(numInput.value);
-                    if (!isNaN(typedVal)) {
+                    const typedVal = numInput.value;
+                    if (typedVal !== "") {
                         range.value = typedVal;
                         checkExtrapolation(typedVal);
                         runInferenceCalculation();
                     }
                 });
 
-                // 初期状態のチェック
+                // 初期チェック
                 checkExtrapolation(def);
 
                 card.appendChild(container); 
