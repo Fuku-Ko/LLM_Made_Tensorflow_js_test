@@ -303,6 +303,34 @@
         .input-card { background-color: rgba(30, 41, 59, 0.3); border: 1px solid #33415540; border-radius: 8px; padding: 12px; }
         .prediction-box { background-color: rgba(6, 182, 212, 0.08); border: 2px solid #06b6d440; border-radius: 12px; padding: 24px; text-align: center; margin-top: 20px; }
         .prediction-value { font-size: 3rem; font-weight: 800; color: #22d3ee; margin: 10px 0; }
+        /* 推論パネル用：コンパクトな直接数値入力ボックス */
+        .range-num-input {
+            width: 88px;
+            background-color: rgba(15, 23, 42, 0.7);
+            border: 1px solid #334155;
+            color: #06b6d4;
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-align: right;
+            padding: 3px 8px;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .range-num-input:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+            background-color: #0f172a;
+        }
+        /* スピンボタン（上下矢印）を非表示にしてすっきり見せる */
+        .range-num-input::-webkit-outer-spin-button,
+        .range-num-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .range-num-input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 <body>
@@ -2713,9 +2741,24 @@
                     else if (feat === 'Feature_3' || feat === 'DIS') { min = 0.5; max = 15; step = 0.1; def = 4; }
                 }
 
-                const valSpan = document.createElement('span'); valSpan.className = 'range-val'; valSpan.innerText = def; valSpan.id = `inf_val_${feat}`;
-                container.appendChild(label); container.appendChild(valSpan);
-                const range = document.createElement('input'); range.type = 'range'; range.id = `inf_range_${feat}`; range.min = min; range.max = max; range.step = step; range.value = def;
+                // ★ 変更点①: span の代わりにコンパクトな number input を生成
+                const numInput = document.createElement('input');
+                numInput.type = 'number';
+                numInput.className = 'range-num-input';
+                numInput.id = `inf_val_${feat}`;
+                numInput.step = 'any'; // キーボードからは細かな任意小数を許容
+                numInput.value = def;
+
+                container.appendChild(label); 
+                container.appendChild(numInput);
+
+                const range = document.createElement('input'); 
+                range.type = 'range'; 
+                range.id = `inf_range_${feat}`; 
+                range.min = min; 
+                range.max = max; 
+                range.step = step; 
+                range.value = def;
                 
                 const rangeGuide = document.createElement('div');
                 rangeGuide.style.display = 'flex';
@@ -2725,8 +2768,24 @@
                 rangeGuide.style.marginTop = '4px';
                 rangeGuide.innerHTML = `<span>← 外挿域</span><span>学習範囲: [${trainMin.toFixed(1)} ~ ${trainMax.toFixed(1)}]</span><span>外挿域 →</span>`;
 
-                range.addEventListener('input', () => { valSpan.innerText = range.value; runInferenceCalculation(); });
-                card.appendChild(container); card.appendChild(range); card.appendChild(rangeGuide);
+                // ★ 変更点②: スライダーを動かしたとき ➔ 入力欄に反映して推論
+                range.addEventListener('input', () => { 
+                    numInput.value = range.value; 
+                    runInferenceCalculation(); 
+                });
+
+                // ★ 変更点③: キーボードで数値を入力したとき ➔ スライダーに反映して推論
+                numInput.addEventListener('input', () => {
+                    const typedVal = parseFloat(numInput.value);
+                    if (!isNaN(typedVal)) {
+                        range.value = typedVal; // スライダーの描画位置も連動
+                        runInferenceCalculation();
+                    }
+                });
+
+                card.appendChild(container); 
+                card.appendChild(range); 
+                card.appendChild(rangeGuide);
                 dynamicInputsContainer.appendChild(card);
             });
             targetUnitLabel.innerText = `目的変数: ${importedPackage.target}`;
@@ -2736,8 +2795,11 @@
             if (!importedPackage) return;
             const rawInputValues = [];
             for (const feat of importedPackage.features) { 
-                const range = document.getElementById(`inf_range_${feat}`); 
-                rawInputValues.push(parseFloat(range.value)); 
+                // ★ inf_range_ ではなく、入力ボックス inf_val_ から値を取得
+                const inputElem = document.getElementById(`inf_val_${feat}`);
+                const parsedVal = parseFloat(inputElem.value);
+                // 入力途中（空文字など）の場合は 0 にフォールバック
+                rawInputValues.push(isNaN(parsedVal) ? 0 : parsedVal); 
             }
             
             let ensemblePredictionSum = 0;
