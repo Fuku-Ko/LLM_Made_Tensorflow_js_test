@@ -356,6 +356,38 @@
             stroke-width: 1.75;
             flex-shrink: 0;
         }
+        /* 多変量（データの組み合わせ）外挿インジケーター */
+        .multivariate-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin-top: 16px;
+            font-size: 0.82rem;
+            transition: all 0.2s ease;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .multivariate-status.warning {
+            border-color: rgba(244, 63, 94, 0.45);
+            background-color: rgba(244, 63, 94, 0.08);
+        }
+        .multivariate-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
+        }
+        .multivariate-badge.normal {
+            color: #34d399;
+        }
+        .multivariate-badge.alert {
+            color: #f87171;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -1249,6 +1281,20 @@
                         <!-- 動的スライダー追加エリア -->
                     </div>
 
+                    <!-- 多変量外挿インジケーター -->
+                    <div id="multivariateStatusBox" class="multivariate-status">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="color: #94a3b8;">多変数相関の整合性:</span>
+                            <span id="multivariateBadge" class="multivariate-badge normal">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                                正常 (学習データの相関範囲内)
+                            </span>
+                        </div>
+                        <div id="multivariateMetrics" style="color: #64748b; font-family: monospace; font-size: 0.76rem;">
+                            マハラノビス距離: - / 閾値: -
+                        </div>
+                    </div>
+                    
                     <div class="prediction-box">
                         <p id="predResultTitle" style="font-size: 1rem; color: #94a3b8; font-weight: 700;">予測結果 (K-Fold アンサンブル出力)</p>
                         <div id="predictedResult" class="prediction-value">-</div>
@@ -1266,6 +1312,102 @@
         const sourceBadge = document.getElementById('sourceBadge');
         const badgeText = document.getElementById('badgeText');
 
+        // ガウス・ジョルダン法による逆行列計算（正則化付き）
+        function invertMatrix(A) {
+            const n = A.length;
+            const M = A.map((row, i) => {
+                const r = [...row];
+                const identity = Array(n).fill(0);
+                identity[i] = 1;
+                return r.concat(identity);
+            });
+
+            for (let i = 0; i < n; i++) {
+                let maxRow = i;
+                for (let k = i + 1; k < n; k++) {
+                    if (Math.abs(M[k][i]) > Math.abs(M[maxRow][i])) maxRow = k;
+                }
+                [M[i], M[maxRow]] = [M[maxRow], M[i]];
+
+                let pivot = M[i][i];
+                if (Math.abs(pivot) < 1e-12) pivot = 1e-12; // ゼロ除算回避
+
+                for (let j = 0; j < 2 * n; j++) M[i][j] /= pivot;
+
+                for (let k = 0; k < n; k++) {
+                    if (k !== i) {
+                        const factor = M[k][i];
+                        for (let j = 0; j < 2 * n; j++) {
+                            M[k][j] -= factor * M[i][j];
+                        }
+                    }
+                }
+            }
+            return M.map(row => row.slice(n));
+        }
+
+        // 訓練データからマハラノビス距離用のパラメータ（平均、逆共分散行列、閾値）を算出
+        function fitMahalanobis(X) {
+            const n = X.length;
+            const p = X[0].length;
+            if (n <= p || p === 0) return null;
+
+            // 1. 平均ベクトル
+            const means = Array(p).fill(0);
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < p; j++) means[j] += X[i][j];
+            }
+            for (let j = 0; j < p; j++) means[j] /= n;
+
+            // 2. 分散共分散行列
+            const cov = Array.from({ length: p }, () => Array(p).fill(0));
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < p; j++) {
+                    for (let k = 0; k < p; k++) {
+                        cov[j][k] += (X[i][j] - means[j]) * (X[i][k] - means[k]);
+                    }
+                }
+            }
+            // リッジ項（微小値）を足して数値的特異性を防止
+            for (let j = 0; j < p; j++) {
+                for (let k = 0; k < p; k++) {
+                    cov[j][k] /= (n - 1);
+                    if (j === k) cov[j][k] += 1e-4;
+                }
+            }
+
+            // 3. 逆行列
+            const invCov = invertMatrix(cov);
+
+            // 4. 訓練データ自身のマハラノビス距離を計算し、最大値（+5%のバッファ）を閾値とする
+            let maxDist = 0;
+            for (let i = 0; i < n; i++) {
+                const dist = calculateMahalanobis(X[i], means, invCov);
+                if (dist > maxDist) maxDist = dist;
+            }
+
+            return {
+                means: means,
+                invCov: invCov,
+                threshold: maxDist * 1.05
+            };
+        }
+
+        // 単一データ点に対するマハラノビス距離の計算: sqrt((x - μ)^T * Σ^(-1) * (x - μ))
+        function calculateMahalanobis(x, means, invCov) {
+            const p = x.length;
+            const diff = x.map((v, i) => v - means[i]);
+            let distSq = 0;
+            for (let i = 0; i < p; i++) {
+                let temp = 0;
+                for (let j = 0; j < p; j++) {
+                    temp += diff[j] * invCov[j][i];
+                }
+                distSq += temp * diff[i];
+            }
+            return Math.sqrt(Math.max(0, distSq));
+        }
+        
         function selectSource(sourceType) {
             document.querySelectorAll('.source-card').forEach(card => {
                 card.classList.remove('active');
@@ -2387,6 +2529,9 @@
                         });
                     }
 
+                    // マハラノビス用パラメータの事前計算（全Trainデータ）
+                    const mahalanobisParams = fitMahalanobis(allTrainImputed);
+
                     modelPackage = {
                         features: selectedFeatures,
                         target: targetCol,
@@ -2395,6 +2540,7 @@
                         globalMins: globalMins,
                         globalMaxs: globalMaxs,
                         k: K,
+                        mahalanobis: mahalanobisParams, // ★ 追加
                         trainingConfig: {
                             ...trainingConfig,
                             evaluatedMetrics: { mae: metrics.mae, r2: metrics.r2 }
@@ -2580,6 +2726,9 @@
 
                     const saveArtifacts = await captureModelArtifacts(model);
 
+                    // マハラノビス用パラメータの事前計算（Trainデータ）
+                    const mahalanobisParams = fitMahalanobis(subTrainX);
+
                     modelPackage = {
                         features: selectedFeatures,
                         target: targetCol,
@@ -2588,6 +2737,7 @@
                         globalMins: globalMins,
                         globalMaxs: globalMaxs,
                         k: 1,
+                        mahalanobis: mahalanobisParams, // ★ 追加
                         trainingConfig: {
                             ...trainingConfig,
                             evaluatedMetrics: { mae: metrics.mae, r2: metrics.r2 }
@@ -2677,6 +2827,7 @@
                 globalMeans: parsed.globalMeans || null, 
                 globalMins: parsed.globalMins || null, 
                 globalMaxs: parsed.globalMaxs || null, 
+                mahalanobis: parsed.mahalanobis || null, // ★ 追加
                 k: parsed.k, 
                 folds: reconstructedFolds 
             };
@@ -2861,11 +3012,38 @@ function buildDynamicInferenceForm() {
             if (!importedPackage) return;
             const rawInputValues = [];
             for (const feat of importedPackage.features) { 
-                // ★ inf_range_ ではなく、入力ボックス inf_val_ から値を取得
                 const inputElem = document.getElementById(`inf_val_${feat}`);
-                const parsedVal = parseFloat(inputElem.value);
-                // 入力途中（空文字など）の場合は 0 にフォールバック
+                const parsedVal = inputElem ? parseFloat(inputElem.value) : 0;
                 rawInputValues.push(isNaN(parsedVal) ? 0 : parsedVal); 
+            }
+
+            // ★ 多変量（マハラノビス距離）外挿判定
+            const statusBox = document.getElementById('multivariateStatusBox');
+            const badge = document.getElementById('multivariateBadge');
+            const metrics = document.getElementById('multivariateMetrics');
+
+            if (importedPackage.mahalanobis && statusBox && badge && metrics) {
+                const { means, invCov, threshold } = importedPackage.mahalanobis;
+                const dM = calculateMahalanobis(rawInputValues, means, invCov);
+                const isOut = (dM > threshold);
+
+                metrics.innerText = `マハラノビス距離: ${dM.toFixed(2)} / 閾値: ${threshold.toFixed(2)}`;
+
+                if (isOut) {
+                    statusBox.classList.add('warning');
+                    badge.className = 'multivariate-badge alert';
+                    badge.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        警告: 変数の組み合わせが不自然です (多変量外挿)
+                    `;
+                } else {
+                    statusBox.classList.remove('warning');
+                    badge.className = 'multivariate-badge normal';
+                    badge.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                        正常 (学習データの相関範囲内)
+                    `;
+                }
             }
             
             let ensemblePredictionSum = 0;
