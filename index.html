@@ -331,6 +331,23 @@
         .range-num-input[type=number] {
             -moz-appearance: textfield;
         }
+        /* 外挿警告時のスタイリング */
+        .input-card.is-extrapolated label {
+            color: #fb7185 !important; /* 変数名をローズレッドに強調 */
+            font-weight: 700;
+        }
+        .input-card.is-extrapolated .range-num-input {
+            border-color: #f43f5e !important;
+            color: #fb7185 !important;
+            background-color: rgba(244, 63, 94, 0.1) !important;
+        }
+        .input-card.is-extrapolated .range-guide-center {
+            color: #fb7185 !important;
+            font-weight: 700;
+        }
+        .input-card.is-extrapolated .range-guide-center::after {
+            content: " ⚠️ 外挿中";
+        }
     </style>
 </head>
 <body>
@@ -2736,17 +2753,16 @@
                     min = parseFloat(min.toFixed(2)); 
                     max = parseFloat(max.toFixed(2));
                 } else {
-                    if (feat === 'Feature_1' || feat === 'RM') { min = 2; max = 10; step = 0.1; def = 6; } 
-                    else if (feat === 'Feature_2' || feat === 'LSTAT') { min = 0; max = 40; step = 0.5; def = 12; } 
-                    else if (feat === 'Feature_3' || feat === 'DIS') { min = 0.5; max = 15; step = 0.1; def = 4; }
+                    if (feat === 'Feature_1' || feat === 'RM') { min = 2; max = 10; step = 0.1; def = 6; trainMin = 3; trainMax = 9; } 
+                    else if (feat === 'Feature_2' || feat === 'LSTAT') { min = 0; max = 40; step = 0.5; def = 12; trainMin = 2; trainMax = 35; } 
+                    else if (feat === 'Feature_3' || feat === 'DIS') { min = 0.5; max = 15; step = 0.1; def = 4; trainMin = 1; trainMax = 12; }
                 }
 
-                // ★ 変更点①: span の代わりにコンパクトな number input を生成
                 const numInput = document.createElement('input');
                 numInput.type = 'number';
                 numInput.className = 'range-num-input';
                 numInput.id = `inf_val_${feat}`;
-                numInput.step = 'any'; // キーボードからは細かな任意小数を許容
+                numInput.step = 'any';
                 numInput.value = def;
 
                 container.appendChild(label); 
@@ -2766,22 +2782,33 @@
                 rangeGuide.style.fontSize = '0.72rem';
                 rangeGuide.style.color = '#64748b';
                 rangeGuide.style.marginTop = '4px';
-                rangeGuide.innerHTML = `<span>← 外挿域</span><span>学習範囲: [${trainMin.toFixed(1)} ~ ${trainMax.toFixed(1)}]</span><span>外挿域 →</span>`;
+                rangeGuide.innerHTML = `<span>← 外挿域</span><span class="range-guide-center">学習範囲: [${trainMin.toFixed(1)} ~ ${trainMax.toFixed(1)}]</span><span>外挿域 →</span>`;
 
-                // ★ 変更点②: スライダーを動かしたとき ➔ 入力欄に反映して推論
+                // ★ 外挿域判定関数：学習データ範囲外ならカードに警告クラスを付与
+                const checkExtrapolation = (val) => {
+                    const isOut = (val < trainMin || val > trainMax);
+                    card.classList.toggle('is-extrapolated', isOut);
+                };
+
+                // スライダー操作時
                 range.addEventListener('input', () => { 
                     numInput.value = range.value; 
+                    checkExtrapolation(parseFloat(range.value));
                     runInferenceCalculation(); 
                 });
 
-                // ★ 変更点③: キーボードで数値を入力したとき ➔ スライダーに反映して推論
+                // キーボード直接入力時
                 numInput.addEventListener('input', () => {
                     const typedVal = parseFloat(numInput.value);
                     if (!isNaN(typedVal)) {
-                        range.value = typedVal; // スライダーの描画位置も連動
+                        range.value = typedVal;
+                        checkExtrapolation(typedVal);
                         runInferenceCalculation();
                     }
                 });
+
+                // 初期状態のチェック
+                checkExtrapolation(def);
 
                 card.appendChild(container); 
                 card.appendChild(range); 
