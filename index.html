@@ -331,27 +331,30 @@
         .range-num-input[type=number] {
             -moz-appearance: textfield;
         }
-        /* 外挿警告時のスタイリング */
-        .input-card.is-extrapolated {
-            border-color: rgba(244, 63, 94, 0.4) !important;
-            background-color: rgba(244, 63, 94, 0.05) !important;
-        }
-        .input-card.is-extrapolated label,
+        /* 外挿時の控えめなスタイリング（文字色のみ、太字なし、背景・枠線変化なし） */
         .input-card.is-extrapolated .feature-label {
-            color: #fb7185 !important; /* 変数名を赤く */
-            font-weight: 700 !important;
+            color: #f87171 !important; /* 穏やかな警告レッド */
         }
         .input-card.is-extrapolated .range-num-input {
-            border-color: #f43f5e !important;
-            color: #fb7185 !important;
-            background-color: rgba(244, 63, 94, 0.15) !important;
+            color: #f87171 !important;
         }
-        .input-card.is-extrapolated .range-guide-center {
-            color: #fb7185 !important;
-            font-weight: 700 !important;
+        .input-card.is-extrapolated .extrapolation-badge {
+            display: inline-flex !important;
         }
-        .input-card.is-extrapolated .range-guide-center::after {
-            content: " ⚠️ 外挿中";
+        
+        /* 外挿インジケーター（線画SVGアイコン＋テキスト） */
+        .extrapolation-badge {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            color: #f87171;
+            font-size: 0.72rem;
+            letter-spacing: 0.02em;
+        }
+        .extrapolation-badge svg {
+            stroke: #f87171;
+            stroke-width: 1.75;
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -2740,7 +2743,6 @@
                 let min = 0, max = 100, step = 1, def = 50;
                 let trainMin = null, trainMax = null;
 
-                // 1. 保存された学習時最小・最大値があるか安全に取得
                 if (importedPackage.globalMins && importedPackage.globalMins[idx] !== undefined &&
                     importedPackage.globalMaxs && importedPackage.globalMaxs[idx] !== undefined) {
                     trainMin = Number(importedPackage.globalMins[idx]);
@@ -2750,7 +2752,6 @@
                 if (importedPackage.globalMeans && importedPackage.globalMeans[idx] !== undefined) {
                     def = Number(importedPackage.globalMeans[idx]);
                     
-                    // 万一古いモデルで trainMin/Max が無かった場合の安全策
                     if (trainMin === null || isNaN(trainMin)) trainMin = def * 0.7;
                     if (trainMax === null || isNaN(trainMax)) trainMax = def * 1.3;
 
@@ -2793,37 +2794,45 @@
                 range.step = step; 
                 range.value = def;
                 
+                // 下部ガイド（線画アイコン入りの警告表示を追加）
                 const rangeGuide = document.createElement('div');
                 rangeGuide.style.display = 'flex';
                 rangeGuide.style.justifyContent = 'space-between';
+                rangeGuide.style.alignItems = 'center';
                 rangeGuide.style.fontSize = '0.72rem';
                 rangeGuide.style.color = '#64748b';
                 rangeGuide.style.marginTop = '4px';
-                rangeGuide.innerHTML = `<span>← 外挿域</span><span class="range-guide-center">学習範囲: [${trainMin.toFixed(1)} ~ ${trainMax.toFixed(1)}]</span><span>外挿域 →</span>`;
+                rangeGuide.innerHTML = `
+                    <span>← 外挿域</span>
+                    <span style="display: inline-flex; align-items: center; gap: 6px;">
+                        <span>学習範囲: [${trainMin.toFixed(1)} ~ ${trainMax.toFixed(1)}]</span>
+                        <span class="extrapolation-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                                <line x1="12" y1="9" x2="12" y2="13"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            外挿
+                        </span>
+                    </span>
+                    <span>外挿域 →</span>
+                `;
 
-                // ★ 外挿判定：数値比較を Number 型に明示変換して安全に評価
+                // 外挿判定
                 const checkExtrapolation = (val) => {
                     const num = Number(val);
                     if (isNaN(num) || trainMin === null || trainMax === null) return;
                     
-                    // わずかな浮動小数点誤差を許容するため 1e-5 のバッファ
                     const isOut = (num < (trainMin - 1e-5) || num > (trainMax + 1e-5));
-                    
-                    if (isOut) {
-                        card.classList.add('is-extrapolated');
-                    } else {
-                        card.classList.remove('is-extrapolated');
-                    }
+                    card.classList.toggle('is-extrapolated', isOut);
                 };
 
-                // スライダー操作時
                 range.addEventListener('input', () => { 
                     numInput.value = range.value; 
                     checkExtrapolation(range.value);
                     runInferenceCalculation(); 
                 });
 
-                // キーボード直接入力時
                 numInput.addEventListener('input', () => {
                     const typedVal = numInput.value;
                     if (typedVal !== "") {
@@ -2833,7 +2842,6 @@
                     }
                 });
 
-                // 初期チェック
                 checkExtrapolation(def);
 
                 card.appendChild(container); 
