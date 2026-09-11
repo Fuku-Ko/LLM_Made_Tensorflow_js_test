@@ -1630,10 +1630,18 @@
 
             lossChart = new Chart(lossCtx, {
                 type: 'line',
-                data: { /* 省略（既存のまま） */ },
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: '平均訓練データ (Train Average)', data: [], borderColor: '#818cf8', borderWidth: 4, fill: false, pointRadius: 0 },
+                        { label: '平均検証データ (Val Average)', data: [], borderColor: '#22d3ee', borderWidth: 4, fill: false, pointRadius: 0 }
+                    ]
+                },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { /* 省略（既存のまま） */ },
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1', font: { size: 12 } } }
+                    },
                     scales: {
                         x: { 
                             grid: { color: '#33415530' }, 
@@ -1652,10 +1660,19 @@
 
             predChart = new Chart(predCtx, {
                 type: 'scatter',
-                data: { /* 省略（既存のまま） */ },
+                data: {
+                    datasets: [
+                        // datasets[0]: 実測 vs 予測 の散布点
+                        { label: 'アンサンブル予測結果', data: [], backgroundColor: 'rgba(6, 182, 212, 0.55)', pointRadius: 4, pointHoverRadius: 6 },
+                        // datasets[1]: 理想線 y = x
+                        { label: '理想線 (y = x)', data: [], type: 'line', borderColor: '#f43f5e', borderWidth: 2, borderDash: [6, 6], pointRadius: 0, fill: false }
+                    ]
+                },
                 options: {
                     responsive: true, maintainAspectRatio: true, aspectRatio: 1,
-                    plugins: { /* 省略（既存のまま） */ },
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1', font: { size: 12 } } }
+                    },
                     scales: {
                         x: { 
                             grid: { color: '#33415530' }, 
@@ -1674,10 +1691,18 @@
             const residualCtx = document.getElementById('residualChart').getContext('2d');
             residualChart = new Chart(residualCtx, {
                 type: 'bar',
-                data: { /* 省略（既存のまま） */ },
+                data: {
+                    labels: [],
+                    datasets: [
+                        // datasets[0]: 残差ヒストグラムの度数
+                        { label: '度数 (Frequency)', data: [], backgroundColor: 'rgba(56, 189, 248, 0.6)', borderColor: '#38bdf8', borderWidth: 1 }
+                    ]
+                },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { /* 省略（既存のまま） */ },
+                    plugins: {
+                        legend: { display: false }
+                    },
                     scales: {
                         x: { 
                             grid: { color: '#33415530' }, 
