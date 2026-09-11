@@ -2325,7 +2325,17 @@
                         },
                         folds: serializedFolds
                     };
-                    exportArea.classList.remove('hidden'); updateStatus("K分割交差検証＆アンサンブル学習完了！", "success");
+
+                    // 先にエクスポートUIと完了表示を確実に成立させる
+                    exportArea.classList.remove('hidden'); 
+                    updateStatus("K分割交差検証＆アンサンブル学習完了！", "success");
+
+                    // 推論UIへの自動反映（失敗しても学習成功・エクスポートを巻き込まないよう隔離）
+                    try {
+                        await loadPackageIntoInference(modelPackage, '学習完了モデル (メモリ直接ロード)');
+                    } catch (autoErr) {
+                        console.warn("推論タブへの自動反映に失敗しました（エクスポート保存は正常に利用可能です）", autoErr);
+                    }
 
                 } catch (err) {
                     console.error(err); updateStatus("交差検証学習エラー: " + err.message, "error");
@@ -2511,7 +2521,17 @@
                             modelTopology: saveArtifacts.modelTopology, weightSpecs: saveArtifacts.weightSpecs, weightDataB64: arrayBufferToBase64(saveArtifacts.weightData)
                         }]
                     };
-                    exportArea.classList.remove('hidden'); updateStatus("単一モデル学習・評価完了！", "success");
+
+                    // 先にエクスポートUIと完了表示を確実に成立させる
+                    exportArea.classList.remove('hidden'); 
+                    updateStatus("単一モデル学習・評価完了！", "success");
+
+                    // 推論UIへの自動反映（失敗しても学習成功・エクスポートを巻き込まないよう隔離）
+                    try {
+                        await loadPackageIntoInference(modelPackage, '学習完了モデル (メモリ直接ロード)');
+                    } catch (autoErr) {
+                        console.warn("推論タブへの自動反映に失敗しました（エクスポート保存は正常に利用可能です）", autoErr);
+                    }
 
                 } catch (err) {
                     console.error(err); updateStatus("学習エラー: " + err.message, "error");
@@ -2551,68 +2571,82 @@
             URL.revokeObjectURL(url);
         }
 
-        async function handleModelImport(file) {
+        async function loadPackageIntoInference(parsed, sourceName = '（学習直後モデル）') {
             disposeImportedModels();
-            loadedModelName.innerText = file.name;
+            loadedModelName.innerText = sourceName;
+
+            const reconstructedFolds = [];
+            for (let k = 0; k < parsed.k; k++) {
+                const foldData = parsed.folds[k];
+                const weightData = base64ToArrayBuffer(foldData.weightDataB64);
+                const artifacts = { 
+                    modelTopology: foldData.modelTopology, 
+                    weightSpecs: foldData.weightSpecs, 
+                    weightData: weightData 
+                };
+                const model = await tf.loadLayersModel(tf.io.fromMemory(artifacts));
+                reconstructedFolds.push({ 
+                    means: foldData.means, 
+                    stds: foldData.stds, 
+                    targetMeans: foldData.targetMeans, 
+                    targetStds: foldData.targetStds, 
+                    model: model 
+                });
+            }
+
+            importedPackage = { 
+                features: parsed.features, 
+                target: parsed.target, 
+                normalize: parsed.normalize, 
+                globalMeans: parsed.globalMeans || null, 
+                globalMins: parsed.globalMins || null, 
+                globalMaxs: parsed.globalMaxs || null, 
+                k: parsed.k, 
+                folds: reconstructedFolds 
+            };
+
+            modelMetaK.innerText = parsed.k > 1 ? `${parsed.k}-Fold Ensemble` : 'Single Model (Holdout)';
+            modelMetaTarget.innerText = parsed.target; 
+            modelMetaFeaturesCount.innerText = parsed.features.length; 
+            modelMetaFeaturesList.innerText = parsed.features.join(', ');
+            predResultTitle.innerText = parsed.k > 1 ? '予測結果 (K-Fold アンサンブル出力)' : '予測結果 (単一モデル出力)';
+            
+            if (parsed.trainingConfig && modelParamsDetails && modelParamsGrid) {
+                const cfg = parsed.trainingConfig;
+                modelParamsGrid.innerHTML = `
+                    <div><strong>シード値:</strong> <span style="color:#f59e0b;">${cfg.seed !== null ? cfg.seed : 'ランダム (固定なし)'}</span></div>
+                    <div><strong>エポック:</strong> ${cfg.epochs} 回</div>
+                    <div><strong>アルゴリズム:</strong> ${cfg.optimizer ? cfg.optimizer.toUpperCase() : '-'}</div>
+                    <div><strong>学習率 (LR):</strong> ${cfg.learningRate}</div>
+                    <div><strong>バッチサイズ:</strong> ${cfg.batchSize}</div>
+                    <div><strong>訓練比率:</strong> ${cfg.trainSplitPercent}%</div>
+                    <div><strong>標準化:</strong> ${cfg.normalize ? 'あり' : 'なし'}</div>
+                    <div><strong>学習時MAE:</strong> ${cfg.evaluatedMetrics && cfg.evaluatedMetrics.mae !== undefined ? cfg.evaluatedMetrics.mae.toFixed(4) : '-'}</div>
+                    <div style="grid-column: span 2; font-size: 0.72rem; color: #94a3b8; margin-top: 4px;">
+                        学習日時: ${cfg.trainedAt ? new Date(cfg.trainedAt).toLocaleString() : '-'}
+                    </div>
+                `;
+                modelParamsDetails.classList.remove('hidden');
+            } else if (modelParamsDetails) {
+                modelParamsDetails.classList.add('hidden');
+            }
+
+            modelMetaInfo.classList.remove('hidden'); 
+            inferencePlaceholder.classList.add('hidden'); 
+            inferenceFormArea.classList.remove('hidden');
+            buildDynamicInferenceForm(); 
+            runInferenceCalculation();
+        }
+
+        async function handleModelImport(file) {
             const reader = new FileReader();
             reader.onload = async (e) => {
                 try {
                     const parsed = JSON.parse(e.target.result);
-                    if (!parsed.folds || !parsed.features || !parsed.target) throw new Error("無効なモデルパッケージファイルです。構造が壊れています。");
-
-                    const reconstructedFolds = [];
-                    for (let k = 0; k < parsed.k; k++) {
-                        const foldData = parsed.folds[k];
-                        const weightData = base64ToArrayBuffer(foldData.weightDataB64);
-                        const artifacts = { modelTopology: foldData.modelTopology, weightSpecs: foldData.weightSpecs, weightData: weightData };
-                        const model = await tf.loadLayersModel(tf.io.fromMemory(artifacts));
-                        reconstructedFolds.push({ means: foldData.means, stds: foldData.stds, targetMeans: foldData.targetMeans, targetStds: foldData.targetStds, model: model });
+                    if (!parsed.folds || !parsed.features || !parsed.target) {
+                        throw new Error("無効なモデルパッケージファイルです。構造が壊れています。");
                     }
-
-                    importedPackage = { 
-                        features: parsed.features, 
-                        target: parsed.target, 
-                        normalize: parsed.normalize, 
-                        globalMeans: parsed.globalMeans || null, 
-                        globalMins: parsed.globalMins || null, 
-                        globalMaxs: parsed.globalMaxs || null, 
-                        k: parsed.k, 
-                        folds: reconstructedFolds 
-                    };
-
-                    modelMetaK.innerText = parsed.k > 1 ? `${parsed.k}-Fold Ensemble` : 'Single Model (Holdout)';
-                    modelMetaTarget.innerText = parsed.target; 
-                    modelMetaFeaturesCount.innerText = parsed.features.length; 
-                    modelMetaFeaturesList.innerText = parsed.features.join(', ');
-                    predResultTitle.innerText = parsed.k > 1 ? '予測結果 (K-Fold アンサンブル出力)' : '予測結果 (単一モデル出力)';
-                    
-                    // 再現用メタデータの表示
-                    if (parsed.trainingConfig && modelParamsDetails && modelParamsGrid) {
-                        const cfg = parsed.trainingConfig;
-                        modelParamsGrid.innerHTML = `
-                            <div><strong>シード値:</strong> <span style="color:#f59e0b;">${cfg.seed !== null ? cfg.seed : 'ランダム (固定なし)'}</span></div>
-                            <div><strong>エポック:</strong> ${cfg.epochs} 回</div>
-                            <div><strong>アルゴリズム:</strong> ${cfg.optimizer ? cfg.optimizer.toUpperCase() : '-'}</div>
-                            <div><strong>学習率 (LR):</strong> ${cfg.learningRate}</div>
-                            <div><strong>バッチサイズ:</strong> ${cfg.batchSize}</div>
-                            <div><strong>訓練比率:</strong> ${cfg.trainSplitPercent}%</div>
-                            <div><strong>標準化:</strong> ${cfg.normalize ? 'あり' : 'なし'}</div>
-                            <div><strong>学習時MAE:</strong> ${cfg.evaluatedMetrics && cfg.evaluatedMetrics.mae !== undefined ? cfg.evaluatedMetrics.mae.toFixed(4) : '-'}</div>
-                            <div style="grid-column: span 2; font-size: 0.72rem; color: #94a3b8; margin-top: 4px;">
-                                学習日時: ${cfg.trainedAt ? new Date(cfg.trainedAt).toLocaleString() : '-'}
-                            </div>
-                        `;
-                        modelParamsDetails.classList.remove('hidden');
-                    } else if (modelParamsDetails) {
-                        modelParamsDetails.classList.add('hidden');
-                    }
-
-                    modelMetaInfo.classList.remove('hidden'); 
-                    inferencePlaceholder.classList.add('hidden'); 
-                    inferenceFormArea.classList.remove('hidden');
-                    buildDynamicInferenceForm(); 
-                    runInferenceCalculation();
-
+                    await loadPackageIntoInference(parsed, file.name);
                 } catch (err) {
                     console.error(err);
                     loadedModelName.innerHTML = `<span style="color: #ef4444;">読込失敗: ${err.message}</span>`;
