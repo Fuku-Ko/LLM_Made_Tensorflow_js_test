@@ -2731,11 +2731,13 @@
             reader.readAsText(file);
         }
 
-        function buildDynamicInferenceForm() {
+function buildDynamicInferenceForm() {
             dynamicInputsContainer.innerHTML = '';
             importedPackage.features.forEach((feat, idx) => {
                 const card = document.createElement('div'); card.className = 'input-card';
                 const container = document.createElement('div'); container.className = 'range-container';
+                
+                // 1. ラベルに feature-label クラスを付与
                 const label = document.createElement('label'); 
                 label.className = 'feature-label';
                 label.innerText = feat;
@@ -2743,6 +2745,7 @@
                 let min = 0, max = 100, step = 1, def = 50;
                 let trainMin = null, trainMax = null;
 
+                // 学習データの境界値を取得
                 if (importedPackage.globalMins && importedPackage.globalMins[idx] !== undefined &&
                     importedPackage.globalMaxs && importedPackage.globalMaxs[idx] !== undefined) {
                     trainMin = Number(importedPackage.globalMins[idx]);
@@ -2776,6 +2779,7 @@
                     else { min = 0; max = 100; step = 1; def = 50; trainMin = 20; trainMax = 80; }
                 }
 
+                // 2. 数値入力ボックス（.range-num-input）の生成
                 const numInput = document.createElement('input');
                 numInput.type = 'number';
                 numInput.className = 'range-num-input';
@@ -2794,7 +2798,7 @@
                 range.step = step; 
                 range.value = def;
                 
-                // 下部ガイド（線画アイコン入りの警告表示を追加）
+                // 3. 外挿バッジ（.extrapolation-badge）を含むガイドバーの生成
                 const rangeGuide = document.createElement('div');
                 rangeGuide.style.display = 'flex';
                 rangeGuide.style.justifyContent = 'space-between';
@@ -2818,7 +2822,7 @@
                     <span>外挿域 →</span>
                 `;
 
-                // 外挿判定
+                // 4. 外挿判定と is-extrapolated クラスの付け外し処理
                 const checkExtrapolation = (val) => {
                     const num = Number(val);
                     if (isNaN(num) || trainMin === null || trainMax === null) return;
@@ -2842,6 +2846,7 @@
                     }
                 });
 
+                // 初期表示時の判定
                 checkExtrapolation(def);
 
                 card.appendChild(container); 
