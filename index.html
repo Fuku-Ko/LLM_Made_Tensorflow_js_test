@@ -542,7 +542,7 @@
                         ボタンを押すとアルゴリズムが学習率・バッチサイズ・最適化器を自動探索し、最もテストMAE（絶対誤差）の小さい最良モデルを選抜・生成します。
                     </p>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px;">
                         <div>
                             <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 4px;">探索方式</label>
                             <select id="paramSearchType" style="padding: 8px; font-size: 0.95rem;">
@@ -556,6 +556,16 @@
                                 <option value="6">6 回</option>
                                 <option value="8" selected>8 回 (推奨)</option>
                                 <option value="12">12 回</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 4px;">各試行のエポック数</label>
+                            <select id="paramTuneEpochs" style="padding: 8px; font-size: 0.95rem;">
+                                <option value="30">30 回 (高速)</option>
+                                <option value="50" selected>50 回 (標準)</option>
+                                <option value="100">100 回 (精密)</option>
+                                <option value="150">150 回</option>
+                                <option value="200">200 回</option>
                             </select>
                         </div>
                     </div>
@@ -1699,7 +1709,7 @@
         let paramSamples, valSamples, paramSplit, valSplit, paramEpochs, valEpochs, paramNormalize, paramOptimizer, paramLR, paramBatch;
         let paramKFold, kFoldConfigArea, holdoutNoteArea, paramK, valK;
         let paramUseSeed, seedInputArea, paramSeedVal, btnRandomizeSeed;
-        let trainBtn, tuneBtn, paramSearchType, paramTuneTrials, paramAutoSaveAll, tuningResultsPanel, tuningTableBody;
+        let trainBtn, tuneBtn, paramSearchType, paramTuneTrials, paramTuneEpochs, paramAutoSaveAll, tuningResultsPanel, tuningTableBody;
         let resetDemoBtn, statusBadge, epochProgressText, progressBar, architectureInputs;
         let numTrainSamples, numTestSamples, statLoss, statValLoss, statMae, statR2, skippedDataInfo;
         let exportArea, exportModelBtn, exportAllTunedBtn, exportHistoryBtn;
@@ -1749,7 +1759,7 @@
             paramUseSeed = document.getElementById('paramUseSeed'); seedInputArea = document.getElementById('seedInputArea'); paramSeedVal = document.getElementById('paramSeedVal'); btnRandomizeSeed = document.getElementById('btnRandomizeSeed');
 
             trainBtn = document.getElementById('trainBtn'); tuneBtn = document.getElementById('tuneBtn');
-            paramSearchType = document.getElementById('paramSearchType'); paramTuneTrials = document.getElementById('paramTuneTrials'); paramAutoSaveAll = document.getElementById('paramAutoSaveAll');
+            paramSearchType = document.getElementById('paramSearchType'); paramTuneTrials = document.getElementById('paramTuneTrials'); paramTuneEpochs = document.getElementById('paramTuneEpochs'); paramAutoSaveAll = document.getElementById('paramAutoSaveAll');
             tuningResultsPanel = document.getElementById('tuningResultsPanel'); tuningTableBody = document.getElementById('tuningTableBody');
 
             resetDemoBtn = document.getElementById('resetDemoBtn'); statusBadge = document.getElementById('statusBadge');
@@ -2430,7 +2440,7 @@
 
                 const searchType = paramSearchType.value;
                 const trialsLimit = parseInt(paramTuneTrials.value);
-                const tuneEpochs = 50; // 最適化用の高速エポック数
+                const tuneEpochs = parseInt(paramTuneEpochs.value);
 
                 let candidateConfigs = [];
                 if (searchType === 'grid') {
