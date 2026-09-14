@@ -98,10 +98,10 @@
         .range-val { color: #06b6d4; font-weight: 700; font-size: 1.1rem; }
         input[type="range"] { width: 100%; height: 8px; background: #334155; border-radius: 4px; outline: none; accent-color: #06b6d4; }
 
-        .upload-area { border: 2px dashed #334155; background-color: rgba(15, 23, 42, 0.4); border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.2s; display: block; }
+        .upload-area { border: 2px dashed #334155; background-color: rgba(15, 23, 42, 0.4); border-radius: 8px; padding: 18px; text-align: center; cursor: pointer; transition: border-color 0.2s; display: block; }
         .upload-area:hover { border-color: #06b6d4; }
-        .upload-area p { font-size: 0.9rem; color: #94a3b8; margin-top: 4px; }
-        .upload-area .filename { font-size: 0.85rem; color: #38bdf8; word-break: break-all; margin-top: 6px; }
+        .upload-area p { font-size: 0.85rem; color: #94a3b8; margin-top: 4px; }
+        .upload-area .filename { font-size: 0.85rem; color: #38bdf8; word-break: break-all; margin-top: 4px; }
 
         .toggle-container { display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; font-size: 0.95rem; }
         .switch { position: relative; display: inline-block; width: 48px; height: 24px; }
@@ -193,7 +193,6 @@
         }
         .accordion-content { padding: 20px; }
 
-        .arch-card { background-color: transparent; border: none; padding: 0; }
         .arch-title { font-size: 0.95rem; font-weight: 700; color: #94a3b8; margin-bottom: 10px; }
         .arch-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 0.9rem; }
         .arch-node { background-color: #1e293b; border: 1px solid #334155; padding: 8px 14px; border-radius: 6px; font-family: monospace; }
@@ -277,8 +276,6 @@
         .flow-backward { background-color: rgba(244, 63, 94, 0.2); color: #fb7185; }
         .flow-update { background-color: rgba(16, 185, 129, 0.2); color: #34d399; }
 
-        .pipeline-card { background-color: transparent; border: none; padding: 0; margin-top: 0; }
-        .pipeline-title { font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
         .pipeline-step { background-color: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; position: relative; }
         .pipeline-step-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.9rem; font-weight: 700; color: #38bdf8; flex-wrap: wrap; gap: 8px; }
         .pipeline-visual-bar { display: flex; height: 36px; border-radius: 6px; overflow: hidden; gap: 4px; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; }
@@ -303,90 +300,41 @@
         .input-card { background-color: rgba(30, 41, 59, 0.3); border: 1px solid #33415540; border-radius: 8px; padding: 12px; }
         .prediction-box { background-color: rgba(6, 182, 212, 0.08); border: 2px solid #06b6d440; border-radius: 12px; padding: 24px; text-align: center; margin-top: 20px; }
         .prediction-value { font-size: 3rem; font-weight: 800; color: #22d3ee; margin: 10px 0; }
+
         /* 推論パネル用：コンパクトな直接数値入力ボックス */
         .range-num-input {
-            width: 88px;
-            background-color: rgba(15, 23, 42, 0.7);
-            border: 1px solid #334155;
-            color: #06b6d4;
-            font-weight: 700;
-            font-size: 1.05rem;
-            text-align: right;
-            padding: 3px 8px;
-            border-radius: 6px;
-            outline: none;
+            width: 88px; background-color: rgba(15, 23, 42, 0.7); border: 1px solid #334155; color: #06b6d4;
+            font-weight: 700; font-size: 1.05rem; text-align: right; padding: 3px 8px; border-radius: 6px; outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .range-num-input:focus {
-            border-color: #06b6d4;
-            box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
-            background-color: #0f172a;
-        }
-        /* スピンボタン（上下矢印）を非表示にしてすっきり見せる */
-        .range-num-input::-webkit-outer-spin-button,
-        .range-num-input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .range-num-input[type=number] {
-            -moz-appearance: textfield;
-        }
-        /* 外挿時の控えめなスタイリング（文字色のみ、太字なし、背景・枠線変化なし） */
-        .input-card.is-extrapolated .feature-label {
-            color: #f87171 !important; /* 穏やかな警告レッド */
-        }
-        .input-card.is-extrapolated .range-num-input {
-            color: #f87171 !important;
-        }
-        .input-card.is-extrapolated .extrapolation-badge {
-            display: inline-flex !important;
-        }
+        .range-num-input:focus { border-color: #06b6d4; box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2); background-color: #0f172a; }
+        .range-num-input::-webkit-outer-spin-button, .range-num-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .range-num-input[type=number] { -moz-appearance: textfield; }
+
+        .input-card.is-extrapolated .feature-label { color: #f87171 !important; }
+        .input-card.is-extrapolated .range-num-input { color: #f87171 !important; }
+        .input-card.is-extrapolated .extrapolation-badge { display: inline-flex !important; }
         
-        /* 外挿インジケーター（線画SVGアイコン＋テキスト） */
-        .extrapolation-badge {
-            display: none;
-            align-items: center;
-            gap: 4px;
-            color: #f87171;
-            font-size: 0.72rem;
-            letter-spacing: 0.02em;
-        }
-        .extrapolation-badge svg {
-            stroke: #f87171;
-            stroke-width: 1.75;
-            flex-shrink: 0;
-        }
-        /* 多変量（データの組み合わせ）外挿インジケーター */
+        .extrapolation-badge { display: none; align-items: center; gap: 4px; color: #f87171; font-size: 0.72rem; letter-spacing: 0.02em; }
+        .extrapolation-badge svg { stroke: #f87171; stroke-width: 1.75; flex-shrink: 0; }
+        
         .multivariate-status {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: rgba(15, 23, 42, 0.6);
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 10px 16px;
-            margin-top: 16px;
-            font-size: 0.82rem;
-            transition: all 0.2s ease;
-            flex-wrap: wrap;
-            gap: 8px;
+            display: flex; align-items: center; justify-content: space-between; background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; margin-top: 16px; font-size: 0.82rem;
+            transition: all 0.2s ease; flex-wrap: wrap; gap: 8px;
         }
-        .multivariate-status.warning {
-            border-color: rgba(244, 63, 94, 0.45);
-            background-color: rgba(244, 63, 94, 0.08);
-        }
-        .multivariate-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.82rem;
-        }
-        .multivariate-badge.normal {
-            color: #34d399;
-        }
-        .multivariate-badge.alert {
-            color: #f87171;
-        }
+        .multivariate-status.warning { border-color: rgba(244, 63, 94, 0.45); background-color: rgba(244, 63, 94, 0.08); }
+        .multivariate-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; }
+        .multivariate-badge.normal { color: #34d399; }
+        .multivariate-badge.alert { color: #f87171; }
+
+        /* 最適化テーブル用スタイリング */
+        .tuning-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 10px; }
+        .tuning-table th { background-color: #0f172a; color: #94a3b8; padding: 10px; text-align: left; border-bottom: 2px solid #334155; font-weight: 700; }
+        .tuning-table td { padding: 9px 10px; border-bottom: 1px solid #1e293b; color: #cbd5e1; }
+        .tuning-table tr:hover { background-color: rgba(51, 65, 85, 0.3); }
+        .tuning-table tr.best-row { background-color: rgba(16, 185, 129, 0.12); font-weight: bold; border-left: 3px solid #10b981; }
+        .tuning-table tr.best-row td { color: #ffffff; }
     </style>
 </head>
 <body>
@@ -463,6 +411,37 @@
                     1. データセットとモデル設定
                 </h2>
                 
+                <!-- 乱数シード設定（データ分割ブレ・リーク防止のため最上部に独立配置） -->
+                <div style="background-color: rgba(15, 23, 42, 0.7); border: 1px solid #334155; border-radius: 8px; padding: 14px; margin-bottom: 18px;">
+                    <div class="toggle-container" style="margin-bottom: 8px;">
+                        <label class="switch">
+                            <input type="checkbox" id="paramUseSeed" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span style="font-size: 1rem; font-weight: 700; color: #f1f5f9;">乱数シードを固定する (データ分割・初期重みの再現)</span>
+                    </div>
+                    <div id="seedInputArea" style="border-left: 2px solid #06b6d4; padding-left: 10px; margin-left: 6px; display: flex; align-items: center; gap: 8px;">
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 2px;">シード値 (Seed)</label>
+                            <input type="number" id="paramSeedVal" value="42" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; color: #f1f5f9; padding: 6px 10px; border-radius: 6px; font-size: 0.95rem; outline: none;">
+                        </div>
+                        <button type="button" id="btnRandomizeSeed" style="margin-top: 18px; background-color: #334155; color: #f1f5f9; border: 1px solid #475569; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                                <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                                <circle cx="16" cy="8" r="1" fill="currentColor"/>
+                                <circle cx="8" cy="8" r="1" fill="currentColor"/>
+                                <circle cx="8" cy="16" r="1" fill="currentColor"/>
+                                <circle cx="16" cy="16" r="1" fill="currentColor"/>
+                            </svg>
+                            変更
+                        </button>
+                    </div>
+                    <div style="font-size: 0.76rem; color: #64748b; margin-top: 6px; line-height: 1.4;">
+                        ※ 自動分割やFold割り当て、層の初期重み（glorotNormal）を固定します。自動最適化モード時もデータ分割はこのシードで最初に一度だけ行われ、同一データに対して全ハイパーパラメータが公正に評価されます。
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>データソース</label>
                     <select id="paramSourceType">
@@ -479,15 +458,55 @@
                     <input type="range" id="paramSamples" min="100" max="1000" step="50" value="500">
                 </div>
 
+                <!-- CSVアップロード設定エリア -->
                 <div id="panelUpload" class="form-group hidden">
-                    <label>CSVファイルの選択</label>
-                    <label class="upload-area" id="dropArea">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <div>ファイルを選択</div>
-                        <p>またはドラッグ＆ドロップ (.csv)</p>
-                        <div id="uploadedFileName" class="filename">未選択</div>
-                        <input type="file" id="paramFileInput" accept=".csv" style="display: none;">
-                    </label>
+                    <div style="background-color: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 8px; padding: 12px; margin-bottom: 14px;">
+                        <label style="font-size: 0.95rem; font-weight: 700; color: #38bdf8; display: block; margin-bottom: 8px;">アップロード方式の選択</label>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem;">
+                                <input type="radio" name="csvUploadMode" value="single" checked style="accent-color: #06b6d4; width: 18px; height: 18px;">
+                                <span><strong>（1）まとめてアップロード（自動ランダム分割）:</strong> 1つのCSVを割合設定に従って自動分割します。</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem;">
+                                <input type="radio" name="csvUploadMode" value="dual" style="accent-color: #06b6d4; width: 18px; height: 18px;">
+                                <span><strong>（2）教師・テストを個別にアップロード（手動分割）:</strong> グルーピング等によるデータリークを完全に防ぎます。</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 1ファイル用アップロードエリア -->
+                    <div id="uploadSingleBox">
+                        <label>CSVファイルの選択 (全体データ)</label>
+                        <label class="upload-area" id="dropArea">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <div>ファイルを選択</div>
+                            <p>またはドラッグ＆ドロップ (.csv)</p>
+                            <div id="uploadedFileName" class="filename">未選択</div>
+                            <input type="file" id="paramFileInput" accept=".csv" style="display: none;">
+                        </label>
+                    </div>
+
+                    <!-- 2ファイル用アップロードエリア (Train/Test個別) -->
+                    <div id="uploadDualBox" class="hidden" style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                        <div>
+                            <label style="color: #38bdf8; font-weight: 700; font-size: 0.9rem;">① 教師データ CSV (Train: モデル学習・交差検証用)</label>
+                            <label class="upload-area" id="dropAreaTrain" style="border-color: #38bdf840;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <div>教師データCSVを選択</div>
+                                <div id="uploadedTrainName" class="filename" style="color: #38bdf8;">未選択</div>
+                                <input type="file" id="paramTrainFileInput" accept=".csv" style="display: none;">
+                            </label>
+                        </div>
+                        <div>
+                            <label style="color: #fb7185; font-weight: 700; font-size: 0.9rem;">② テストデータ CSV (Test: 完全隔離・最終評価用)</label>
+                            <label class="upload-area" id="dropAreaTest" style="border-color: #fb718540;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <div>テストデータCSVを選択</div>
+                                <div id="uploadedTestName" class="filename" style="color: #fb7185;">未選択</div>
+                                <input type="file" id="paramTestFileInput" accept=".csv" style="display: none;">
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="columnMappingArea" class="col-mapping hidden">
@@ -508,17 +527,65 @@
                     </div>
                 </div>
 
+                <!-- ハイパーパラメータ自動最適化モード（メイン配置） -->
+                <div style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(99, 102, 241, 0.1)); border: 1.5px solid rgba(6, 182, 212, 0.35); border-radius: 10px; padding: 18px; margin-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                        <div style="font-size: 1.1rem; color: #22d3ee; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            ハイパーパラメータ自動最適化モード
+                        </div>
+                        <span style="font-size: 0.75rem; background-color: rgba(6, 182, 212, 0.2); color: #38bdf8; border: 1px solid rgba(6, 182, 212, 0.4); padding: 3px 10px; border-radius: 9999px; font-weight: 700;">
+                            とりあえずそれなりのモデルを作りたい方向け
+                        </span>
+                    </div>
+                    <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 14px; line-height: 1.5;">
+                        ボタンを押すとアルゴリズムが学習率・バッチサイズ・最適化器を自動探索し、最もテストMAE（絶対誤差）の小さい最良モデルを選抜・生成します。
+                    </p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                        <div>
+                            <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 4px;">探索方式</label>
+                            <select id="paramSearchType" style="padding: 8px; font-size: 0.95rem;">
+                                <option value="grid">グリッドサーチ (主要な組み合わせを総当たり)</option>
+                                <option value="random">ランダムサーチ (無作為サンプリング)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 4px;">探索試行回数</label>
+                            <select id="paramTuneTrials" style="padding: 8px; font-size: 0.95rem;">
+                                <option value="6">6 回</option>
+                                <option value="8" selected>8 回 (推奨)</option>
+                                <option value="12">12 回</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+                        <label class="toggle-container" style="font-size: 0.85rem;">
+                            <input type="checkbox" id="paramAutoSaveAll" checked>
+                            <span>全試行のモデルと履歴をすべて保持・一括保存可能にする</span>
+                        </label>
+                        <span style="font-size: 0.76rem; color: #94a3b8;">※チェックを外しても最良モデルだけは必ず保存できます</span>
+                    </div>
+
+                    <button id="tuneBtn" class="btn-train" style="background: linear-gradient(135deg, #0891b2, #4f46e5); font-size: 1.1rem; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);" disabled>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        自動最適化モードで学習実行 (ライブラリ未読込)
+                    </button>
+                </div>
+
+                <!-- 手動パラメータ詳細設定（個別学習実行ボタンを内部に収納） -->
                 <details class="advanced-settings">
                     <summary class="advanced-summary">
                         <span style="display: inline-flex; align-items: center; gap: 8px;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                            詳細パラメータ設定 (シード・分割・最適化・ハイパーパラメータ)
+                            手動パラメータ設定・個別実行 (こだわり設定用)
                         </span>
                     </summary>
                     <div class="advanced-content">
-                        <div>
+                        <div id="splitRangeBox">
                             <div class="range-container">
-                                <label style="font-size: 0.95rem; color: #94a3b8;">訓練データの割合</label>
+                                <label style="font-size: 0.95rem; color: #94a3b8;">訓練データの割合 (自動分割時)</label>
                                 <span id="valSplit" class="range-val" style="font-size: 1.05rem;">80%</span>
                             </div>
                             <input type="range" id="paramSplit" min="50" max="90" step="5" value="80">
@@ -590,43 +657,43 @@
                             <input type="range" id="paramEpochs" min="10" max="300" step="10" value="100">
                         </div>
 
-                        <!-- 乱数シード設定（再現性確保） -->
-                        <div style="margin-top: 8px; border-top: 1px solid #33415550; padding-top: 10px;">
-                            <div class="toggle-container" style="margin-bottom: 8px;">
-                                <label class="switch">
-                                    <input type="checkbox" id="paramUseSeed" checked>
-                                    <span class="slider"></span>
-                                </label>
-                                <span style="font-size: 1rem;">乱数シードを固定する (データ分割・初期重みの再現)</span>
-                            </div>
-                            <div id="seedInputArea" style="border-left: 2px solid #334155; padding-left: 10px; margin-left: 6px; display: flex; align-items: center; gap: 8px;">
-                                <div style="flex: 1;">
-                                    <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 2px;">シード値 (Seed)</label>
-                                    <input type="number" id="paramSeedVal" value="42" style="width: 100%; background-color: #0f172a; border: 1px solid #334155; color: #f1f5f9; padding: 6px 10px; border-radius: 6px; font-size: 0.95rem; outline: none;">
-                                </div>
-                                <button type="button" id="btnRandomizeSeed" style="margin-top: 18px; background-color: #334155; color: #f1f5f9; border: 1px solid #475569; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-                                        <circle cx="12" cy="12" r="1" fill="currentColor"/>
-                                        <circle cx="16" cy="8" r="1" fill="currentColor"/>
-                                        <circle cx="8" cy="8" r="1" fill="currentColor"/>
-                                        <circle cx="8" cy="16" r="1" fill="currentColor"/>
-                                        <circle cx="16" cy="16" r="1" fill="currentColor"/>
-                                    </svg>
-                                    変更
-                                </button>
-                            </div>
-                            <div style="font-size: 0.76rem; color: #64748b; margin-top: 6px; line-height: 1.4;">
-                                ※ データ分割、Fold割り当て、層の初期重み（glorotNormal）をシードで固定します（WebGL並列演算の都合上、誤差が生じる場合があります）。
-                            </div>
-                        </div>
+                        <!-- 隠された個別手動実行ボタン -->
+                        <button id="trainBtn" class="btn-train" disabled style="margin-top: 10px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            手動指定パラメータで学習を開始する
+                        </button>
                     </div>
                 </details>
+            </div>
 
-                <button id="trainBtn" class="btn-train" disabled>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                    学習を開始する (ライブラリ未読込)
-                </button>
+            <!-- 最適化モードの結果一覧パネル -->
+            <div id="tuningResultsPanel" class="panel hidden" style="border-color: rgba(6, 182, 212, 0.4);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                    <div style="font-size: 1.05rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+                        自動最適化の探索プロセス一覧
+                    </div>
+                    <span id="tuneSummaryBadge" class="badge" style="background-color: rgba(6, 182, 212, 0.15); color: #22d3ee; border-color: rgba(6, 182, 212, 0.3);">探索完了</span>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="tuning-table">
+                        <thead>
+                            <tr>
+                                <th>試行</th>
+                                <th>最適化器</th>
+                                <th>学習率 (LR)</th>
+                                <th>バッチ</th>
+                                <th>エポック</th>
+                                <th style="color: #34d399;">テスト MAE</th>
+                                <th style="color: #fbbf24;">テスト R²</th>
+                                <th>ステータス</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tuningTableBody">
+                            <!-- JS動的追加 -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- 2. 学習ステータス＆進捗バーパネル -->
@@ -644,9 +711,7 @@
                             <div>訓練データ: <span id="numTrainSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
                             <div>テストデータ: <span id="numTestSamples" style="color: #ffffff; font-weight: 700;">-</span></div>
                         </div>
-                        <div id="skippedDataInfo" class="hidden" style="color: #f59e0b; font-size: 0.8rem; text-align: right;">
-                            <!-- 補完メッセージ動的挿入 -->
-                        </div>
+                        <div id="skippedDataInfo" class="hidden" style="color: #f59e0b; font-size: 0.8rem; text-align: right;"></div>
                     </div>
                 </div>
                 <div class="progress-bar-container">
@@ -712,12 +777,12 @@
             <div id="exportArea" class="export-card hidden" style="margin-top: 0;">
                 <p style="font-size: 1rem; color: #10b981; font-weight: 700; margin-bottom: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                    学習が完了しました！
+                    学習・最適化が完了しました！
                 </p>
                 
                 <div style="background-color: rgba(15, 23, 42, 0.6); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 14px; text-align: left; font-size: 0.85rem; color: #cbd5e1; line-height: 1.6;">
                     <div style="font-weight: bold; color: #34d399; margin-bottom: 6px;">【運用・予測の手順】</div>
-                    <div style="margin-bottom: 4px;">① 下のボタンを押して、作成したモデル（.json）をパソコンに保存します（再現用パラメータも自動記録されます）。</div>
+                    <div style="margin-bottom: 4px;">① 下のボタンを押して、最良モデル（.json）をパソコンにダウンロード保存します。</div>
                     <div style="margin-bottom: 4px;">② 画面上部のタブから「運用・予測推論」をクリックします。</div>
                     <div>③ 保存したモデルファイルを読み込ませると、学習条件を確認しながらいつでも予測シミュレーションができます。</div>
                 </div>
@@ -725,15 +790,18 @@
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <button id="exportModelBtn" class="btn-train btn-export" style="margin-top: 0;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        1. 学習済みモデルをダウンロード保存 (.json)
+                        1. 最良学習済みモデルをダウンロード保存 (.json)
+                    </button>
+                    <button id="exportAllTunedBtn" class="btn-train hidden" style="background-color: #4f46e5; margin-top: 0;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        全試行のハイパーパラメータ・結果・モデルを一括保存 (.json)
                     </button>
                     <button id="exportHistoryBtn" class="btn-train" style="background-color: #d97706; margin-top: 0;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>
-                        学習履歴データ (Loss推移・パラメータ詳細) を保存 (.json)
+                        最良モデルの学習履歴データ (Loss推移・パラメータ詳細) を保存 (.json)
                     </button>
                 </div>
             </div>
-
 
             <!-- 6. 理論・仕組みの解説アコーディオン -->
             <details class="accordion-panel">
@@ -751,10 +819,10 @@
                             そもそもニューラルネットワークとは？
                         </h3>
                         <p class="concept-text">
-                            ニューラルネットワーク（Neural Network）とは、人間の脳にある無数の神経細胞（ニューロン）が信号を伝え合う仕組みを模した<strong>数理モデル</strong>です。
+                            ニューラルネットワーク（Neural Network）とは、人間の脳にある無数の神経細胞（ニューロン）が信号を伝え合う仕組みを模した<strong>数理モデル</strong>です[cite: 1]。
                         </p>
                         <p class="concept-text">
-                            入力されたデータに対し、各ノード（神経細胞）が<strong>「重み（信号伝達の強さ）」</strong>と<strong>「バイアス（基準値の調整）」</strong>を掛け合わせ、活性化関数（ReLUなど）を通して次の層へバトンを渡します。この層が何重にも連なることで、単純な直線（線形）では表現できない複雑な<strong>非線形関係やパターンを自動的に近似</strong>できます。
+                            入力されたデータに対し、各ノード（神経細胞）が<strong>「重み（信号伝達の強さ）」</strong>と<strong>「バイアス（基準値の調整）」</strong>を掛け合わせ、活性化関数（ReLUなど）を通して次の層へバトンを渡します[cite: 1]。この層が何重にも連なることで、単純な直線（線形）では表現できない複雑な<strong>非線形関係やパターンを自動的に近似</strong>できます[cite: 1]。
                         </p>
 
                         <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 14px;">
@@ -777,7 +845,7 @@
                                     <span style="color: #94a3b8; font-size: 0.82rem; margin-left: 8px;">（※ 0以下の信号を遮断し、0超の信号だけを流す）</span>
                                 </div>
                                 <div style="font-size: 0.8rem; color: #94a3b8; line-height: 1.5; padding-left: 4px;">
-                                    ・<span style="color: #cbd5e1;">x<sub>1</sub>, ..., x<sub>m</sub></span>: 入力特徴量　
+                                    ・<span style="color: #cbd5e1;">x<sub>1</sub>, ..., x<sub>m</sub></span>: 入力特徴量 
                                     ・<span style="color: #cbd5e1;">w<sub>j</sub></span>: ノード間の信号伝達を調整する<strong>「重み (Weight)」</strong>（※多層モデルでは個々の重みを単独で特徴量重要度とみなすことはできません）<br>
                                     ・<span style="color: #cbd5e1;">b</span>: 発火しやすさの基準値を底上げ・抑制する<strong>「バイアス (Bias)」</strong>
                                 </div>
@@ -804,25 +872,25 @@
                                 </span>
                             </div>
                             <p class="concept-text" style="margin-bottom: 10px;">
-                                本アプリのニューラルネットワークも、後述の構成図にある通り<strong>2つの隠れ層（32ユニット / 16ユニット）すべてに活性化関数として「ReLU」を採用</strong>しています。<br>
-                                「複雑な非線形カーブを学習する」と聞くと滑らかな曲面を想像しがちですが、数学的には、本モデルを含むReLUネットワークの正体は<strong>「超多次元空間において、多数の平面領域をつなぎ合わせた連続区分線形関数（Continuous Piecewise Linear Function）」</strong>です。
+                                本アプリのニューラルネットワークも、後述の構成図にある通り<strong>2つの隠れ層（32ユニット / 16ユニット）すべてに活性化関数として「ReLU」を採用</strong>しています[cite: 1]。<br>
+                                「複雑な非線形カーブを学習する」と聞くと滑らかな曲面を想像しがちですが、数学的には、本モデルを含むReLUネットワークの正体は<strong>「超多次元空間において、多数の平面領域をつなぎ合わせた連続区分線形関数（Continuous Piecewise Linear Function）」</strong>です[cite: 1]。
                             </p>
 
                             <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 12px;">
                                 <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
                                     <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">① 1次元で見れば「多数の関節を持つ折れ線グラフ」</div>
-                                    入力が1つの場合、モデルの出力は<strong>多数の折れ曲がり（関節）を持つ折れ線</strong>になります。層（深さ）やノード（幅）が増えると、作られる線形領域（直線の区間）の理論上の最大数は指数関数的に増大します。関節が小間隔で並ぶことで、マクロな視点ではあたかも綺麗な滑らかな曲線に見えているのです。
+                                    入力が1つの場合、モデルの出力は<strong>多数の折れ曲がり（関節）を持つ折れ線</strong>になります[cite: 1]。層（深さ）やノード（幅）が増えると、作られる線形領域（直線の区間）の理論上の最大数は指数関数的に増大します[cite: 1]。関節が小間隔で並ぶことで、マクロな視点ではあたかも綺麗な滑らかな曲線に見えているのです[cite: 1]。
                                 </div>
                                 <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
                                     <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">② 多次元では「超平面領域のパッチワーク（折り紙）」</div>
-                                    入力が2次元なら「折り目だらけの立体的な多面体サーフェス」、本アプリのような複数次元なら「有限個ではあるものの多数の超平面領域からなるパッチワーク」となります。曲線を微小な直線メッシュで近似する数値計算と同じ幾何学的構造です。
+                                    入力が2次元なら「折り目だらけの立体的な多面体サーフェス」、本アプリのような複数次元なら「有限個ではあるものの多数の超平面領域からなるパッチワーク」となります[cite: 1]。曲線を微小な直線メッシュで近似する数値計算と同じ幾何学的構造です[cite: 1]。
                                 </div>
                             </div>
 
                             <div style="border-top: 1px dashed #334155; padding-top: 10px; font-size: 0.83rem; color: #94a3b8; line-height: 1.6;">
                                 <strong style="color: #34d399; display: block; margin-bottom: 4px;">【実務上の決定的な2大特徴】</strong>
-                                ・<span style="color: #f1f5f9; font-weight: 600;">局所的な線形性と勾配伝播:</span> 各線形領域の内部では局所勾配が一定で、特に正の領域では微分が1となるため、シグモイド関数等に比べ飽和に由来する勾配消失を大幅に緩和できます。ただし、負の領域で勾配が0になるDead ReLUや、多層化に伴う重み積に起因する勾配消失・勾配爆発は依然として起こり得ます。<br>
-                                ・<span style="color: #f1f5f9; font-weight: 600;">領域外の外挿（Extrapolation）はアフィン関数:</span> ある固定方向に沿って入力を十分遠くまで動かすと、有限のReLUネットワークは最終的に同一の活性化パターンに入り、その方向上ではアフィン関数（直線）として外挿されます（※多次元では進む方向によって傾きが異なります）。これが「学習データ範囲外への外挿に注意が必要」と言われる数学的理由です。
+                                ・<span style="color: #f1f5f9; font-weight: 600;">局所的な線形性と勾配伝播:</span> 各線形領域の内部では局所勾配が一定で、特に正の領域では微分が1となるため、シグモイド関数等に比べ飽和に由来する勾配消失を大幅に緩和できます[cite: 1]。ただし、負の領域で勾配が0になるDead ReLUや、多層化に伴う重み積に起因する勾配消失・勾配爆発は依然として起こり得ます[cite: 1]。<br>
+                                ・<span style="color: #f1f5f9; font-weight: 600;">領域外の外挿（Extrapolation）はアフィン関数:</span> ある固定方向に沿って入力を十分遠くまで動かすと、有限のReLUネットワークは最終的に同一の活性化パターンに入り、その方向上ではアフィン関数（直線）として外挿されます（※多次元では進む方向によって傾きが異なります）[cite: 1]。これが「学習データ範囲外への外挿に注意が必要」と言われる数学的理由です[cite: 1]。
                             </div>
                         </div>
                     </div>
@@ -846,8 +914,8 @@
                             1エポック内で何が行われているのか？（逆誤差伝播法の位置づけ）
                         </h3>
                         <p class="concept-text">
-                            <strong>「1エポック」</strong>とは、用意したすべての訓練データを<strong>モデルが1巡学習すること</strong>を指します。<br>
-                            1エポックの中では、データを小さな塊（バッチサイズ: 例16件）に分け、以下の<strong>4つのステップを何十回も繰り返して</strong>少しずつ賢くなっていきます。
+                            <strong>「1エポック」</strong>とは、用意したすべての訓練データを<strong>モデルが1巡学習すること</strong>を指します[cite: 1]。<br>
+                            1エポックの中では、データを小さな塊（バッチサイズ: 例16件）に分け、以下の<strong>4つのステップを何十回も繰り返して</strong>少しずつ賢くなっていきます[cite: 1]。
                         </p>
 
                         <div class="epoch-cycle-grid">
@@ -861,7 +929,7 @@
                                     順伝播 (Forward)
                                 </div>
                                 <p class="cycle-step-desc">
-                                    入力層から隠れ層を経て出力層へとデータをそのまま流し、現在の重みを使ってモデルが<strong>仮の予測値</strong>を算出します。
+                                    入力層から隠れ層を経て出力層へとデータをそのまま流し、現在の重みを使ってモデルが<strong>仮の予測値</strong>を算出します[cite: 1]。
                                 </p>
                             </div>
 
@@ -875,7 +943,7 @@
                                     誤差の算出 (Loss)
                                 </div>
                                 <p class="cycle-step-desc">
-                                    モデルの予測値と正解データの実測値を突き合わせ、どれだけズレているか（<strong>平均二乗誤差: MSE</strong>）を算出します。
+                                    モデルの予測値と正解データの実測値を突き合わせ、どれだけズレているか（<strong>平均二乗誤差: MSE</strong>）を算出します[cite: 1]。
                                 </p>
                             </div>
 
@@ -889,7 +957,7 @@
                                     逆誤差伝播法
                                 </div>
                                 <p class="cycle-step-desc">
-                                    生じた誤差を出力層から入力層へ向かって<strong>逆向きに遡らせ</strong>、「どの重みがどれくらい誤差の原因になったか（勾配・偏微分）」を数学的に割り出します。
+                                    生じた誤差を出力層から入力層へ向かって<strong>逆向きに遡らせ</strong>、「どの重みがどれくらい誤差の原因になったか（勾配・偏微分）」を数学的に割り出します[cite: 1]。
                                 </p>
                             </div>
 
@@ -903,13 +971,13 @@
                                     重みの微調整
                                 </div>
                                 <p class="cycle-step-desc">
-                                    逆誤差伝播で求めた勾配と学習率（Learning Rate）を基に、オプティマイザ（Adam等）が誤差を減らす方向へ<strong>重みをミリ単位で更新</strong>します。
+                                    逆誤差伝播で求めた勾配と学習率（Learning Rate）を基に、オプティマイザ（Adam等）が誤差を減らす方向へ<strong>重みをミリ単位で更新</strong>します[cite: 1]。
                                 </p>
                             </div>
                         </div>
 
                         <p class="concept-text" style="margin-top: 14px; font-size: 0.82rem; color: #94a3b8;">
-                            ※ この4ステップをバッチ単位でぐるぐると回して1エポックが終わると、最後に<strong>検証データ（Valデータ）</strong>を使って「今の重みで未知のデータに通用するか？」をテストし、グラフに Val Loss としてプロットされます。
+                            ※ この4ステップをバッチ単位でぐるぐると回して1エポックが終わると、最後に<strong>検証データ（Valデータ）</strong>を使って「今の重みで未知のデータに通用するか？」をテストし、グラフに Val Loss としてプロットされます[cite: 1]。
                         </p>
                     </div>
 
@@ -921,7 +989,7 @@
                         </h3>
                         <p class="concept-text">
                             「出力で生じたズレ（誤差）を、どうやって入力側の各重みに配分するのか？」<br>
-                            その数学的な鍵が高校数学で習う<strong>「合成関数の微分（連鎖律: Chain Rule）」</strong>です。途中の変数を介して掛け算で勾配（坂の傾き）をバケツリレーのように後ろから前へ伝えます。
+                            その数学的な鍵が高校数学で習う<strong>「合成関数の微分（連鎖律: Chain Rule）」</strong>です[cite: 1]。途中の変数を介して掛け算で勾配（坂の傾き）をバケツリレーのように後ろから前へ伝えます[cite: 1]。
                         </p>
 
                         <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
@@ -934,7 +1002,7 @@
                                     <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">① 単一サンプルの二乗誤差損失（Loss）の定義式:</span>
                                     <span style="color: #fbbf24; font-weight: 700;">L</span> = 
                                     <span style="font-size: 1.05rem;">½</span> ( <span style="color: #38bdf8; font-weight: 600;">ŷ</span> - <span style="color: #34d399; font-weight: 600;">y</span> )<sup>2</sup>
-                                    <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px;">（※ 連鎖律の計算を分かりやすくするための教育的定義。実装上のMSEは ½ が付かない MSE = (1/n)∑(ŷᵢ - yᵢ)² であり、以下の数値例の勾配は実装MSEと定数倍[2倍]異なります）</span>
+                                    <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px;">（※ 連鎖律の計算を分かりやすくするための教育的定義。実装上のMSEは ½ が付かない MSE = (1/n)∑(ŷᵢ - yᵢ)² であり、以下の数値例の勾配は実装MSEと定数倍[2倍]異なります）[cite: 1]</span>
                                 </div>
 
                                 <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
@@ -974,11 +1042,11 @@
                             </div>
 
                             <div style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin-bottom: 8px;">
-                                ※ 理解しやすさを最優先するため、<strong>活性化関数（ReLU等の非線形変換）やバイアスを省いた、最も初歩的な1入力・1出力の線形モデル（ŷ = w · x）</strong>を想定しています。
+                                ※ 理解しやすさを最優先するため、<strong>活性化関数（ReLU等の非線形変換）やバイアスを省いた、最も初歩的な1入力・1出力の線形モデル（ŷ = w · x）</strong>を想定しています[cite: 1]。
                             </div>
 
                             <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.7;">
-                                現在の重みを <span style="color: #38bdf8; font-weight: 700;">w = 3</span>、学習率を <span style="color: #34d399; font-weight: 700;">η = 0.1</span> と仮定します。
+                                現在の重みを <span style="color: #38bdf8; font-weight: 700;">w = 3</span>、学習率を <span style="color: #34d399; font-weight: 700;">η = 0.1</span> と仮定します[cite: 1]。
                             </div>
 
                             <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.88rem;">
@@ -994,14 +1062,14 @@
                                     <span style="color: #34d399; font-weight: 700;">3. 重みの更新（最急降下法 / SGD の基本例）:</span><br>
                                     新w = w - η × (傾き) = 3 - 0.1 × ( -8 ) = 3 + 0.8 = <strong style="color: #34d399;">3.8</strong>
                                     <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">
-                                        ※ 最も基礎的なSGDの更新式です。本アプリで採用している<strong>Adam</strong>は、過去の勾配の勢い（モメンタム）と変動幅の移動平均を考慮してステップ幅を賢く自動調整します。
+                                        ※ 最も基礎的なSGDの更新式です[cite: 1]。本アプリで採用している<strong>Adam</strong>は、過去の勾配の勢い（モメンタム）と変動幅の移動平均を考慮してステップ幅を賢く自動調整します[cite: 1]。
                                     </div>
                                 </div>
                             </div>
 
                             <p class="concept-text" style="margin-top: 10px; font-size: 0.82rem; color: #94a3b8; line-height: 1.6;">
-                                ➔ 重みが <strong style="color: #cbd5e1;">3 から 3.8 へと自動的に増えました</strong>。次の予測値は <strong style="color: #34d399;">3.8 × 2 = 7.6</strong> となり、正解の 10 にグッと近づきます！<br>
-                                ※ 実際の多層ネットワークでは、層と層の間に<strong>活性化関数（ReLUなど）の傾き（ReLUなら入力が0超で1、0以下で0）</strong>が掛け算で挟まりながら、入力層へ向かって順番に連鎖律で遡っていきます。
+                                ➔ 重みが <strong style="color: #cbd5e1;">3 から 3.8 へと自動的に増えました</strong>[cite: 1]。次の予測値は <strong style="color: #34d399;">3.8 × 2 = 7.6</strong> となり、正解の 10 にグッと近づきます！<br>
+                                ※ 実際の多層ネットワークでは、層と層の間に<strong>活性化関数（ReLUなど）の傾き（ReLUなら入力が0超で1、0以下で0）</strong>が掛け算で挟まりながら、入力層へ向かって順番に連鎖律で遡っていきます[cite: 1]。
                             </p>
                         </div>
                     </div>
@@ -1013,7 +1081,7 @@
                             学習の入れ子構造（エポック・K-Fold・バッチ・重み引き継ぎの仕組み）
                         </h3>
                         <p class="concept-text">
-                            学習の処理は、大きな枠組みから微細な更新まで<strong>4層の入れ子（マトリョーシカ）構造</strong>で行われています。
+                            学習の処理は、大きな枠組みから微細な更新まで<strong>4層の入れ子（マトリョーシカ）構造</strong>で行われています[cite: 1]。
                         </p>
 
                         <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
@@ -1022,7 +1090,7 @@
                                     ① 1エポック内でK個のモデルが順番に（直列に）1巡学習する
                                 </div>
                                 <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                    「Epoch 1」の間に、<strong>Model 1からModel Kまでの全モデルがそれぞれの担当Trainデータで順番に1巡</strong>します。本アプリでは全モデルの1巡が終わった時点で進捗バーが1エポック分進み、K個のLossの平均値がグラフに記録されます。
+                                    「Epoch 1」の間に、<strong>Model 1からModel Kまでの全モデルがそれぞれの担当Trainデータで順番に1巡</strong>します[cite: 1]。本アプリでは全モデルの1巡が終わった時点で進捗バーが1エポック分進み、K個のLossの平均値がグラフに記録されます[cite: 1]。
                                 </div>
                             </div>
 
@@ -1031,8 +1099,8 @@
                                     ② 各FoldのTrainデータをさらに小さな「バッチ」に分割
                                 </div>
                                 <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                    例えばTrainが400件、K=5の場合、1つのモデルが学習するデータは<strong>320件</strong>（残り80件はVal）。<br>
-                                    この320件を一度に丸呑みせず、バッチサイズが16なら <strong>320 ÷ 16 = 20個の小包（ミニバッチ）</strong> に分割して順番に投入します。
+                                    例えばTrainが400件、K=5の場合、1つのモデルが学習するデータは<strong>320件</strong>（残り80件はVal）[cite: 1]。<br>
+                                    この320件を一度に丸呑みせず、バッチサイズが16なら <strong>320 ÷ 16 = 20個の小包（ミニバッチ）</strong> に分割して順番に投入します[cite: 1]。
                                 </div>
                             </div>
 
@@ -1041,9 +1109,9 @@
                                     ③ 1エポックの中でAdamは何十回も重みを更新している！（直列処理）
                                 </div>
                                 <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                    各バッチは並列ではなく、バッチ1 ➔ バッチ2 ➔ … と<strong>直列（逐次的）に順番に処理</strong>されます。<br>
-                                    <strong>【16件はどう使われる？】</strong> 16件のデータをまとめて流し、それぞれのデータから生じた<strong>勾配（傾き）の「平均値」</strong>を算出します。1件ずつのブレやノイズをならしたこの「平均勾配」を使い、1バッチにつき1回だけAdamが重みを更新します。<br>
-                                    そして、<strong>直前のバッチで賢くなった最新の重みを受け継いだ状態で次のバッチ（次の16件）が計算</strong>されます。つまり1エポック内でAdamは各モデルにつき<strong>直列に20回</strong>（100エポックなら計2,000回）も重みを微調整し続けています。
+                                    各バッチは並列ではなく、バッチ1 ➔ バッチ2 ➔ … と<strong>直列（逐次的）に順番に処理</strong>されます[cite: 1]。<br>
+                                    <strong>【16件はどう使われる？】</strong> 16件のデータをまとめて流し、それぞれのデータから生じた<strong>勾配（傾き）の「平均値」</strong>を算出します[cite: 1]。1件ずつのブレやノイズをならしたこの「平均勾配」を使い、1バッチにつき1回だけAdamが重みを更新します[cite: 1]。<br>
+                                    そして、<strong>直前のバッチで賢くなった最新の重みを受け継いだ状態で次のバッチ（次の16件）が計算</strong>されます[cite: 1]。つまり1エポック内でAdamは各モデルにつき<strong>直列に20回</strong>（100エポックなら計2,000回）も重みを微調整し続けています[cite: 1]。
                                 </div>
                             </div>
 
@@ -1052,8 +1120,8 @@
                                     ④ 次のエポックへ「何」を引き継いで「どう」改善するのか？
                                 </div>
                                 <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                    引き継がれるのは<strong>「直前のエポックの最後（例: 20回目）の更新で得られた最新の重み（Weight）」</strong>です。重みはリセットされず蓄積されます。<br>
-                                    次のエポックでは、データを再度ランダムにシャッフルした上で、<strong>賢くなった重みを初期値として再スタート</strong>します。前エポックで取りこぼした誤差をさらに削り落とすように、Adamがより理想的な重みへと収束させていきます。
+                                    引き継がれるのは<strong>「直前のエポックの最後（例: 20回目）の更新で得られた最新の重み（Weight）」</strong>です[cite: 1]。重みはリセットされず蓄積されます[cite: 1]。<br>
+                                    次のエポックでは、データを再度ランダムにシャッフルした上で、<strong>賢くなった重みを初期値として再スタート</strong>します[cite: 1]。前エポックで取りこぼした誤差をさらに削り落とすように、Adamがより理想的な重みへと収束させていきます[cite: 1]。
                                 </div>
                             </div>
                         </div>
@@ -1090,7 +1158,7 @@
                             <span style="color: #fb7185;">▲ 完全隔離（学習時は一切非接触）</span>
                         </div>
                         <p class="pipeline-note">
-                            <strong>データリーク（情報のカンニング）の防止:</strong> テストデータは金庫に保管するように隔離され、標準化のための平均・標準偏差の算出やモデル訓練には一切関与しません。
+                            <strong>データリーク（情報のカンニング）の防止:</strong> テストデータは金庫に保管するように隔離され、標準化のための平均・標準偏差の算出やモデル訓練には一切関与しません[cite: 1]。
                         </p>
                     </div>
 
@@ -1165,7 +1233,7 @@
                             </div>
                         </div>
                         <p class="pipeline-note" style="margin-top: 8px;">
-                            ※ K-Foldオフ（K=1）時も、Train内部を <strong>約8:2（学習約80% / 検証約20%）</strong> にホールドアウト分割して学習中のVal Lossを測定します。テストデータは学習中一切非接触のまま隔離されます。
+                            ※ K-Foldオフ（K=1）時も、Train内部を <strong>約8:2（学習約80% / 検証約20%）</strong> にホールドアウト分割して学習中のVal Lossを測定します[cite: 1]。テストデータは学習中一切非接触のまま隔離されます[cite: 1]。
                         </p>
                     </div>
 
@@ -1204,6 +1272,56 @@
                     </div>
                 </div>
             </details>
+
+            <!-- 8. 新設：最適化モードとグルーピング・リークの解説アコーディオン -->
+            <details class="accordion-panel">
+                <summary class="accordion-summary">
+                    <span style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #22d3ee;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        最適化モードの仕組みとグルーピング・リークへの注意
+                    </span>
+                    <span style="font-size: 0.8rem; font-weight: normal; color: #94a3b8;">クリックして展開</span>
+                </summary>
+                <div class="accordion-content">
+                    <div class="concept-section">
+                        <h3 class="concept-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+                            1. ハイパーパラメータの自動最適化（グリッドサーチ／ランダムサーチ）とは？
+                        </h3>
+                        <p class="concept-text">
+                            ニューラルネットワークには、逆誤差伝播法による訓練で自動更新される<strong>「内部パラメータ（重み・バイアス）」</strong>と、学習前に人間側で決めなければならない<strong>「ハイパーパラメータ（学習率・バッチサイズ・最適化器・エポック数など）」</strong>が存在します。
+                        </p>
+                        <p class="concept-text">
+                            例えば学習率が高すぎると損失関数が発散し、低すぎると局所解に停滞します。ハイパーパラメータの組み合わせによってモデルの汎化性能は劇的に変化します。本アプリの<strong>自動最適化モード</strong>は、複数の候補設定を自動的に順次試行し、隔離されたテストデータに対する<strong>MAE（平均絶対誤差）が最も小さい最良モデルを自動的に選抜</strong>します。
+                        </p>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px;">
+                            <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.85rem; color: #cbd5e1;">
+                                <strong style="color: #38bdf8;">・グリッドサーチ:</strong> 設定された主要候補の直積（総当たり）を規則正しく評価します。確実性の高い探索方式です。
+                            </div>
+                            <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.85rem; color: #cbd5e1;">
+                                <strong style="color: #38bdf8;">・ランダムサーチ:</strong> 探索空間から無作為にサンプリングして試行します。試行回数を抑えつつ広い領域から有望な組み合わせを発見できます。
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="concept-section" style="margin-bottom: 0;">
+                        <h3 class="concept-title" style="color: #fb7185;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            2. グルーピングによるデータリーク（Data Leakage）の注意点と個別アップロードの重要性
+                        </h3>
+                        <p class="concept-text">
+                            <strong>データリーク（情報の漏洩・カンニング）</strong>とは、本来テスト時に知り得ないはずの情報が学習データに混入してしまう重大な統計的不正です。
+                        </p>
+                        <div style="background-color: rgba(244, 63, 94, 0.08); border-left: 3px solid #fb7185; border-radius: 4px 8px 8px 4px; padding: 12px 14px; font-size: 0.86rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 12px;">
+                            <strong style="color: #fb7185;">ランダム自動分割の落とし穴（グループ構造の破壊）:</strong><br>
+                            例えば「同一被験者の複数回測定データ」「同一店舗の時系列データ」「同一ロットの製品データ」など、内在するグループ構造があるデータを単一のCSVとして無作為にシャッフル分割すると、<strong>同一グループの断片がTrainとTestの両方に混入</strong>します。この場合、モデルは未知の普遍的法則ではなく「そのグループ固有の癖」を暗記してしまい、見かけのテスト評価だけが異常に高く、実務に投入した瞬間に全く機能しない過学習モデルに陥ります。
+                        </div>
+                        <p class="concept-text" style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0;">
+                            ➔ 本アプリが<strong>「教師データとテストデータを個別にアップロード」</strong>できる機能を備えているのはこのためです。ユーザー側で被験者IDや日付、店舗ごとにグループを厳密に隔離した2つのCSVを持ち込むことで、グルーピングによるデータリークを完全に防いだ真のホールドアウト検証を実現できます。
+                        </p>
+                    </div>
+                </div>
+            </details>
         </div>
 
         <!-- 予測推論エリア（完全1列フロー） -->
@@ -1215,7 +1333,7 @@
                     Step 1: モデルファイルの読み込み
                 </h2>
                 <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
-                    [訓練タブ] で保存したモデルファイル (.json) を選択またはドラッグ＆ドロップしてください。
+                    [訓練タブ] で保存したモデルファイル (.json) を選択またはドラッグ＆ドロップしてください[cite: 1]。
                 </p>
 
                 <label class="upload-area" id="modelDropArea" style="border-color: #10b98140;">
@@ -1269,12 +1387,12 @@
                 <div id="inferencePlaceholder" style="text-align: center; padding: 40px 20px; color: #94a3b8;">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 16px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     <p style="font-weight: 700; margin-bottom: 4px; font-size: 1rem;">まだモデルが読み込まれていません</p>
-                    <p style="font-size: 0.85rem;">すぐ上のパネルから、保存したモデルファイル (.json) を選択してください。</p>
+                    <p style="font-size: 0.85rem;">すぐ上のパネルから、保存したモデルファイル (.json) を選択してください[cite: 1]。</p>
                 </div>
 
                 <div id="inferenceFormArea" class="hidden">
                     <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 16px;">
-                        各スライダーを左右に動かすと、モデルが条件に合わせて自動で計算し、即座に予測結果を出力します。
+                        各スライダーを左右に動かすと、モデルが条件に合わせて自動で計算し、即座に予測結果を出力します[cite: 1]。
                     </p>
                     <div id="dynamicInputsContainer" class="dynamic-form-grid">
                         <!-- 動的スライダー追加エリア -->
@@ -1320,7 +1438,7 @@
                             1. 変数ごとの範囲チェック（直方体判定）が失敗する幾何学的理由
                         </h3>
                         <p class="concept-text">
-                            実務でよく使われる「各変数のスライダーが [min, max] の中に収まっているか？」というチェックは、多次元空間では<strong>「各座標軸に平行な直方体（Bounding Box）」</strong>で境界を囲っていることになります。
+                            実務でよく使われる「各変数のスライダーが [min, max] の中に収まっているか？」というチェックは、多次元空間では<strong>「各座標軸に平行な直方体（Bounding Box）」</strong>で境界を囲っていることになります[cite: 1]。
                         </p>
 
                         <div style="display: grid; grid-template-columns: 1fr; gap: 16px; align-items: center; margin-top: 12px;">
@@ -1328,10 +1446,10 @@
                                 <div style="display: flex; flex-direction: column; gap: 10px;">
                                     <div style="background-color: rgba(244, 63, 94, 0.08); border-left: 3px solid #fb7185; border-radius: 4px 8px 8px 4px; padding: 10px 14px; font-size: 0.86rem; color: #cbd5e1; line-height: 1.6;">
                                         <strong style="color: #fb7185;">落とし穴：相関（変数の組み合わせの妥当性）を見落とす</strong><br>
-                                        例えば「身長190cm」も「体重42kg」も、単独の1変数としては実在し得る範囲です。しかし<strong>「身長190cmで体重42kg」という組み合わせ（下図の点B）</strong>は、現実の相関から大きく外れた明らかな異常データです。直方体判定では、これを「枠内だから正常（内挿）」と致命的な誤認をしてしまいます。
+                                        例えば「身長190cm」も「体重42kg」も、単独の1変数としては実在し得る範囲です[cite: 1]。しかし<strong>「身長190cmで体重42kg」という組み合わせ（下図の点B）</strong>は、現実の相関から大きく外れた明らかな異常データです[cite: 1]。直方体判定では、これを「枠内だから正常（内挿）」と致命的な誤認をしてしまいます[cite: 1]。
                                     </div>
                                     <p class="concept-text" style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 0;">
-                                        相関があるデータが実際に占める領域は直方体ではなく、斜めに傾いた<strong>「超楕円体」</strong>になります。直方体の四隅にある「角の空白地帯」を踏み外していないかを監視する必要があります。
+                                        相関があるデータが実際に占める領域は直方体ではなく、斜めに傾いた<strong>「超楕円体」</strong>になります[cite: 1]。直方体の四隅にある「角の空白地帯」を踏み外していないかを監視する必要があります[cite: 1]。
                                     </p>
                                 </div>
 
@@ -1364,7 +1482,7 @@
                                         <text x="280" y="152" fill="#fb7185" font-size="11.5" font-weight="700">点B (枠内だが組み合わせ異常！)</text>
                                     </svg>
                                     <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 6px;">
-                                        重心からの直線距離は A も B もほぼ同じですが、B は学習データが一切存在しない「不自然な組み合わせ」です。
+                                        重心からの直線距離は A も B もほぼ同じですが、B は学習データが一切存在しない「不自然な組み合わせ」です[cite: 1]。
                                     </div>
                                 </div>
                             </div>
@@ -1378,17 +1496,17 @@
                             2. 解決策：主成分空間への回転と「白色化（マハラノビス距離）」
                         </h3>
                         <p class="concept-text">
-                            斜めに歪んだ楕円空間のままでは距離が測りにくいため、数学的に<strong>「主成分分析（PCA）」</strong>と同じ座標変換を施します。
+                            斜めに歪んだ楕円空間のままでは距離が測りにくいため、数学的に<strong>「主成分分析（PCA）」</strong>と同じ座標変換を施します[cite: 1]。
                         </p>
 
                         <div style="display: flex; flex-direction: column; gap: 10px; margin: 12px 0;">
                             <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #818cf8; border-radius: 4px 8px 8px 4px; padding: 10px 14px; font-size: 0.85rem; color: #cbd5e1; line-height: 1.6;">
                                 <strong style="color: #a5b4fc;">Step 1: データの中心化と回転（無相関化）</strong><br>
-                                データを平均重心 $\mu$ だけ平行移動し、データの分散が最大となる直交軸（主成分軸 $U$）へ回転させます。これにより、変数間の斜めの相関関係が綺麗に解消されます。
+                                データを平均重心 $\mu$ だけ平行移動し、データの分散が最大となる直交軸（主成分軸 $U$）へ回転させます[cite: 1]。これにより、変数間の斜めの相関関係が綺麗に解消されます[cite: 1]。
                             </div>
                             <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #06b6d4; border-radius: 4px 8px 8px 4px; padding: 10px 14px; font-size: 0.85rem; color: #cbd5e1; line-height: 1.6;">
                                 <strong style="color: #22d3ee;">Step 2: 主成分ごとの標準偏差で割る（白色化: Whitening）</strong><br>
-                                各主成分軸の座標 $z_i$ を、その軸方向の標準偏差 $\sqrt{\lambda_i}$（固有値の平方根）で割り算します。よく広がる軸は縮小され、滅多に広がらない軸は引き伸ばされ、歪んだ楕円が<strong>「半径が均一な真円（超球面）」</strong>へと整形されます。
+                                各主成分軸の座標 $z_i$ を、その軸方向の標準偏差 $\sqrt{\lambda_i}$（固有値の平方根）で割り算します[cite: 1]。よく広がる軸は縮小され、滅多に広がらない軸は引き伸ばされ、歪んだ楕円が<strong>「半径が均一な真円（超球面）」</strong>へと整形されます[cite: 1]。
                             </div>
                         </div>
 
@@ -1400,7 +1518,7 @@
                                 <span style="font-weight: 700; color: #22d3ee;">∑ ( z<sub>i</sub> / √λ<sub>i</sub> )<sup>2</sup></span>
                             </div>
                             <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 6px; line-height: 1.5;">
-                                ※ 行列式を介していますが、本質は<strong>「白色化された無相関空間において、原点から測った単純なユークリッド距離」</strong>そのものです。
+                                ※ 行列式を介していますが、本質は<strong>「白色化された無相関空間において、原点から測った単純なユークリッド距離」</strong>そのものです[cite: 1]。
                             </div>
                         </div>
                     </div>
@@ -1413,7 +1531,7 @@
                         </h3>
                         <p class="concept-text">
                             「では、マハラノビス距離がいくつ以上になったら『外挿』と判定すべきか？」<br>
-                            本アプリでは、確率分布の形を無理に仮定しない<strong>実績ベースの幾何学的アプローチ（データ適格ドメイン: Applicability Domain）</strong>を採用しています。
+                            本アプリでは、確率分布の形を無理に仮定しない<strong>実績ベースの幾何学的アプローチ（データ適格ドメイン: Applicability Domain）</strong>を採用しています[cite: 1]。
                         </p>
 
                         <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 10px;">
@@ -1422,15 +1540,15 @@
                             </div>
                             <ul style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.7; padding-left: 18px;">
                                 <li>
-                                    <strong>全訓練データの実績値をスキャン:</strong> 学習時にすべての訓練データ点についてマハラノビス距離を計算し、重心から最も遠かったサンプルの距離 <strong style="color: #ffffff;">max(D<sub>M</sub>)</strong> を割り出します。
+                                    <strong>全訓練データの実績値をスキャン:</strong> 学習時にすべての訓練データ点についてマハラノビス距離を計算し、重心から最も遠かったサンプルの距離 <strong style="color: #ffffff;">max(D<sub>M</sub>)</strong> を割り出します[cite: 1]。
                                 </li>
                                 <li>
                                     <strong>105%（+5%）の安全バッファを付与:</strong><br>
                                     <span style="font-family: monospace; color: #34d399; font-weight: 700; font-size: 0.95rem;">閾値 = max(D<sub>M</sub>) × 1.05</span><br>
-                                    最も外側にあった実績データよりさらに5%外側へはみ出した瞬間に「訓練データ未踏の領域（多変量外挿）」とみなして警告を出します。
+                                    最も外側にあった実績データよりさらに5%外側へはみ出した瞬間に「訓練データ未踏の領域（多変量外挿）」とみなして警告を出します[cite: 1]。
                                 </li>
                                 <li>
-                                    <strong>正規分布を仮定しない頑健性:</strong> カイ二乗分布による理論値ではなく実測最大値を基準としているため、データが歪んでいたり裾が重い実務データでも誤検出を起こしにくい特徴があります。
+                                    <strong>正規分布を仮定しない頑健性:</strong> カイ二乗分布による理論値ではなく実測最大値を基準としているため、データが歪んでいたり裾が重い実務データでも誤検出を起こしにくい特徴があります[cite: 1]。
                                 </li>
                             </ul>
                         </div>
@@ -1456,97 +1574,69 @@
                 identity[i] = 1;
                 return r.concat(identity);
             });
-
             for (let i = 0; i < n; i++) {
                 let maxRow = i;
                 for (let k = i + 1; k < n; k++) {
                     if (Math.abs(M[k][i]) > Math.abs(M[maxRow][i])) maxRow = k;
                 }
                 [M[i], M[maxRow]] = [M[maxRow], M[i]];
-
                 let pivot = M[i][i];
-                if (Math.abs(pivot) < 1e-12) pivot = 1e-12; // ゼロ除算回避
-
+                if (Math.abs(pivot) < 1e-12) pivot = 1e-12;
                 for (let j = 0; j < 2 * n; j++) M[i][j] /= pivot;
-
                 for (let k = 0; k < n; k++) {
                     if (k !== i) {
                         const factor = M[k][i];
-                        for (let j = 0; j < 2 * n; j++) {
-                            M[k][j] -= factor * M[i][j];
-                        }
+                        for (let j = 0; j < 2 * n; j++) M[k][j] -= factor * M[i][j];
                     }
                 }
             }
             return M.map(row => row.slice(n));
         }
 
-        // 訓練データからマハラノビス距離用のパラメータ（平均、逆共分散行列、閾値）を算出
+        // 訓練データからマハラノビス距離用のパラメータを算出
         function fitMahalanobis(X) {
             const n = X.length;
             const p = X[0].length;
             if (n <= p || p === 0) return null;
-
-            // 1. 平均ベクトル
             const means = Array(p).fill(0);
-            for (let i = 0; i < n; i++) {
-                for (let j = 0; j < p; j++) means[j] += X[i][j];
-            }
+            for (let i = 0; i < n; i++) { for (let j = 0; j < p; j++) means[j] += X[i][j]; }
             for (let j = 0; j < p; j++) means[j] /= n;
 
-            // 2. 分散共分散行列
             const cov = Array.from({ length: p }, () => Array(p).fill(0));
             for (let i = 0; i < n; i++) {
                 for (let j = 0; j < p; j++) {
-                    for (let k = 0; k < p; k++) {
-                        cov[j][k] += (X[i][j] - means[j]) * (X[i][k] - means[k]);
-                    }
+                    for (let k = 0; k < p; k++) cov[j][k] += (X[i][j] - means[j]) * (X[i][k] - means[k]);
                 }
             }
-            // リッジ項（微小値）を足して数値的特異性を防止
             for (let j = 0; j < p; j++) {
                 for (let k = 0; k < p; k++) {
                     cov[j][k] /= (n - 1);
                     if (j === k) cov[j][k] += 1e-4;
                 }
             }
-
-            // 3. 逆行列
             const invCov = invertMatrix(cov);
-
-            // 4. 訓練データ自身のマハラノビス距離を計算し、最大値（+5%のバッファ）を閾値とする
             let maxDist = 0;
             for (let i = 0; i < n; i++) {
                 const dist = calculateMahalanobis(X[i], means, invCov);
                 if (dist > maxDist) maxDist = dist;
             }
-
-            return {
-                means: means,
-                invCov: invCov,
-                threshold: maxDist * 1.05
-            };
+            return { means, invCov, threshold: maxDist * 1.05 };
         }
 
-        // 単一データ点に対するマハラノビス距離の計算: sqrt((x - μ)^T * Σ^(-1) * (x - μ))
         function calculateMahalanobis(x, means, invCov) {
             const p = x.length;
             const diff = x.map((v, i) => v - means[i]);
             let distSq = 0;
             for (let i = 0; i < p; i++) {
                 let temp = 0;
-                for (let j = 0; j < p; j++) {
-                    temp += diff[j] * invCov[j][i];
-                }
+                for (let j = 0; j < p; j++) temp += diff[j] * invCov[j][i];
                 distSq += temp * diff[i];
             }
             return Math.sqrt(Math.max(0, distSq));
         }
         
         function selectSource(sourceType) {
-            document.querySelectorAll('.source-card').forEach(card => {
-                card.classList.remove('active');
-            });
+            document.querySelectorAll('.source-card').forEach(card => card.classList.remove('active'));
             const selectedRadio = document.querySelector(`input[value="${sourceType}"]`);
             if (selectedRadio) {
                 selectedRadio.checked = true;
@@ -1557,8 +1647,7 @@
         function injectScript(src) {
             return new Promise((resolve, reject) => {
                 const script = document.createElement('script');
-                script.src = src;
-                script.async = true;
+                script.src = src; script.async = true;
                 script.onload = () => resolve();
                 script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
                 document.head.appendChild(script);
@@ -1568,42 +1657,26 @@
         async function startLoadingLibraries() {
             const selectedRadio = document.querySelector('input[name="libSource"]:checked');
             const selectedVal = selectedRadio ? selectedRadio.value : 'online';
-            loadBtn.disabled = true;
-            loadBtn.innerText = "読み込み中...";
+            loadBtn.disabled = true; loadBtn.innerText = "読み込み中...";
             
-            let sources = {
-                tf: 'js/tf.min.js',
-                chart: 'js/chart.umd.js',
-                papa: 'js/papaparse.min.js'
+            let sources = selectedVal === 'online' ? {
+                tf: 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js',
+                chart: 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js',
+                papa: 'https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js'
+            } : {
+                tf: 'js/tf.min.js', chart: 'js/chart.umd.js', papa: 'js/papaparse.min.js'
             };
-
-            if (selectedVal === 'online') {
-                sources = {
-                    tf: 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js',
-                    chart: 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js',
-                    papa: 'https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js'
-                };
-            }
 
             try {
                 loadStatus.innerHTML = "1/3: TensorFlow.js を読み込み中...";
                 if (typeof tf === 'undefined') await injectScript(sources.tf);
-
                 loadStatus.innerHTML = "2/3: Chart.js を読み込み中...";
                 if (typeof Chart === 'undefined') await injectScript(sources.chart);
-
                 loadStatus.innerHTML = "3/3: PapaParse を読み込み中...";
                 if (typeof Papa === 'undefined') await injectScript(sources.papa);
 
                 loadStatus.innerHTML = "ライブラリの読み込みに成功しました。起動しています...";
-                
-                if (selectedVal === 'online') {
-                    badgeText.innerText = "TensorFlow.js (Online CDN)";
-                    sourceBadge.style.borderColor = "rgba(6, 182, 212, 0.4)";
-                } else {
-                    badgeText.innerText = "TensorFlow.js (Offline Local)";
-                    sourceBadge.style.borderColor = "rgba(16, 185, 129, 0.4)";
-                }
+                badgeText.innerText = selectedVal === 'online' ? "TensorFlow.js (Online CDN)" : "TensorFlow.js (Offline Local)";
 
                 setTimeout(() => {
                     welcomeOverlay.style.opacity = '0';
@@ -1611,152 +1684,100 @@
                         welcomeOverlay.classList.add('hidden');
                         initApp();
                     }, 300);
-                }, 800);
-
+                }, 600);
             } catch (err) {
                 console.error(err);
-                loadStatus.innerHTML = `エラー: スクリプトの取得に失敗しました。<br><span style="font-size: 0.85rem; color: #ef4444;">${err.message}<br>ローカルファイルパス、またはネット接続状況を確認してください。</span>`;
-                loadBtn.disabled = false;
-                loadBtn.innerText = "再試行する";
+                loadStatus.innerHTML = `エラー: スクリプトの取得に失敗しました。<br><span style="font-size: 0.85rem; color: #ef4444;">${err.message}</span>`;
+                loadBtn.disabled = false; loadBtn.innerText = "再試行する";
             }
         }
 
-        let paramSourceType, panelSimulation, panelUpload, paramFileInput, uploadedFileName, dropArea;
-        let columnMappingArea, lblRowsCount, mapTargetCol, mapFeatureCols;
+        // 変数群
+        let paramSourceType, panelSimulation, panelUpload, uploadSingleBox, uploadDualBox;
+        let paramFileInput, uploadedFileName, dropArea, paramTrainFileInput, uploadedTrainName, dropAreaTrain, paramTestFileInput, uploadedTestName, dropAreaTest;
+        let columnMappingArea, lblRowsCount, mapTargetCol, mapFeatureCols, splitRangeBox;
         let paramSamples, valSamples, paramSplit, valSplit, paramEpochs, valEpochs, paramNormalize, paramOptimizer, paramLR, paramBatch;
-        let trainBtn, resetDemoBtn, statusBadge, epochProgressText, progressBar, architectureInputs;
-        let numTrainSamples, numTestSamples, statLoss, statValLoss, statMae, statR2;
         let paramKFold, kFoldConfigArea, holdoutNoteArea, paramK, valK;
         let paramUseSeed, seedInputArea, paramSeedVal, btnRandomizeSeed;
-        let skippedDataInfo;
-
-        let exportArea, exportModelBtn, exportHistoryBtn;
+        let trainBtn, tuneBtn, paramSearchType, paramTuneTrials, paramAutoSaveAll, tuningResultsPanel, tuningTableBody;
+        let resetDemoBtn, statusBadge, epochProgressText, progressBar, architectureInputs;
+        let numTrainSamples, numTestSamples, statLoss, statValLoss, statMae, statR2, skippedDataInfo;
+        let exportArea, exportModelBtn, exportAllTunedBtn, exportHistoryBtn;
         let tabTrainBtn, tabPredictBtn, tabTrainArea, tabPredictArea;
         let paramModelInput, loadedModelName, modelDropArea, modelMetaInfo, modelMetaK, modelMetaTarget, modelMetaFeaturesCount, modelMetaFeaturesList;
         let inferencePlaceholder, inferenceFormArea, dynamicInputsContainer, predictedResult, predResultTitle, targetUnitLabel;
         let modelParamsDetails, modelParamsGrid;
+        let lossChart, predChart, residualChart, residualStatsLabel, lossScaleNote, valLossScaleNote, predChartSubtitle;
 
         let loadedCSVData = null;
+        let loadedTrainCSVData = null;
+        let loadedTestCSVData = null;
         let loadedCSVHeaders = [];
         let isTraining = false;
-        let lossChart, predChart, residualChart, residualStatsLabel;
-        
         let modelPackage = null;
         let importedPackage = null;
         let trainingHistory = null;
-        let lossScaleNote, valLossScaleNote, predChartSubtitle;
+        let allTunedRuns = []; // 最適化全試行保存用
 
         function switchTab(tab) {
             if (isTraining) return; 
-            tabTrainBtn.classList.remove('active');
-            tabPredictBtn.classList.remove('active');
-            tabTrainArea.classList.add('hidden');
-            tabPredictArea.classList.add('hidden');
-
-            if (tab === 'train') {
-                tabTrainBtn.classList.add('active');
-                tabTrainArea.classList.remove('hidden');
-            } else {
-                tabPredictBtn.classList.add('active');
-                tabPredictArea.classList.remove('hidden');
-            }
+            tabTrainBtn.classList.remove('active'); tabPredictBtn.classList.remove('active');
+            tabTrainArea.classList.add('hidden'); tabPredictArea.classList.add('hidden');
+            if (tab === 'train') { tabTrainBtn.classList.add('active'); tabTrainArea.classList.remove('hidden'); }
+            else { tabPredictBtn.classList.add('active'); tabPredictArea.classList.remove('hidden'); }
         }
 
         function initApp() {
-            tabTrainBtn = document.getElementById('tabTrainBtn');
-            tabPredictBtn = document.getElementById('tabPredictBtn');
-            tabTrainArea = document.getElementById('tabTrainArea');
-            tabPredictArea = document.getElementById('tabPredictArea');
+            tabTrainBtn = document.getElementById('tabTrainBtn'); tabPredictBtn = document.getElementById('tabPredictBtn');
+            tabTrainArea = document.getElementById('tabTrainArea'); tabPredictArea = document.getElementById('tabPredictArea');
 
-            paramSourceType = document.getElementById('paramSourceType');
-            panelSimulation = document.getElementById('panelSimulation');
-            panelUpload = document.getElementById('panelUpload');
-            paramFileInput = document.getElementById('paramFileInput');
-            uploadedFileName = document.getElementById('uploadedFileName');
-            dropArea = document.getElementById('dropArea');
+            paramSourceType = document.getElementById('paramSourceType'); panelSimulation = document.getElementById('panelSimulation'); panelUpload = document.getElementById('panelUpload');
+            uploadSingleBox = document.getElementById('uploadSingleBox'); uploadDualBox = document.getElementById('uploadDualBox');
+            paramFileInput = document.getElementById('paramFileInput'); uploadedFileName = document.getElementById('uploadedFileName'); dropArea = document.getElementById('dropArea');
+            paramTrainFileInput = document.getElementById('paramTrainFileInput'); uploadedTrainName = document.getElementById('uploadedTrainName'); dropAreaTrain = document.getElementById('dropAreaTrain');
+            paramTestFileInput = document.getElementById('paramTestFileInput'); uploadedTestName = document.getElementById('uploadedTestName'); dropAreaTest = document.getElementById('dropAreaTest');
 
-            columnMappingArea = document.getElementById('columnMappingArea');
-            lblRowsCount = document.getElementById('lblRowsCount');
-            mapTargetCol = document.getElementById('mapTargetCol');
-            mapFeatureCols = document.getElementById('mapFeatureCols');
+            columnMappingArea = document.getElementById('columnMappingArea'); lblRowsCount = document.getElementById('lblRowsCount');
+            mapTargetCol = document.getElementById('mapTargetCol'); mapFeatureCols = document.getElementById('mapFeatureCols'); splitRangeBox = document.getElementById('splitRangeBox');
 
-            paramSamples = document.getElementById('paramSamples');
-            valSamples = document.getElementById('valSamples');
-            paramSplit = document.getElementById('paramSplit');
-            valSplit = document.getElementById('valSplit');
-            paramEpochs = document.getElementById('paramEpochs');
-            valEpochs = document.getElementById('valEpochs');
-            paramNormalize = document.getElementById('paramNormalize');
-            paramOptimizer = document.getElementById('paramOptimizer');
-            paramLR = document.getElementById('paramLR');
-            paramBatch = document.getElementById('paramBatch');
+            paramSamples = document.getElementById('paramSamples'); valSamples = document.getElementById('valSamples');
+            paramSplit = document.getElementById('paramSplit'); valSplit = document.getElementById('valSplit');
+            paramEpochs = document.getElementById('paramEpochs'); valEpochs = document.getElementById('valEpochs');
+            paramNormalize = document.getElementById('paramNormalize'); paramOptimizer = document.getElementById('paramOptimizer'); paramLR = document.getElementById('paramLR'); paramBatch = document.getElementById('paramBatch');
             
-            paramKFold = document.getElementById('paramKFold');
-            kFoldConfigArea = document.getElementById('kFoldConfigArea');
-            holdoutNoteArea = document.getElementById('holdoutNoteArea');
-            paramK = document.getElementById('paramK');
-            valK = document.getElementById('valK');
+            paramKFold = document.getElementById('paramKFold'); kFoldConfigArea = document.getElementById('kFoldConfigArea'); holdoutNoteArea = document.getElementById('holdoutNoteArea'); paramK = document.getElementById('paramK'); valK = document.getElementById('valK');
+            paramUseSeed = document.getElementById('paramUseSeed'); seedInputArea = document.getElementById('seedInputArea'); paramSeedVal = document.getElementById('paramSeedVal'); btnRandomizeSeed = document.getElementById('btnRandomizeSeed');
 
-            paramUseSeed = document.getElementById('paramUseSeed');
-            seedInputArea = document.getElementById('seedInputArea');
-            paramSeedVal = document.getElementById('paramSeedVal');
-            btnRandomizeSeed = document.getElementById('btnRandomizeSeed');
+            trainBtn = document.getElementById('trainBtn'); tuneBtn = document.getElementById('tuneBtn');
+            paramSearchType = document.getElementById('paramSearchType'); paramTuneTrials = document.getElementById('paramTuneTrials'); paramAutoSaveAll = document.getElementById('paramAutoSaveAll');
+            tuningResultsPanel = document.getElementById('tuningResultsPanel'); tuningTableBody = document.getElementById('tuningTableBody');
 
-            trainBtn = document.getElementById('trainBtn');
-            resetDemoBtn = document.getElementById('resetDemoBtn');
-            statusBadge = document.getElementById('statusBadge');
-            epochProgressText = document.getElementById('epochProgressText');
-            progressBar = document.getElementById('progressBar');
-            architectureInputs = document.getElementById('architectureInputs');
-            
-            numTrainSamples = document.getElementById('numTrainSamples');
-            numTestSamples = document.getElementById('numTestSamples');
-            skippedDataInfo = document.getElementById('skippedDataInfo');
-            statLoss = document.getElementById('statLoss');
-            statValLoss = document.getElementById('statValLoss');
-            statMae = document.getElementById('statMae');
-            statR2 = document.getElementById('statR2');
-            residualStatsLabel = document.getElementById('residualStatsLabel');
-            lossScaleNote = document.getElementById('lossScaleNote');
-            valLossScaleNote = document.getElementById('valLossScaleNote');
-            predChartSubtitle = document.getElementById('predChartSubtitle');
+            resetDemoBtn = document.getElementById('resetDemoBtn'); statusBadge = document.getElementById('statusBadge');
+            epochProgressText = document.getElementById('epochProgressText'); progressBar = document.getElementById('progressBar'); architectureInputs = document.getElementById('architectureInputs');
+            numTrainSamples = document.getElementById('numTrainSamples'); numTestSamples = document.getElementById('numTestSamples'); skippedDataInfo = document.getElementById('skippedDataInfo');
+            statLoss = document.getElementById('statLoss'); statValLoss = document.getElementById('statValLoss'); statMae = document.getElementById('statMae'); statR2 = document.getElementById('statR2');
+            residualStatsLabel = document.getElementById('residualStatsLabel'); lossScaleNote = document.getElementById('lossScaleNote'); valLossScaleNote = document.getElementById('valLossScaleNote'); predChartSubtitle = document.getElementById('predChartSubtitle');
 
-            exportArea = document.getElementById('exportArea');
-            exportModelBtn = document.getElementById('exportModelBtn');
-            exportHistoryBtn = document.getElementById('exportHistoryBtn');
+            exportArea = document.getElementById('exportArea'); exportModelBtn = document.getElementById('exportModelBtn'); exportAllTunedBtn = document.getElementById('exportAllTunedBtn'); exportHistoryBtn = document.getElementById('exportHistoryBtn');
+            paramModelInput = document.getElementById('paramModelInput'); loadedModelName = document.getElementById('loadedModelName'); modelDropArea = document.getElementById('modelDropArea');
+            modelMetaInfo = document.getElementById('modelMetaInfo'); modelMetaK = document.getElementById('modelMetaK'); modelMetaTarget = document.getElementById('modelMetaTarget'); modelMetaFeaturesCount = document.getElementById('modelMetaFeaturesCount'); modelMetaFeaturesList = document.getElementById('modelMetaFeaturesList');
+            modelParamsDetails = document.getElementById('modelParamsDetails'); modelParamsGrid = document.getElementById('modelParamsGrid');
 
-            paramModelInput = document.getElementById('paramModelInput');
-            loadedModelName = document.getElementById('loadedModelName');
-            modelDropArea = document.getElementById('modelDropArea');
-            modelMetaInfo = document.getElementById('modelMetaInfo');
-            modelMetaK = document.getElementById('modelMetaK');
-            modelMetaTarget = document.getElementById('modelMetaTarget');
-            modelMetaFeaturesCount = document.getElementById('modelMetaFeaturesCount');
-            modelMetaFeaturesList = document.getElementById('modelMetaFeaturesList');
-            inferencePlaceholder = document.getElementById('inferencePlaceholder');
-            inferenceFormArea = document.getElementById('inferenceFormArea');
-            dynamicInputsContainer = document.getElementById('dynamicInputsContainer');
-            predictedResult = document.getElementById('predictedResult');
-            predResultTitle = document.getElementById('predResultTitle');
-            targetUnitLabel = document.getElementById('targetUnitLabel');
+            inferencePlaceholder = document.getElementById('inferencePlaceholder'); inferenceFormArea = document.getElementById('inferenceFormArea'); dynamicInputsContainer = document.getElementById('dynamicInputsContainer');
+            predictedResult = document.getElementById('predictedResult'); predResultTitle = document.getElementById('predResultTitle'); targetUnitLabel = document.getElementById('targetUnitLabel');
 
-            modelParamsDetails = document.getElementById('modelParamsDetails');
-            modelParamsGrid = document.getElementById('modelParamsGrid');
-
-            trainBtn.disabled = false;
-            trainBtn.innerHTML = `
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                学習を開始する
+            trainBtn.disabled = false; tuneBtn.disabled = false;
+            tuneBtn.innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                自動最適化モードで学習実行
             `;
             updateStatus("学習準備完了");
-
             setupCharts();
             setupEventHandlers();
         }
 
         function updateStatus(text, type = 'info') {
-            let color = '#f59e0b';
-            let badgeClass = 'status-badge';
+            let color = '#f59e0b'; let badgeClass = 'status-badge';
             if (type === 'success') { color = '#10b981'; badgeClass = 'status-badge success'; } 
             else if (type === 'error') { color = '#ef4444'; badgeClass = 'status-badge error'; } 
             else if (type === 'progress') { color = '#818cf8'; badgeClass = 'status-badge progress'; }
@@ -1781,9 +1802,7 @@
                 });
             }
             if (btnRandomizeSeed && paramSeedVal) {
-                btnRandomizeSeed.addEventListener('click', () => {
-                    paramSeedVal.value = Math.floor(Math.random() * 100000);
-                });
+                btnRandomizeSeed.addEventListener('click', () => { paramSeedVal.value = Math.floor(Math.random() * 100000); });
             }
 
             paramKFold.addEventListener('change', () => {
@@ -1796,148 +1815,143 @@
                 }
             });
 
+            // アップロード方式ラジオボタン
+            document.querySelectorAll('input[name="csvUploadMode"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const mode = e.target.value;
+                    if (mode === 'single') {
+                        uploadSingleBox.classList.remove('hidden');
+                        uploadDualBox.classList.add('hidden');
+                        splitRangeBox.classList.remove('hidden');
+                    } else {
+                        uploadSingleBox.classList.add('hidden');
+                        uploadDualBox.classList.remove('hidden');
+                        splitRangeBox.classList.add('hidden'); // 手動分割時は割合バー非表示
+                    }
+                    validateAndPrepareCSVUI();
+                });
+            });
+
             paramSourceType.addEventListener('change', () => {
                 const val = paramSourceType.value;
-                panelSimulation.classList.add('hidden');
-                panelUpload.classList.add('hidden');
-                columnMappingArea.classList.add('hidden');
-
+                panelSimulation.classList.add('hidden'); panelUpload.classList.add('hidden'); columnMappingArea.classList.add('hidden');
                 if (val === 'simulation') {
                     panelSimulation.classList.remove('hidden');
+                    splitRangeBox.classList.remove('hidden');
                     architectureInputs.innerText = "入力層 (特徴量: Feature_1, Feature_2, Feature_3)";
                     updateStatus("シミュレーションデータの準備完了");
                 } else if (val === 'upload') {
                     panelUpload.classList.remove('hidden');
-                    if (loadedCSVData) {
-                        columnMappingArea.classList.remove('hidden');
-                        updateStatus("CSVのパース完了。カラムを設定してください。", "success");
-                    } else {
-                        updateStatus("ローカルCSVを選択してください");
-                    }
+                    validateAndPrepareCSVUI();
                 }
             });
 
-            dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.style.borderColor = '#06b6d4'; });
-            dropArea.addEventListener('dragleave', () => { dropArea.style.borderColor = '#334155'; });
-            dropArea.addEventListener('drop', (e) => {
-                e.preventDefault(); dropArea.style.borderColor = '#334155';
-                if (e.dataTransfer.files.length > 0) {
-                    paramFileInput.files = e.dataTransfer.files;
-                    handleFileSelect(e.dataTransfer.files[0]);
-                }
-            });
-            paramFileInput.addEventListener('change', () => {
-                if (paramFileInput.files.length > 0) handleFileSelect(paramFileInput.files[0]);
-            });
+            function bindDrop(area, input, handler) {
+                area.addEventListener('dragover', (e) => { e.preventDefault(); area.style.borderColor = '#06b6d4'; });
+                area.addEventListener('dragleave', () => { area.style.borderColor = '#334155'; });
+                area.addEventListener('drop', (e) => {
+                    e.preventDefault(); area.style.borderColor = '#334155';
+                    if (e.dataTransfer.files.length > 0) { input.files = e.dataTransfer.files; handler(e.dataTransfer.files[0]); }
+                });
+                input.addEventListener('change', () => { if (input.files.length > 0) handler(input.files[0]); });
+            }
 
-            modelDropArea.addEventListener('dragover', (e) => { e.preventDefault(); modelDropArea.style.borderColor = '#10b981'; });
-            modelDropArea.addEventListener('dragleave', () => { modelDropArea.style.borderColor = '#10b98140'; });
-            modelDropArea.addEventListener('drop', (e) => {
-                e.preventDefault(); modelDropArea.style.borderColor = '#10b98140';
-                if (e.dataTransfer.files.length > 0) {
-                    paramModelInput.files = e.dataTransfer.files;
-                    handleModelImport(e.dataTransfer.files[0]);
-                }
-            });
-            paramModelInput.addEventListener('change', () => {
-                if (paramModelInput.files.length > 0) handleModelImport(paramModelInput.files[0]);
-            });
+            bindDrop(dropArea, paramFileInput, (f) => handleCSVFile(f, 'single'));
+            bindDrop(dropAreaTrain, paramTrainFileInput, (f) => handleCSVFile(f, 'train'));
+            bindDrop(dropAreaTest, paramTestFileInput, (f) => handleCSVFile(f, 'test'));
 
-            trainBtn.addEventListener('click', startNeuralTraining);
+            bindDrop(modelDropArea, paramModelInput, (f) => handleModelImport(f));
+
+            trainBtn.addEventListener('click', () => runTrainingOrTuning(false));
+            tuneBtn.addEventListener('click', () => runTrainingOrTuning(true));
             resetDemoBtn.addEventListener('click', resetSimulation);
             exportModelBtn.addEventListener('click', downloadModelPackage);
+            exportAllTunedBtn.addEventListener('click', downloadAllTunedPackage);
             exportHistoryBtn.addEventListener('click', downloadTrainingHistory);
         }
 
-        function handleFileSelect(file) {
-            uploadedFileName.innerText = file.name;
-            updateStatus("ファイルを解析中...", "progress");
-
+        function handleCSVFile(file, type) {
+            updateStatus(`${file.name} を解析中...`, "progress");
             Papa.parse(file, {
                 header: true, dynamicTyping: true, skipEmptyLines: true,
                 complete: (results) => {
-                    if (results.errors.length > 0) console.warn(results.errors);
                     const data = results.data;
-                    if (!data || data.length < 2) {
-                        updateStatus("CSVが空か、無効なデータです", "error"); return;
-                    }
-                    loadedCSVHeaders = results.meta.fields || Object.keys(data[0]);
-                    loadedCSVData = data.filter(row => Object.keys(row).length >= loadedCSVHeaders.length);
-                    rebuildColumnMappingUI();
-                    lblRowsCount.innerText = `${loadedCSVData.length}行を検出`;
-                    columnMappingArea.classList.remove('hidden');
-                    
-                    // 特徴量の欠損値を事前カウントして通知
-                    let initialMissing = 0;
-                    const targetC = mapTargetCol.value;
-                    loadedCSVData.forEach(row => {
-                        loadedCSVHeaders.forEach(h => {
-                            if (h !== targetC) {
-                                let rawVal = row[h];
-                                // 空文字やnullを確実に弾く
-                                if (rawVal === "" || rawVal === null || (typeof rawVal === 'string' && rawVal.trim() === '')) {
-                                    initialMissing++;
-                                } else {
-                                    const v = Number(rawVal);
-                                    if (!Number.isFinite(v)) initialMissing++;
-                                }
-                            }
-                        });
-                    });
-                    if (initialMissing > 0) {
-                        skippedDataInfo.innerHTML = `⚠️ 検出された特徴量の欠損値: <strong>${initialMissing}箇所</strong>（学習時にTrain平均値で自動補完されます）`;
-                        skippedDataInfo.classList.remove('hidden');
-                    } else {
-                        skippedDataInfo.innerHTML = `欠損値なし（全データ正常）`;
-                        skippedDataInfo.classList.remove('hidden');
-                    }
-                    updateStatus("CSVファイルの読み込み完了", "success");
+                    if (!data || data.length < 2) { updateStatus("CSVが無効または空です", "error"); return; }
+                    const headers = results.meta.fields || Object.keys(data[0]);
 
+                    if (type === 'single') {
+                        uploadedFileName.innerText = file.name;
+                        loadedCSVHeaders = headers;
+                        loadedCSVData = data;
+                    } else if (type === 'train') {
+                        uploadedTrainName.innerText = file.name;
+                        loadedTrainCSVData = data;
+                        loadedCSVHeaders = headers;
+                    } else if (type === 'test') {
+                        uploadedTestName.innerText = file.name;
+                        loadedTestCSVData = data;
+                    }
+                    validateAndPrepareCSVUI();
                 },
-                error: (err) => { updateStatus("パース失敗: " + err.message, "error"); }
+                error: (err) => updateStatus("CSV解析失敗: " + err.message, "error")
             });
         }
 
-        function rebuildColumnMappingUI() {
+        function validateAndPrepareCSVUI() {
+            const mode = document.querySelector('input[name="csvUploadMode"]:checked').value;
+            if (paramSourceType.value !== 'upload') return;
+
+            if (mode === 'single') {
+                if (loadedCSVData) {
+                    rebuildColumnMappingUI(loadedCSVHeaders, loadedCSVData.length);
+                    columnMappingArea.classList.remove('hidden');
+                    updateStatus("CSVのパース完了。カラムを設定してください。", "success");
+                }
+            } else {
+                if (loadedTrainCSVData && loadedTestCSVData) {
+                    const trainCols = Object.keys(loadedTrainCSVData[0]);
+                    const testCols = Object.keys(loadedTestCSVData[0]);
+                    const missingInTest = trainCols.filter(c => !testCols.includes(c));
+
+                    if (missingInTest.length > 0) {
+                        updateStatus(`エラー: テストデータにカラム「${missingInTest.join(', ')}」が存在しません`, "error");
+                        columnMappingArea.classList.add('hidden');
+                        return;
+                    }
+                    rebuildColumnMappingUI(trainCols, loadedTrainCSVData.length, loadedTestCSVData.length);
+                    columnMappingArea.classList.remove('hidden');
+                    updateStatus("教師・テストCSVの照合完了！カラムを設定してください。", "success");
+                } else {
+                    columnMappingArea.classList.add('hidden');
+                }
+            }
+        }
+
+        function rebuildColumnMappingUI(headers, trainLen, testLen = null) {
             mapTargetCol.innerHTML = '';
-            loadedCSVHeaders.forEach(header => {
-                const opt = document.createElement('option');
-                opt.value = header; opt.innerText = header;
+            headers.forEach(header => {
+                const opt = document.createElement('option'); opt.value = header; opt.innerText = header;
                 mapTargetCol.appendChild(opt);
             });
-            mapTargetCol.value = loadedCSVHeaders[loadedCSVHeaders.length - 1];
-
-            updateFeatureCheckboxes();
+            mapTargetCol.value = headers[headers.length - 1];
+            updateFeatureCheckboxes(headers);
+            lblRowsCount.innerText = testLen !== null ? `教師:${trainLen}行 / テスト:${testLen}行` : `${trainLen}行を検出`;
 
             mapTargetCol.onchange = () => {
-                updateFeatureCheckboxes();
+                updateFeatureCheckboxes(headers);
                 updateArchitecturePreview();
             };
             updateArchitecturePreview();
         }
 
-        function updateFeatureCheckboxes() {
+        function updateFeatureCheckboxes(headers) {
             const currentTarget = mapTargetCol.value;
             mapFeatureCols.innerHTML = '';
-        
-            loadedCSVHeaders.forEach(header => {
+            headers.forEach(header => {
                 if (header === currentTarget) return;
-                // まともな数値が全く無い（明らかにカテゴリカルな）列は、デフォルトでチェックを外す
-                let hasNumeric = false;
-                if (loadedCSVData) {
-                    for (let i = 0; i < loadedCSVData.length; i++) {
-                        const raw = loadedCSVData[i][header];
-                        // 空値・null・undefined・空文字・空白文字は無視（欠損として扱う）
-                        if (raw == null || String(raw).trim() === "") continue;
-                        if (Number.isFinite(Number(raw))) { hasNumeric = true; break; }
-                    }
-                }
-                const div = document.createElement('div');
-                div.className = 'feature-item';
-                const input = document.createElement('input');
-                input.type = 'checkbox'; input.value = header; input.id = `feat_${header}`; input.checked = hasNumeric;
-                const label = document.createElement('label');
-                label.htmlFor = `feat_${header}`; label.innerText = header + (hasNumeric ? '' : '（非数値のため除外）');
+                const div = document.createElement('div'); div.className = 'feature-item';
+                const input = document.createElement('input'); input.type = 'checkbox'; input.value = header; input.id = `feat_${header}`; input.checked = true;
+                const label = document.createElement('label'); label.htmlFor = `feat_${header}`; label.innerText = header;
                 div.appendChild(input); div.appendChild(label);
                 mapFeatureCols.appendChild(div);
                 input.addEventListener('change', updateArchitecturePreview);
@@ -1946,17 +1960,15 @@
 
         function updateArchitecturePreview() {
             const selectedFeatures = Array.from(mapFeatureCols.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-            if (selectedFeatures.length > 0) {
-                const text = selectedFeatures.length > 4 ? `${selectedFeatures.slice(0, 3).join(', ')}... 計${selectedFeatures.length}種` : selectedFeatures.join(', ');
-                architectureInputs.innerText = `入力層 (特徴量: ${text})`;
-            } else {
-                architectureInputs.innerText = "入力層 (特徴量が未選択)";
-            }
+            architectureInputs.innerText = selectedFeatures.length > 0 
+                ? `入力層 (特徴量: ${selectedFeatures.length > 3 ? selectedFeatures.slice(0, 3).join(', ') + '... 計' + selectedFeatures.length + '種' : selectedFeatures.join(', ')})`
+                : "入力層 (特徴量が未選択)";
         }
 
         function setupCharts() {
             const lossCtx = document.getElementById('lossChart').getContext('2d');
             const predCtx = document.getElementById('predChart').getContext('2d');
+            const residualCtx = document.getElementById('residualChart').getContext('2d');
 
             lossChart = new Chart(lossCtx, {
                 type: 'line',
@@ -1969,21 +1981,10 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { filter: function(item) { return item.text.includes('Average'); }, color: '#94a3b8', font: { size: 15 } } }
-                    },
+                    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 14 } } } },
                     scales: {
-                        x: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { color: '#94a3b8', font: { size: 13 } },
-                            title: { display: true, text: 'エポック数 (Epoch)', color: '#94a3b8', font: { size: 13 } }
-                        },
-                        y: { 
-                            type: 'logarithmic', 
-                            grid: { color: '#33415530' }, 
-                            ticks: { color: '#94a3b8', font: { size: 13 } },
-                            title: { display: true, text: '損失 (Loss / MSE)', color: '#94a3b8', font: { size: 13 } }
-                        }
+                        x: { grid: { color: '#33415530' }, ticks: { color: '#94a3b8' }, title: { display: true, text: 'エポック数 (Epoch)', color: '#94a3b8' } },
+                        y: { type: 'logarithmic', grid: { color: '#33415530' }, ticks: { color: '#94a3b8' }, title: { display: true, text: '損失 (Loss / MSE)', color: '#94a3b8' } }
                     }
                 }
             });
@@ -1998,51 +1999,26 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: true, aspectRatio: 1,
-                    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 15 } } } },
+                    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 14 } } } },
                     scales: {
-                        x: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { color: '#94a3b8', font: { size: 13 } },
-                            title: { display: true, text: '実測値 (Actual y)', color: '#94a3b8', font: { size: 13 } }
-                        },
-                        y: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { color: '#94a3b8', font: { size: 13 } },
-                            title: { display: true, text: '予測値 (Predicted ŷ)', color: '#94a3b8', font: { size: 13 } }
-                        }
+                        x: { grid: { color: '#33415530' }, ticks: { color: '#94a3b8' }, title: { display: true, text: '実測値 (Actual y)', color: '#94a3b8' } },
+                        y: { grid: { color: '#33415530' }, ticks: { color: '#94a3b8' }, title: { display: true, text: '予測値 (Predicted ŷ)', color: '#94a3b8' } }
                     }
                 }
             });
 
-            const residualCtx = document.getElementById('residualChart').getContext('2d');
             residualChart = new Chart(residualCtx, {
                 type: 'bar',
                 data: {
                     labels: [],
-                    datasets: [{
-                        label: '度数 (頻度)',
-                        data: [],
-                        backgroundColor: 'rgba(56, 189, 248, 0.6)',
-                        borderColor: '#38bdf8',
-                        borderWidth: 1,
-                        borderRadius: 4
-                    }]
+                    datasets: [{ label: '度数 (頻度)', data: [], backgroundColor: 'rgba(56, 189, 248, 0.6)', borderColor: '#38bdf8', borderWidth: 1, borderRadius: 4 }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#94a3b8', font: { size: 13 } } } },
+                    plugins: { legend: { labels: { color: '#94a3b8' } } },
                     scales: {
-                        x: { 
-                            grid: { color: '#33415530' }, 
-                            ticks: { color: '#94a3b8', font: { size: 12 } },
-                            title: { display: true, text: '残差 (予測値 - 実測値)', color: '#94a3b8', font: { size: 13 } }
-                        },
-                        y: { 
-                            beginAtZero: true, 
-                            grid: { color: '#33415530' }, 
-                            ticks: { color: '#94a3b8', font: { size: 12 }, precision: 0 },
-                            title: { display: true, text: '度数 (Frequency)', color: '#94a3b8', font: { size: 13 } }
-                        }
+                        x: { grid: { color: '#33415530' }, ticks: { color: '#94a3b8' }, title: { display: true, text: '残差 (予測値 - 実測値)', color: '#94a3b8' } },
+                        y: { beginAtZero: true, grid: { color: '#33415530' }, ticks: { color: '#94a3b8', precision: 0 }, title: { display: true, text: '度数', color: '#94a3b8' } }
                     }
                 }
             });
@@ -2061,918 +2037,570 @@
         function seededShuffle(array, rng) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(rng() * (i + 1));
-                const temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
+                const temp = array[i]; array[i] = array[j]; array[j] = temp;
             }
             return array;
         }
 
         function buildHistogramData(data, numBins = 15) {
-            if (!data || data.length === 0) {
-                return {
-                    labels: [],
-                    counts: [],
-                    mean: 0,
-                    std: 0
-                };
-            }
-        
-            let sum = 0;
-            let actualMin = Infinity;
-            let actualMax = -Infinity;
-        
-            for (let i = 0; i < data.length; i++) {
-                const v = data[i];
-                sum += v;
-        
-                if (v < actualMin) actualMin = v;
-                if (v > actualMax) actualMax = v;
-            }
-        
+            if (!data || data.length === 0) return { labels: [], counts: [], mean: 0, std: 0 };
+            let sum = 0, actualMin = Infinity, actualMax = -Infinity;
+            for (const v of data) { sum += v; if (v < actualMin) actualMin = v; if (v > actualMax) actualMax = v; }
             const mean = sum / data.length;
-        
-            let sqSum = 0;
-            for (let i = 0; i < data.length; i++) {
-                sqSum += Math.pow(data[i] - mean, 2);
-            }
-        
+            let sqSum = 0; for (const v of data) sqSum += Math.pow(v - mean, 2);
             const std = Math.sqrt(sqSum / data.length);
-        
-            // 残差の絶対値の最大値を求め、
-            // ヒストグラムの範囲を -maxAbs ～ +maxAbs にする
-            let maxAbs = Math.max(
-                Math.abs(actualMin),
-                Math.abs(actualMax)
-            );
-        
-            // 全ての残差が0の場合、範囲が0にならないようにする
-            if (maxAbs === 0) {
-                maxAbs = 1;
-            }
-        
-            const min = -maxAbs;
-            const max = maxAbs;
-        
-            const binWidth = (max - min) / numBins;
-            const counts = Array(numBins).fill(0);
-            const labels = [];
-        
-            for (let b = 0; b < numBins; b++) {
-                const bStart = min + b * binWidth;
-                const bEnd = bStart + binWidth;
-        
-                labels.push(
-                    `${bStart.toFixed(2)} ~ ${bEnd.toFixed(2)}`
-                );
-            }
-        
-            for (let i = 0; i < data.length; i++) {
-                let bIdx = Math.floor(
-                    (data[i] - min) / binWidth
-                );
-        
-                // 最大値は計算上 numBins になるため、最後の区間に入れる
-                if (bIdx >= numBins) bIdx = numBins - 1;
-                if (bIdx < 0) bIdx = 0;
-        
+            let maxAbs = Math.max(Math.abs(actualMin), Math.abs(actualMax));
+            if (maxAbs === 0) maxAbs = 1;
+            const min = -maxAbs, max = maxAbs, binWidth = (max - min) / numBins;
+            const counts = Array(numBins).fill(0), labels = [];
+            for (let b = 0; b < numBins; b++) labels.push(`${(min + b * binWidth).toFixed(2)} ~ ${(min + (b + 1) * binWidth).toFixed(2)}`);
+            for (const v of data) {
+                let bIdx = Math.floor((v - min) / binWidth);
+                if (bIdx >= numBins) bIdx = numBins - 1; if (bIdx < 0) bIdx = 0;
                 counts[bIdx]++;
             }
-        
-            return {
-                labels,
-                counts,
-                mean,
-                std
-            };
-        }
-
-        function generateSyntheticData(samples, rng = Math.random) {
-            const inputs = []; const targets = [];
-            for (let i = 0; i < samples; i++) {
-                const f1 = 3 + rng() * 6; const f2 = 1 + rng() * 34; const f3 = 1 + rng() * 11;
-                const noise = (rng() - 0.5) * 4;
-                const base = (5.2 * f1) - (0.4 * f2) - (0.6 * f3) + 15 + noise;
-                inputs.push([f1, f2, f3]); targets.push([Math.max(5, Math.min(100, base))]);
-            }
-            return { inputs, targets };
+            return { labels, counts, mean, std };
         }
 
         function fitTransform(data) {
-            const numFeatures = data[0].length; const size = data.length;
-            const means = Array(numFeatures).fill(0); const stds = Array(numFeatures).fill(0);
-
+            const numFeatures = data[0].length, size = data.length;
+            const means = Array(numFeatures).fill(0), stds = Array(numFeatures).fill(0);
             for (let i = 0; i < size; i++) { for (let j = 0; j < numFeatures; j++) means[j] += data[i][j]; }
             for (let j = 0; j < numFeatures; j++) means[j] /= size;
-
             for (let i = 0; i < size; i++) { for (let j = 0; j < numFeatures; j++) stds[j] += Math.pow(data[i][j] - means[j], 2); }
-            for (let j = 0; j < numFeatures; j++) {
-                stds[j] = Math.sqrt(stds[j] / size);
-                if (stds[j] === 0) stds[j] = 1;
-            }
-
-            const standardized = data.map(row => row.map((val, idx) => (val - means[idx]) / stds[idx]));
-            return { standardized, means, stds };
+            for (let j = 0; j < numFeatures; j++) { stds[j] = Math.sqrt(stds[j] / size); if (stds[j] === 0) stds[j] = 1; }
+            return { standardized: data.map(row => row.map((val, idx) => (val - means[idx]) / stds[idx])), means, stds };
         }
-
-        function transform(data, means, stds) {
-            return data.map(row => row.map((val, idx) => (val - means[idx]) / (stds[idx] || 1)));
-        }
-
-        function inverseTransform(data, means, stds) {
-            return data.map(row => row.map((val, idx) => val * (stds[idx] || 1) + means[idx]));
-        }
+        function transform(data, means, stds) { return data.map(row => row.map((val, idx) => (val - means[idx]) / (stds[idx] || 1))); }
+        function inverseTransform(data, means, stds) { return data.map(row => row.map((val, idx) => val * (stds[idx] || 1) + means[idx])); }
 
         function buildModel(inputDim, optName, lr, seed = null) {
             const model = tf.sequential();
-            const initOptions1 = seed !== null ? { seed: (seed & 0xFFFFFFFF) } : undefined;
-            const initOptions2 = seed !== null ? { seed: ((seed + 1) & 0xFFFFFFFF) } : undefined;
-            const initOptions3 = seed !== null ? { seed: ((seed + 2) & 0xFFFFFFFF) } : undefined;
-
-            model.add(tf.layers.dense({
-                inputShape: [inputDim], units: 32, activation: 'relu',
-                kernelInitializer: seed !== null ? tf.initializers.glorotNormal(initOptions1) : 'glorotNormal'
-            }));
-            model.add(tf.layers.dense({
-                units: 16, activation: 'relu',
-                kernelInitializer: seed !== null ? tf.initializers.glorotNormal(initOptions2) : 'glorotNormal'
-            }));
-            model.add(tf.layers.dense({
-                units: 1, activation: 'linear',
-                kernelInitializer: seed !== null ? tf.initializers.glorotNormal(initOptions3) : 'glorotNormal'
-            }));
-
+            const initOpts = seed !== null ? { seed: (seed & 0xFFFFFFFF) } : undefined;
+            model.add(tf.layers.dense({ inputShape: [inputDim], units: 32, activation: 'relu', kernelInitializer: seed !== null ? tf.initializers.glorotNormal(initOpts) : 'glorotNormal' }));
+            model.add(tf.layers.dense({ units: 16, activation: 'relu', kernelInitializer: seed !== null ? tf.initializers.glorotNormal(initOpts) : 'glorotNormal' }));
+            model.add(tf.layers.dense({ units: 1, activation: 'linear', kernelInitializer: seed !== null ? tf.initializers.glorotNormal(initOpts) : 'glorotNormal' }));
             let optimizer; const rate = parseFloat(lr);
             if (optName === 'adam') optimizer = tf.train.adam(rate);
             else if (optName === 'sgd') optimizer = tf.train.sgd(rate);
             else if (optName === 'rmsprop') optimizer = tf.train.rmsprop(rate);
-
-            model.compile({ optimizer: optimizer, loss: 'meanSquaredError', metrics: ['mae'] });
+            model.compile({ optimizer, loss: 'meanSquaredError', metrics: ['mae'] });
             return model;
         }
 
         function evalMetrics(yTrue, yPred) {
-            const n = yTrue.length; let sumAbsErr = 0; let sumSqErr = 0; let sumTrueVal = 0;
-            for (let i = 0; i < n; i++) {
-                sumAbsErr += Math.abs(yTrue[i] - yPred[i]);
-                sumSqErr += Math.pow(yTrue[i] - yPred[i], 2);
-                sumTrueVal += yTrue[i];
-            }
-            const mae = sumAbsErr / n; const avgTrue = sumTrueVal / n;
-            let totalSq = 0;
-            for (let i = 0; i < n; i++) totalSq += Math.pow(yTrue[i] - avgTrue, 2);
-            const r2 = totalSq === 0 ? 0 : 1 - (sumSqErr / totalSq);
-            return { mae, r2 };
+            const n = yTrue.length; let sumAbsErr = 0, sumSqErr = 0, sumTrueVal = 0;
+            for (let i = 0; i < n; i++) { sumAbsErr += Math.abs(yTrue[i] - yPred[i]); sumSqErr += Math.pow(yTrue[i] - yPred[i], 2); sumTrueVal += yTrue[i]; }
+            const mae = sumAbsErr / n, avgTrue = sumTrueVal / n;
+            let totalSq = 0; for (let i = 0; i < n; i++) totalSq += Math.pow(yTrue[i] - avgTrue, 2);
+            return { mae, r2: totalSq === 0 ? 0 : 1 - (sumSqErr / totalSq) };
         }
 
         function arrayBufferToBase64(buffer) {
-            let binary = ''; const bytes = new Uint8Array(buffer); const len = bytes.byteLength;
-            for (let i = 0; i < len; i++) binary += String.fromCharCode(bytes[i]);
+            let binary = ''; const bytes = new Uint8Array(buffer);
+            for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
             return window.btoa(binary);
         }
-
         function base64ToArrayBuffer(base64) {
-            const binaryString = window.atob(base64); const len = binaryString.length; const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) bytes[i] = binaryString.charCodeAt(i);
+            const binaryString = window.atob(base64); const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
             return bytes.buffer;
         }
-
         async function captureModelArtifacts(model) {
-            let capturedArtifacts = null;
+            let captured = null;
             await model.save(tf.io.withSaveHandler(async (artifacts) => {
-                capturedArtifacts = artifacts;
+                captured = artifacts;
                 return { modelArtifactsInfo: tf.io.getModelArtifactsInfoForJSON(artifacts) };
             }));
-            return capturedArtifacts;
+            return captured;
         }
 
-        function disposeImportedModels() {
-            if (!importedPackage || !importedPackage.folds) return;
-            for (const fold of importedPackage.folds) {
-                if (fold.model) {
-                    try { fold.model.dispose(); } catch (e) { console.warn("Model dispose error", e); }
-                }
-            }
-            importedPackage = null;
-        }
-
-        async function startNeuralTraining() {
-            if (isTraining) return;
-            let skippedRowsCount = 0;
-            let missingValuesCount = 0;
-
-            const useSeed = paramUseSeed.checked;
-            const currentSeed = useSeed ? parseInt(paramSeedVal.value) || 42 : Math.floor(Math.random() * 100000);
-            const rng = createPRNG(currentSeed);
-
+        // データセットの初期化・単一固定分割（最適化時も最初に1回だけ実行）
+        function prepareDatasets(rng) {
             const source = paramSourceType.value;
-            let inputs = []; let targets = [];
+            let rawTrainRows = [], rawTestRows = [];
             let selectedFeatures = ["Feature_1", "Feature_2", "Feature_3"];
             let targetCol = "Target_y";
-            let rawTrainRows = [];
-            let rawTestRows = [];
+            let skippedRowsCount = 0, missingValuesCount = 0;
 
             if (source === 'simulation') {
                 const samples = parseInt(paramSamples.value);
-                const sim = generateSyntheticData(samples, rng);
-                inputs = sim.inputs; targets = sim.targets;
-                skippedDataInfo.classList.add('hidden');
-
+                const inputs = [], targets = [];
+                for (let i = 0; i < samples; i++) {
+                    const f1 = 3 + rng() * 6, f2 = 1 + rng() * 34, f3 = 1 + rng() * 11, noise = (rng() - 0.5) * 4;
+                    inputs.push([f1, f2, f3]); targets.push([Math.max(5, Math.min(100, (5.2 * f1) - (0.4 * f2) - (0.6 * f3) + 15 + noise))]);
+                }
                 const ratio = parseInt(paramSplit.value) / 100;
-                const size = inputs.length;
-                const indices = Array.from({ length: size }, (_, i) => i);
+                const indices = Array.from({ length: samples }, (_, i) => i);
                 seededShuffle(indices, rng);
-                const trainSize = Math.floor(size * ratio);
-
-                for (let i = 0; i < size; i++) {
+                const trainSize = Math.floor(samples * ratio);
+                for (let i = 0; i < samples; i++) {
                     const idx = indices[i];
                     if (i < trainSize) rawTrainRows.push({ x: inputs[idx], y: targets[idx][0] });
                     else rawTestRows.push({ x: inputs[idx], y: targets[idx][0] });
                 }
             } else {
-                if (!loadedCSVData) { updateStatus("CSVが読み込まれていません", "error"); return; }
+                const mode = document.querySelector('input[name="csvUploadMode"]:checked').value;
                 selectedFeatures = Array.from(mapFeatureCols.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
                 targetCol = mapTargetCol.value;
 
-                if (selectedFeatures.length === 0) { updateStatus("特徴量を1つ以上選択してください", "error"); return; }
+                if (selectedFeatures.length === 0) throw new Error("特徴量を1つ以上選択してください");
 
-                let validRows = [];
-                skippedRowsCount = 0;
-                missingValuesCount = 0;
-
-                for (let i = 0; i < loadedCSVData.length; i++) {
-                    const row = loadedCSVData[i];
-        
-                    // 1. 目的変数(y) の厳密な空チェック
-                    let rawY = row[targetCol];
-                    if (rawY === "" || rawY === null || (typeof rawY === 'string' && rawY.trim() === '')) {
-                        rawY = NaN; // 空白は明示的に NaN (欠損) にする
-                    }
-                    const targetRaw = Number(rawY);
-                    if (!Number.isFinite(targetRaw)) { skippedRowsCount++; continue; }
-        
-                    const rowData = { x: [], y: targetRaw };
-        
-                    // 2. 特徴量(x) の厳密な空チェック
-                    for (let j = 0; j < selectedFeatures.length; j++) {
-                        let rawX = row[selectedFeatures[j]];
-                        if (rawX === "" || rawX === null || (typeof rawX === 'string' && rawX.trim() === '')) {
-                            rawX = NaN; // 空白は明示的に NaN (欠損) にする
+                const parseRowList = (dataRows) => {
+                    const rows = [];
+                    for (const row of dataRows) {
+                        let rawY = row[targetCol];
+                        if (rawY === "" || rawY === null || (typeof rawY === 'string' && rawY.trim() === '')) rawY = NaN;
+                        const yVal = Number(rawY);
+                        if (!Number.isFinite(yVal)) { skippedRowsCount++; continue; }
+                        const rowObj = { x: [], y: yVal };
+                        for (const feat of selectedFeatures) {
+                            let rawX = row[feat];
+                            if (rawX === "" || rawX === null || (typeof rawX === 'string' && rawX.trim() === '')) rawX = NaN;
+                            const xVal = Number(rawX);
+                            if (Number.isFinite(xVal)) rowObj.x.push(xVal);
+                            else { rowObj.x.push(NaN); missingValuesCount++; }
                         }
-                        const val = Number(rawX);
-                        
-                        if (Number.isFinite(val)) {
-                            rowData.x.push(val);
-                        } else {
-                            rowData.x.push(NaN);
-                            missingValuesCount++; // ここで確実にカウントされる
-                        }
+                        rows.push(rowObj);
                     }
-                    validRows.push(rowData);
-                }
-
-                if (validRows.length < 10) { updateStatus(`有効なデータ行数が少なすぎます (${validRows.length}行)`, "error"); return; }
-
-                const ratio = parseInt(paramSplit.value) / 100;
-                const trainSize = Math.floor(validRows.length * ratio);
-                const indices = Array.from({ length: validRows.length }, (_, i) => i);
-                seededShuffle(indices, rng);
-                
-                for (let i = 0; i < validRows.length; i++) {
-                    if (i < trainSize) rawTrainRows.push(validRows[indices[i]]);
-                    else rawTestRows.push(validRows[indices[i]]);
-                }
-                
-                // 訓練側・テスト側に含まれる欠損特徴量セル数を個別にカウント
-                const countMissingCells = (rows) => {
-                    let count = 0;
-                
-                    for (const row of rows) {
-                        for (const value of row.x) {
-                            if (Number.isNaN(value)) count++;
-                        }
-                    }
-                
-                    return count;
+                    return rows;
                 };
-                
-                const trainMissingCount = countMissingCells(rawTrainRows);
-                const testMissingCount = countMissingCells(rawTestRows);
-                
-                for (let j = 0; j < selectedFeatures.length; j++) {
-                    let validCount = 0;
-                    for (const row of rawTrainRows) {
-                        if (!isNaN(row.x[j])) validCount++;
+
+                if (mode === 'single') {
+                    if (!loadedCSVData) throw new Error("CSVファイルがアップロードされていません");
+                    const validRows = parseRowList(loadedCSVData);
+                    const ratio = parseInt(paramSplit.value) / 100;
+                    const indices = Array.from({ length: validRows.length }, (_, i) => i);
+                    seededShuffle(indices, rng);
+                    const trainSize = Math.floor(validRows.length * ratio);
+                    for (let i = 0; i < validRows.length; i++) {
+                        if (i < trainSize) rawTrainRows.push(validRows[indices[i]]);
+                        else rawTestRows.push(validRows[indices[i]]);
                     }
-                    if (validCount === 0) {
-                        updateStatus(
-                            `特徴量「${selectedFeatures[j]}」に有効な数値データがありません`,
-                            "error"
-                        );
-                        return;
-                    }
-                }
-                
-                let msgParts = [];
-                
-                if (missingValuesCount > 0) {
-                    msgParts.push(
-                        `<span style="color: #38bdf8; font-weight: bold;">` +
-                        `補完済み特徴量: ${missingValuesCount}箇所` +
-                        `</span>` +
-                        ` (訓練側: ${trainMissingCount}箇所 / ` +
-                        `テスト側: ${testMissingCount}箇所、` +
-                        `各FoldのTrain平均で補完)`
-                    );
                 } else {
-                    msgParts.push(`特徴量欠損: 0箇所`);
+                    if (!loadedTrainCSVData || !loadedTestCSVData) throw new Error("教師・テストの両CSVを選択してください");
+                    rawTrainRows = parseRowList(loadedTrainCSVData);
+                    rawTestRows = parseRowList(loadedTestCSVData);
                 }
-                
-                if (skippedRowsCount > 0) {
-                    msgParts.push(
-                        `<span style="color: #fb7185;">` +
-                        `目的変数欠損による除外: ${skippedRowsCount}行` +
-                        `</span>`
-                    );
-                }
-                
-                skippedDataInfo.innerHTML = msgParts.join(" | ");
-                skippedDataInfo.classList.remove('hidden');
             }
+            return { rawTrainRows, rawTestRows, selectedFeatures, targetCol, missingValuesCount, skippedRowsCount };
+        }
 
-            const useKFold = paramKFold.checked;
-            const K = useKFold ? parseInt(paramK.value) : 1;
-
-            const minValSamplesPerFold = 2;
-            if (useKFold && Math.floor(rawTrainRows.length / K) < minValSamplesPerFold) {
-                updateStatus(`データ件数に対しK=${K}が大きすぎます（各Fold検証データが${minValSamplesPerFold}件未満）。Kを小さくしてください。`, "error");
-                return;
-            }
-
+        // 単一ハイパーパラメータ構成での訓練実行エンジン
+        async function trainSingleConfig(hyperParams, datasets, rng, onEpochEnd = null) {
+            const { rawTrainRows, rawTestRows, selectedFeatures, targetCol } = datasets;
+            const { opt, lr, batch, epochs, k, normalize, seed } = hyperParams;
             const numFeatures = selectedFeatures.length;
-            const inputDim = numFeatures;
-            const epochs = parseInt(paramEpochs.value);
-            const batch = parseInt(paramBatch.value);
-            const opt = paramOptimizer.value;
-            const lr = paramLR.value;
+            const useKFold = k > 1;
 
-            const scaleNoteText = paramNormalize.checked ? "※標準化スケール" : "※元の生値スケール";
-            if (lossScaleNote) lossScaleNote.innerText = scaleNoteText;
-            if (valLossScaleNote) valLossScaleNote.innerText = scaleNoteText;
-            if (predChartSubtitle) predChartSubtitle.innerText = useKFold ? "アンサンブル予測プロット" : "単一モデル予測プロット";
-            predChart.data.datasets[0].label = useKFold ? "アンサンブル予測結果" : "単一モデル予測結果";
-
-            // 再現性確保用パラメータ設定オブジェクト（JSONメタデータ同封用）
-            const trainingConfig = {
-                seed: useSeed ? currentSeed : null,
-                trainSplitPercent: parseInt(paramSplit.value),
-                imputedMissingCount: missingValuesCount, // ← 追加
-                skippedRowsCount: skippedRowsCount,     // ← 追加
-                kFold: K,
-                normalize: paramNormalize.checked,
-                optimizer: opt,
-                learningRate: parseFloat(lr),
-                batchSize: batch,
-                epochs: epochs,
-                sourceType: source,
-                sourceFileName: source === 'upload' && paramFileInput.files[0] ? paramFileInput.files[0].name : 'synthetic_simulation',
-                totalSamples: rawTrainRows.length + rawTestRows.length,
-                trainSamples: rawTrainRows.length,
-                testSamples: rawTestRows.length,
-                trainedAt: new Date().toISOString()
-            };
-
-            trainingHistory = {
-                metadata: trainingConfig,
-                features: selectedFeatures,
-                target: targetCol,
-                epochs: [],
-                finalMetrics: {}
-            };
-
-            isTraining = true; trainBtn.disabled = true; exportArea.classList.add('hidden'); epochProgressText.classList.remove('hidden');
-            updateStatus(useKFold ? `K分割交差検証を構築中 (K=${K}, Seed=${currentSeed})...` : `ニューラルネットワーク構築中 (Seed=${currentSeed})...`, "progress");
-
-            lossChart.data.labels = [];
-            lossChart.data.datasets = [
-                { label: '平均訓練データ (Train Average)', data: [], borderColor: '#818cf8', borderWidth: 4, fill: false, pointRadius: 0, z: 10 },
-                { label: '平均検証データ (Val Average)', data: [], borderColor: '#22d3ee', borderWidth: 4, fill: false, pointRadius: 0, z: 10 }
-            ];
+            let foldTrainXs = [], foldTrainYs = [], foldValXs = [], foldValYs = [], foldTestXs = [];
+            const foldStats = [];
 
             if (useKFold) {
-                numTrainSamples.innerText = `${rawTrainRows.length}件 (K=${K}分割)`;
-                numTestSamples.innerText = `${rawTestRows.length}件`;
-                for (let k = 0; k < K; k++) {
-                    lossChart.data.datasets.push({ label: `Fold ${k+1} Train`, data: [], borderColor: 'rgba(192, 132, 252, 0.7)', borderWidth: 1.5, fill: false, pointRadius: 0, z: 1 });
-                    lossChart.data.datasets.push({ label: `Fold ${k+1} Val`, data: [], borderColor: 'rgba(52, 211, 153, 0.7)', borderWidth: 1.5, fill: false, pointRadius: 0, z: 1 });
-                }
-                lossChart.update();
-
-                const foldSize = Math.floor(rawTrainRows.length / K);
-                const foldTrainXs = []; const foldTrainYs = []; const foldValXs = []; const foldValYs = [];
-                const foldTestXs = [];
+                const foldSize = Math.floor(rawTrainRows.length / k);
                 const trainIndices = Array.from({ length: rawTrainRows.length }, (_, i) => i);
                 seededShuffle(trainIndices, rng);
 
-                for (let k = 0; k < K; k++) {
-                    const valStart = k * foldSize; const valEnd = (k === K - 1) ? rawTrainRows.length : (k + 1) * foldSize;
-                    const rawFoldTrain = []; const rawFoldVal = [];
+                for (let f = 0; f < k; f++) {
+                    const valStart = f * foldSize, valEnd = (f === k - 1) ? rawTrainRows.length : (f + 1) * foldSize;
+                    const rawFoldTrain = [], rawFoldVal = [];
                     for (let i = 0; i < rawTrainRows.length; i++) {
                         const idx = trainIndices[i];
                         if (i >= valStart && i < valEnd) rawFoldVal.push(rawTrainRows[idx]);
                         else rawFoldTrain.push(rawTrainRows[idx]);
                     }
-
-                    const foldFeatureSums = Array(numFeatures).fill(0);
-                    const foldFeatureCounts = Array(numFeatures).fill(0);
+                    // 欠損値補完（Foldごとの平均）
+                    const sums = Array(numFeatures).fill(0), counts = Array(numFeatures).fill(0);
                     for (const r of rawFoldTrain) {
-                        for (let j = 0; j < numFeatures; j++) {
-                            if (!isNaN(r.x[j])) { foldFeatureSums[j] += r.x[j]; foldFeatureCounts[j]++; }
-                        }
+                        for (let j = 0; j < numFeatures; j++) { if (!isNaN(r.x[j])) { sums[j] += r.x[j]; counts[j]++; } }
                     }
-                    const foldFeatureMeans = foldFeatureSums.map((sum, j) => foldFeatureCounts[j] > 0 ? sum / foldFeatureCounts[j] : 0);
+                    const means = sums.map((s, j) => counts[j] > 0 ? s / counts[j] : 0);
+                    const impute = (r) => r.x.map((v, j) => isNaN(v) ? means[j] : v);
 
-                    const imputeFold = (r) => r.x.map((val, j) => isNaN(val) ? foldFeatureMeans[j] : val);
-                    foldTrainXs.push(rawFoldTrain.map(imputeFold));
+                    foldTrainXs.push(rawFoldTrain.map(impute));
                     foldTrainYs.push(rawFoldTrain.map(r => [r.y]));
-                    foldValXs.push(rawFoldVal.map(imputeFold));
+                    foldValXs.push(rawFoldVal.map(impute));
                     foldValYs.push(rawFoldVal.map(r => [r.y]));
-                    foldTestXs.push(rawTestRows.map(imputeFold));
+                    foldTestXs.push(rawTestRows.map(impute));
                 }
-
-                const allTrainImputed = foldTrainXs[0];
-                const globalMeans = Array(numFeatures).fill(0);
-                const globalMins = Array(numFeatures).fill(Infinity);
-                const globalMaxs = Array(numFeatures).fill(-Infinity);
-                for (let i = 0; i < allTrainImputed.length; i++) {
-                    for (let j = 0; j < numFeatures; j++) {
-                        const v = allTrainImputed[i][j];
-                        globalMeans[j] += v;
-                        if (v < globalMins[j]) globalMins[j] = v;
-                        if (v > globalMaxs[j]) globalMaxs[j] = v;
-                    }
-                }
-                for (let j = 0; j < numFeatures; j++) globalMeans[j] /= allTrainImputed.length;
-
-                const models = []; const tensors = []; const foldStats = [];
-
-                for (let k = 0; k < K; k++) {
-                    let finalFoldTrainX = foldTrainXs[k]; let finalFoldValX = foldValXs[k];
-                    let finalFoldTrainY = foldTrainYs[k]; let finalFoldValY = foldValYs[k];
-
-                    if (paramNormalize.checked) {
-                        const normX = fitTransform(foldTrainXs[k]);
-                        finalFoldTrainX = normX.standardized; finalFoldValX = transform(foldValXs[k], normX.means, normX.stds);
-                        const normY = fitTransform(foldTrainYs[k]);
-                        finalFoldTrainY = normY.standardized; finalFoldValY = transform(foldValYs[k], normY.means, normY.stds);
-                        foldStats.push({ xMeans: normX.means, xStds: normX.stds, yMeans: normY.means, yStds: normY.stds });
-                    } else {
-                        foldStats.push(null);
-                    }
-
-                    const foldModelSeed = useSeed ? ((currentSeed + (k + 1) * 1000) >>> 0) : null;
-                    models.push(buildModel(inputDim, opt, lr, foldModelSeed));
-                    tensors.push({ xs: tf.tensor2d(finalFoldTrainX), ys: tf.tensor2d(finalFoldTrainY), valXs: tf.tensor2d(finalFoldValX), valYs: tf.tensor2d(finalFoldValY) });
-                }
-
-
-                updateStatus(`K分割交差検証を実行中 (K=${K})...`, "progress");
-
-                // 各Fold用のインデックス配列を事前に用意
-                const foldIndicesList = [];
-                for (let k = 0; k < K; k++) {
-                    foldIndicesList.push(Array.from({ length: foldTrainXs[k].length }, (_, i) => i));
-                }
-
-                try {
-                    for (let epoch = 0; epoch < epochs; epoch++) {
-                        let epochLossSum = 0; let epochValLossSum = 0; const foldLosses = [];
-                        for (let k = 0; k < K; k++) {
-                            const foldTensor = tensors[k];
-
-                            // シード付き乱数(rng)を使ってインデックスをシャッフル
-                            seededShuffle(foldIndicesList[k], rng);
-
-                            // シャッフルした順序でエポック専用テンソルを抽出
-                            const shuffledIndicesTensor = tf.tensor1d(foldIndicesList[k], 'int32');
-                            const epochXs = tf.gather(foldTensor.xs, shuffledIndicesTensor);
-                            const epochYs = tf.gather(foldTensor.ys, shuffledIndicesTensor);
-                            shuffledIndicesTensor.dispose();
-
-                            // シャッフル済みテンソルを渡し、TF内部のシャッフルは false に設定
-                            const fitHistory = await models[k].fit(epochXs, epochYs, { 
-                                epochs: 1, 
-                                batchSize: batch, 
-                                validationData: [foldTensor.valXs, foldTensor.valYs], 
-                                verbose: 0, 
-                                shuffle: false 
-                            });
-
-                            // 使い終わったテンソルを即時解放（メモリリーク防止）
-                            epochXs.dispose();
-                            epochYs.dispose();
-
-                            const trainL = fitHistory.history.loss[0]; const valL = fitHistory.history.val_loss[0];
-                            epochLossSum += trainL; epochValLossSum += valL;
-                            foldLosses.push({ fold: k + 1, trainLoss: trainL, valLoss: valL });
-                            lossChart.data.datasets[2 + k * 2].data.push(trainL); lossChart.data.datasets[2 + k * 2 + 1].data.push(valL);
-                        }
-                        
-                        const avgLoss = epochLossSum / K; const avgValLoss = epochValLossSum / K;
-                        const cur = epoch + 1; const pct = (cur / epochs) * 100;
-                        trainingHistory.epochs.push({ epoch: cur, avgTrainLoss: avgLoss, avgValLoss: avgValLoss, folds: foldLosses });
-
-                        progressBar.style.width = `${pct}%`; epochProgressText.innerText = `Epoch ${cur} / ${epochs} (K-Fold)`;
-                        statLoss.innerText = avgLoss.toFixed(4); statValLoss.innerText = avgValLoss.toFixed(4);
-                        lossChart.data.labels.push(cur); lossChart.data.datasets[0].data.push(avgLoss); lossChart.data.datasets[1].data.push(avgValLoss);
-                        lossChart.update('none');
-                    }
-
-                    updateStatus("K-Fold予測アンサンブル評価中...", "progress");
-
-                    const actuals = rawTestRows.map(r => r.y);
-                    const ensemblePreds = new Float32Array(actuals.length);
-                    const predictions = [];
-
-                    for (let k = 0; k < K; k++) {
-                        const predsArray = tf.tidy(() => {
-                            let finalFoldTestX = foldTestXs[k];
-                            if (paramNormalize.checked && foldStats[k]) {
-                                finalFoldTestX = transform(foldTestXs[k], foldStats[k].xMeans, foldStats[k].xStds);
-                            }
-                            const testXsTensor = tf.tensor2d(finalFoldTestX);
-                            const predTensor = models[k].predict(testXsTensor);
-                            return Array.from(predTensor.dataSync()).map(v => [v]);
-                        });
-
-                        let finalPredsArray = predsArray;
-                        if (paramNormalize.checked && foldStats[k]) {
-                            finalPredsArray = inverseTransform(predsArray, foldStats[k].yMeans, foldStats[k].yStds);
-                        }
-                        predictions.push(finalPredsArray.map(row => row[0]));
-                    }
-
-                    for (let i = 0; i < actuals.length; i++) {
-                        let sum = 0;
-                        for (let k = 0; k < K; k++) sum += predictions[k][i];
-                        ensemblePreds[i] = sum / K;
-                    }
-
-                    const metrics = evalMetrics(actuals, ensemblePreds);
-                    statMae.innerText = metrics.mae.toFixed(4); statR2.innerText = metrics.r2.toFixed(4);
-                    trainingHistory.finalMetrics = { mae: metrics.mae, r2: metrics.r2 };
-
-                    const points = []; let min = Infinity; let max = -Infinity;
-                    const residuals = [];
-                    for (let i = 0; i < actuals.length; i++) {
-                        const act = actuals[i]; const prd = ensemblePreds[i];
-                        points.push({ x: act, y: prd });
-                        residuals.push(prd - act);
-                        if (act < min) min = act; if (act > max) max = act;
-                        if (prd < min) min = prd; if (prd > max) max = prd;
-                    }
-
-                    const span = Math.max(max - min, 1);
-                    const padding = span * 0.05;
-                    const boundMin = min - padding;
-                    const boundMax = max + padding;
-
-                    predChart.options.scales.x.min = boundMin;
-                    predChart.options.scales.x.max = boundMax;
-                    predChart.options.scales.y.min = boundMin;
-                    predChart.options.scales.y.max = boundMax;
-
-                    predChart.data.datasets[0].data = points;
-                    predChart.data.datasets[1].data = [{ x: boundMin, y: boundMin }, { x: boundMax, y: boundMax }];
-                    predChart.update();
-
-                    const hist = buildHistogramData(residuals);
-                    residualChart.data.labels = hist.labels;
-                    residualChart.data.datasets[0].data = hist.counts;
-                    residualChart.update();
-                    if (residualStatsLabel) {
-                        residualStatsLabel.innerText = `平均誤差: ${hist.mean.toFixed(3)} | 標準偏差: ${hist.std.toFixed(3)}`;
-                    }
-
-                    const serializedFolds = [];
-                    for (let k = 0; k < K; k++) {
-                        const saveArtifacts = await captureModelArtifacts(models[k]);
-                        serializedFolds.push({
-                            means: foldStats[k] ? foldStats[k].xMeans : null, stds: foldStats[k] ? foldStats[k].xStds : null,
-                            targetMeans: foldStats[k] ? foldStats[k].yMeans : null, targetStds: foldStats[k] ? foldStats[k].yStds : null,
-                            modelTopology: saveArtifacts.modelTopology, weightSpecs: saveArtifacts.weightSpecs, weightDataB64: arrayBufferToBase64(saveArtifacts.weightData)
-                        });
-                    }
-
-                    // マハラノビス用パラメータの事前計算（全Trainデータ）
-                    const mahalanobisParams = fitMahalanobis(allTrainImputed);
-
-                    modelPackage = {
-                        features: selectedFeatures,
-                        target: targetCol,
-                        normalize: paramNormalize.checked,
-                        globalMeans: globalMeans,
-                        globalMins: globalMins,
-                        globalMaxs: globalMaxs,
-                        k: K,
-                        mahalanobis: mahalanobisParams, // ★ 追加
-                        trainingConfig: {
-                            ...trainingConfig,
-                            evaluatedMetrics: { mae: metrics.mae, r2: metrics.r2 }
-                        },
-                        folds: serializedFolds
-                    };
-
-                    // 先にエクスポートUIと完了表示を確実に成立させる
-                    exportArea.classList.remove('hidden'); 
-                    updateStatus("K分割交差検証＆アンサンブル学習完了！", "success");
-
-                    // 推論UIへの自動反映（失敗しても学習成功・エクスポートを巻き込まないよう隔離）
-                    try {
-                        await loadPackageIntoInference(modelPackage, '学習完了モデル (メモリ直接ロード)');
-                    } catch (autoErr) {
-                        console.warn("推論タブへの自動反映に失敗しました（エクスポート保存は正常に利用可能です）", autoErr);
-                    }
-
-                } catch (err) {
-                    console.error(err); updateStatus("交差検証学習エラー: " + err.message, "error");
-                } finally {
-                    for (let k = 0; k < K; k++) { tensors[k].xs.dispose(); tensors[k].ys.dispose(); tensors[k].valXs.dispose(); tensors[k].valYs.dispose(); models[k].dispose(); }
-                    isTraining = false; trainBtn.disabled = false;
-                }
-
             } else {
-                const valRatio = 0.2;
-                const valSize = Math.max(1, Math.floor(rawTrainRows.length * valRatio));
-                const subTrainIndices = Array.from({ length: rawTrainRows.length }, (_, i) => i);
-                seededShuffle(subTrainIndices, rng);
-
-                const rawVal = []; const rawSubTrain = [];
+                const valSize = Math.max(1, Math.floor(rawTrainRows.length * 0.2));
+                const indices = Array.from({ length: rawTrainRows.length }, (_, i) => i);
+                seededShuffle(indices, rng);
+                const rawFoldTrain = [], rawFoldVal = [];
                 for (let i = 0; i < rawTrainRows.length; i++) {
-                    const idx = subTrainIndices[i];
-                    if (i < valSize) rawVal.push(rawTrainRows[idx]);
-                    else rawSubTrain.push(rawTrainRows[idx]);
+                    const idx = indices[i];
+                    if (i < valSize) rawFoldVal.push(rawTrainRows[idx]);
+                    else rawFoldTrain.push(rawTrainRows[idx]);
                 }
-
-                numTrainSamples.innerText = `${rawTrainRows.length}件 (学習:${rawSubTrain.length} / 検証:${rawVal.length} [約8:2])`;
-                numTestSamples.innerText = `${rawTestRows.length}件`;
-
-                const subTrainSums = Array(numFeatures).fill(0);
-                const subTrainCounts = Array(numFeatures).fill(0);
-                for (const r of rawSubTrain) {
-                    for (let j = 0; j < numFeatures; j++) {
-                        if (!isNaN(r.x[j])) { subTrainSums[j] += r.x[j]; subTrainCounts[j]++; }
-                    }
+                const sums = Array(numFeatures).fill(0), counts = Array(numFeatures).fill(0);
+                for (const r of rawFoldTrain) {
+                    for (let j = 0; j < numFeatures; j++) { if (!isNaN(r.x[j])) { sums[j] += r.x[j]; counts[j]++; } }
                 }
-                const subTrainMeans = subTrainSums.map((sum, j) => subTrainCounts[j] > 0 ? sum / subTrainCounts[j] : 0);
+                const means = sums.map((s, j) => counts[j] > 0 ? s / counts[j] : 0);
+                const impute = (r) => r.x.map((v, j) => isNaN(v) ? means[j] : v);
 
-                const imputeSubTrain = (r) => r.x.map((val, j) => isNaN(val) ? subTrainMeans[j] : val);
-                const subTrainX = rawSubTrain.map(imputeSubTrain);
-                const subTrainY = rawSubTrain.map(r => [r.y]);
-                const valX = rawVal.map(imputeSubTrain);
-                const valY = rawVal.map(r => [r.y]);
-                const testX = rawTestRows.map(imputeSubTrain);
-                const testY = rawTestRows.map(r => [r.y]);
+                foldTrainXs.push(rawFoldTrain.map(impute));
+                foldTrainYs.push(rawFoldTrain.map(r => [r.y]));
+                foldValXs.push(rawFoldVal.map(impute));
+                foldValYs.push(rawFoldVal.map(r => [r.y]));
+                foldTestXs.push(rawTestRows.map(impute));
+            }
 
-                const globalMeans = Array(numFeatures).fill(0);
-                const globalMins = Array(numFeatures).fill(Infinity);
-                const globalMaxs = Array(numFeatures).fill(-Infinity);
-                for (let i = 0; i < subTrainX.length; i++) {
-                    for (let j = 0; j < numFeatures; j++) {
-                        const v = subTrainX[i][j];
-                        globalMeans[j] += v;
-                        if (v < globalMins[j]) globalMins[j] = v;
-                        if (v > globalMaxs[j]) globalMaxs[j] = v;
-                    }
+            const allTrainData = foldTrainXs[0];
+            const globalMeans = Array(numFeatures).fill(0), globalMins = Array(numFeatures).fill(Infinity), globalMaxs = Array(numFeatures).fill(-Infinity);
+            for (const row of allTrainData) {
+                for (let j = 0; j < numFeatures; j++) {
+                    globalMeans[j] += row[j];
+                    if (row[j] < globalMins[j]) globalMins[j] = row[j];
+                    if (row[j] > globalMaxs[j]) globalMaxs[j] = row[j];
                 }
-                for (let j = 0; j < numFeatures; j++) globalMeans[j] /= subTrainX.length;
+            }
+            for (let j = 0; j < numFeatures; j++) globalMeans[j] /= allTrainData.length;
 
-                let finalTrainX = subTrainX; let finalValX = valX; let finalTestX = testX;
-                let finalTrainY = subTrainY; let finalValY = valY; let finalTestY = testY;
-                let xMeans = null, xStds = null, yMeans = null, yStds = null;
+            const models = [], tensors = [];
+            const activeFolds = useKFold ? k : 1;
 
-                if (paramNormalize.checked) {
-                    const normX = fitTransform(subTrainX);
-                    finalTrainX = normX.standardized;
-                    finalValX = transform(valX, normX.means, normX.stds);
-                    finalTestX = transform(testX, normX.means, normX.stds);
-                    xMeans = normX.means; xStds = normX.stds;
+            for (let f = 0; f < activeFolds; f++) {
+                let tX = foldTrainXs[f], vX = foldValXs[f], tY = foldTrainYs[f], vY = foldValYs[f];
+                if (normalize) {
+                    const normX = fitTransform(tX); tX = normX.standardized; vX = transform(vX, normX.means, normX.stds);
+                    const normY = fitTransform(tY); tY = normY.standardized; vY = transform(vY, normY.means, normY.stds);
+                    foldStats.push({ xMeans: normX.means, xStds: normX.stds, yMeans: normY.means, yStds: normY.stds });
+                } else foldStats.push(null);
 
-                    const normY = fitTransform(subTrainY);
-                    finalTrainY = normY.standardized;
-                    finalValY = transform(valY, normY.means, normY.stds);
-                    finalTestY = transform(testY, normY.means, normY.stds);
-                    yMeans = normY.means; yStds = normY.stds;
+                const mSeed = seed !== null ? ((seed + (f + 1) * 1000) >>> 0) : null;
+                models.push(buildModel(numFeatures, opt, lr, mSeed));
+                tensors.push({ xs: tf.tensor2d(tX), ys: tf.tensor2d(tY), valXs: tf.tensor2d(vX), valYs: tf.tensor2d(vY) });
+            }
+
+            const lossHistory = [];
+            const foldIndicesList = foldTrainXs.map(x => Array.from({ length: x.length }, (_, i) => i));
+
+            for (let epoch = 0; epoch < epochs; epoch++) {
+                let epLoss = 0, epValLoss = 0;
+                for (let f = 0; f < activeFolds; f++) {
+                    seededShuffle(foldIndicesList[f], rng);
+                    const idxTensor = tf.tensor1d(foldIndicesList[f], 'int32');
+                    const eXs = tf.gather(tensors[f].xs, idxTensor);
+                    const eYs = tf.gather(tensors[f].ys, idxTensor);
+                    idxTensor.dispose();
+
+                    const hist = await models[f].fit(eXs, eYs, {
+                        epochs: 1, batchSize: batch, validationData: [tensors[f].valXs, tensors[f].valYs], verbose: 0, shuffle: false
+                    });
+                    eXs.dispose(); eYs.dispose();
+                    epLoss += hist.history.loss[0]; epValLoss += hist.history.val_loss[0];
                 }
+                const avgL = epLoss / activeFolds, avgVL = epValLoss / activeFolds;
+                lossHistory.push({ epoch: epoch + 1, trainLoss: avgL, valLoss: avgVL });
+                if (onEpochEnd) onEpochEnd(epoch + 1, epochs, avgL, avgVL);
+            }
 
-                const xs = tf.tensor2d(finalTrainX); const ys = tf.tensor2d(finalTrainY);
-                const valXs = tf.tensor2d(finalValX); const valYs = tf.tensor2d(finalValY);
-                const testXs = tf.tensor2d(finalTestX);
-                
-                const singleModelSeed = useSeed ? currentSeed : null;
-                const model = buildModel(inputDim, opt, lr, singleModelSeed);
+            // テストデータによる評価
+            const actuals = rawTestRows.map(r => r.y);
+            const ensemblePreds = new Float32Array(actuals.length);
+
+            for (let f = 0; f < activeFolds; f++) {
+                const preds = tf.tidy(() => {
+                    let testX = foldTestXs[f];
+                    if (normalize && foldStats[f]) testX = transform(testX, foldStats[f].xMeans, foldStats[f].xStds);
+                    return Array.from(models[f].predict(tf.tensor2d(testX)).dataSync()).map(v => [v]);
+                });
+                const finalP = (normalize && foldStats[f]) ? inverseTransform(preds, foldStats[f].yMeans, foldStats[f].yStds) : preds;
+                for (let i = 0; i < actuals.length; i++) ensemblePreds[i] += finalP[i][0] / activeFolds;
+            }
+
+            const metrics = evalMetrics(actuals, ensemblePreds);
+            const mahalanobisParams = fitMahalanobis(allTrainData);
+
+            // シリアライズ
+            const serializedFolds = [];
+            for (let f = 0; f < activeFolds; f++) {
+                const artifacts = await captureModelArtifacts(models[f]);
+                serializedFolds.push({
+                    means: foldStats[f] ? foldStats[f].xMeans : null, stds: foldStats[f] ? foldStats[f].xStds : null,
+                    targetMeans: foldStats[f] ? foldStats[f].yMeans : null, targetStds: foldStats[f] ? foldStats[f].yStds : null,
+                    modelTopology: artifacts.modelTopology, weightSpecs: artifacts.weightSpecs, weightDataB64: arrayBufferToBase64(artifacts.weightData)
+                });
+            }
+
+            // メモリ解放
+            tensors.forEach(t => { t.xs.dispose(); t.ys.dispose(); t.valXs.dispose(); t.valYs.dispose(); });
+            models.forEach(m => m.dispose());
+
+            const points = [], residuals = [];
+            for (let i = 0; i < actuals.length; i++) {
+                points.push({ x: actuals[i], y: ensemblePreds[i] });
+                residuals.push(ensemblePreds[i] - actuals[i]);
+            }
+
+            const pkg = {
+                features: selectedFeatures, target: targetCol, normalize, globalMeans, globalMins, globalMaxs,
+                k: activeFolds, mahalanobis: mahalanobisParams,
+                trainingConfig: {
+                    seed: hyperParams.seed,
+                    trainSplitPercent: parseInt(paramSplit.value),
+                    imputedMissingCount: datasets.missingValuesCount,
+                    skippedRowsCount: datasets.skippedRowsCount,
+                    kFold: activeFolds,
+                    normalize: normalize,
+                    optimizer: opt,
+                    learningRate: parseFloat(lr),
+                    batchSize: batch,
+                    epochs: epochs,
+                    sourceType: datasets.source,
+                    totalSamples: rawTrainRows.length + rawTestRows.length,
+                    trainSamples: rawTrainRows.length,
+                    testSamples: rawTestRows.length,
+                    evaluatedMetrics: metrics,
+                    trainedAt: new Date().toISOString()
+                },
+                folds: serializedFolds
+            };
+
+            return { pkg, metrics, lossHistory, points, residuals, actuals };
+        }
+
+        // 訓練または自動最適化のオーケストレーター
+        async function runTrainingOrTuning(isTuningMode = false) {
+            if (isTraining) return;
+            const useSeed = paramUseSeed.checked;
+            const currentSeed = useSeed ? parseInt(paramSeedVal.value) || 42 : Math.floor(Math.random() * 100000);
+            const rng = createPRNG(currentSeed);
+
+            let datasets;
+            try {
+                datasets = prepareDatasets(rng);
+            } catch (e) {
+                updateStatus(e.message, "error"); return;
+            }
+
+            isTraining = true;
+            trainBtn.disabled = true; tuneBtn.disabled = true;
+            exportArea.classList.add('hidden'); epochProgressText.classList.remove('hidden');
+
+            numTrainSamples.innerText = `${datasets.rawTrainRows.length}件`;
+            numTestSamples.innerText = `${datasets.rawTestRows.length}件`;
+            if (datasets.missingValuesCount > 0 || datasets.skippedRowsCount > 0) {
+                skippedDataInfo.innerHTML = `補完欠損値: ${datasets.missingValuesCount}箇所 | 除外行: ${datasets.skippedRowsCount}行`;
+                skippedDataInfo.classList.remove('hidden');
+            } else skippedDataInfo.classList.add('hidden');
+
+            const useKFold = paramKFold.checked;
+            const kVal = useKFold ? parseInt(paramK.value) : 1;
+            const isNormalize = paramNormalize.checked;
+
+            if (!isTuningMode) {
+                // 手動個別実行モード
+                tuningResultsPanel.classList.add('hidden');
+                updateStatus("モデルを学習中...", "progress");
+                lossChart.data.labels = [];
+                lossChart.data.datasets[0].data = [];
+                lossChart.data.datasets[1].data = [];
+
+                const cfg = {
+                    opt: paramOptimizer.value, lr: paramLR.value, batch: parseInt(paramBatch.value),
+                    epochs: parseInt(paramEpochs.value), k: kVal, normalize: isNormalize, seed: useSeed ? currentSeed : null
+                };
 
                 try {
-                    const singleTrainIndices = Array.from({ length: finalTrainX.length }, (_, i) => i);
-
-                    for (let epoch = 0; epoch < epochs; epoch++) {
-                        // シード付き乱数(rng)でインデックスをシャッフル
-                        seededShuffle(singleTrainIndices, rng);
-
-                        const shuffledIndicesTensor = tf.tensor1d(singleTrainIndices, 'int32');
-                        const epochXs = tf.gather(xs, shuffledIndicesTensor);
-                        const epochYs = tf.gather(ys, shuffledIndicesTensor);
-                        shuffledIndicesTensor.dispose();
-
-                        const fitHistory = await model.fit(epochXs, epochYs, {
-                            epochs: 1,
-                            batchSize: batch,
-                            validationData: [valXs, valYs],
-                            verbose: 0,
-                            shuffle: false
-                        });
-
-                        epochXs.dispose();
-                        epochYs.dispose();
-
-                        const trainLoss = fitHistory.history.loss[0];
-                        const valLoss = fitHistory.history.val_loss[0];
-                        const cur = epoch + 1; 
-                        const pct = (cur / epochs) * 100;
-
-                        trainingHistory.epochs.push({ epoch: cur, trainLoss: trainLoss, valLoss: valLoss });
-                        progressBar.style.width = `${pct}%`; 
-                        epochProgressText.innerText = `Epoch ${cur} / ${epochs}`;
-                        statLoss.innerText = trainLoss.toFixed(4); 
-                        statValLoss.innerText = valLoss.toFixed(4);
-                        lossChart.data.labels.push(cur); 
-                        lossChart.data.datasets[0].data.push(trainLoss); 
-                        lossChart.data.datasets[1].data.push(valLoss);
+                    const res = await trainSingleConfig(cfg, datasets, rng, (ep, total, trL, valL) => {
+                        const pct = (ep / total) * 100;
+                        progressBar.style.width = `${pct}%`;
+                        epochProgressText.innerText = `Epoch ${ep} / ${total}`;
+                        statLoss.innerText = trL.toFixed(4); statValLoss.innerText = valL.toFixed(4);
+                        lossChart.data.labels.push(ep); lossChart.data.datasets[0].data.push(trL); lossChart.data.datasets[1].data.push(valL);
                         lossChart.update('none');
-                    }
-
-                    updateStatus("隔離していたテストデータで最終評価中...", "progress");
-                    const predsArray = tf.tidy(() => {
-                        const predTensor = model.predict(testXs);
-                        return Array.from(predTensor.dataSync()).map(v => [v]);
                     });
-
-                    let finalPredsArray = predsArray;
-                    if (paramNormalize.checked) finalPredsArray = inverseTransform(predsArray, yMeans, yStds);
-                    
-                    const actuals = testY.map(row => row[0]);
-                    const preds = finalPredsArray.map(row => row[0]);
-
-                    const metrics = evalMetrics(actuals, preds);
-                    statMae.innerText = metrics.mae.toFixed(4); statR2.innerText = metrics.r2.toFixed(4);
-                    trainingHistory.finalMetrics = { mae: metrics.mae, r2: metrics.r2 };
-
-                    const points = []; let min = Infinity; let max = -Infinity;
-                    const residuals = [];
-                    for (let i = 0; i < actuals.length; i++) {
-                        const act = actuals[i]; const prd = preds[i];
-                        points.push({ x: act, y: prd });
-                        residuals.push(prd - act);
-                        if (act < min) min = act; if (act > max) max = act;
-                        if (prd < min) min = prd; if (prd > max) max = prd;
-                    }
-
-                    const span = Math.max(max - min, 1);
-                    const padding = span * 0.05;
-                    const boundMin = min - padding;
-                    const boundMax = max + padding;
-
-                    predChart.options.scales.x.min = boundMin;
-                    predChart.options.scales.x.max = boundMax;
-                    predChart.options.scales.y.min = boundMin;
-                    predChart.options.scales.y.max = boundMax;
-
-                    predChart.data.datasets[0].data = points;
-                    predChart.data.datasets[1].data = [{ x: boundMin, y: boundMin }, { x: boundMax, y: boundMax }];
-                    predChart.update();
-
-                    const hist = buildHistogramData(residuals);
-                    residualChart.data.labels = hist.labels;
-                    residualChart.data.datasets[0].data = hist.counts;
-                    residualChart.update();
-                    if (residualStatsLabel) {
-                        residualStatsLabel.innerText = `平均誤差: ${hist.mean.toFixed(3)} | 標準偏差: ${hist.std.toFixed(3)}`;
-                    }
-
-                    const saveArtifacts = await captureModelArtifacts(model);
-
-                    // マハラノビス用パラメータの事前計算（Trainデータ）
-                    const mahalanobisParams = fitMahalanobis(subTrainX);
-
-                    modelPackage = {
-                        features: selectedFeatures,
-                        target: targetCol,
-                        normalize: paramNormalize.checked,
-                        globalMeans: globalMeans,
-                        globalMins: globalMins,
-                        globalMaxs: globalMaxs,
-                        k: 1,
-                        mahalanobis: mahalanobisParams, // ★ 追加
-                        trainingConfig: {
-                            ...trainingConfig,
-                            evaluatedMetrics: { mae: metrics.mae, r2: metrics.r2 }
-                        },
-                        folds: [{
-                            means: xMeans, stds: xStds, targetMeans: yMeans, targetStds: yStds,
-                            modelTopology: saveArtifacts.modelTopology, weightSpecs: saveArtifacts.weightSpecs, weightDataB64: arrayBufferToBase64(saveArtifacts.weightData)
-                        }]
-                    };
-
-                    // 先にエクスポートUIと完了表示を確実に成立させる
-                    exportArea.classList.remove('hidden'); 
-                    updateStatus("単一モデル学習・評価完了！", "success");
-
-                    // 推論UIへの自動反映（失敗しても学習成功・エクスポートを巻き込まないよう隔離）
-                    try {
-                        await loadPackageIntoInference(modelPackage, '学習完了モデル (メモリ直接ロード)');
-                    } catch (autoErr) {
-                        console.warn("推論タブへの自動反映に失敗しました（エクスポート保存は正常に利用可能です）", autoErr);
-                    }
-
+                    finalizeTrainingUI(res);
+                    updateStatus("手動パラメータ学習が完了しました！", "success");
                 } catch (err) {
                     console.error(err); updateStatus("学習エラー: " + err.message, "error");
                 } finally {
-                    xs.dispose(); ys.dispose(); valXs.dispose(); valYs.dispose(); testXs.dispose(); model.dispose();
-                    isTraining = false; trainBtn.disabled = false;
+                    isTraining = false; trainBtn.disabled = false; tuneBtn.disabled = false;
                 }
+
+            } else {
+                // 自動最適化モード
+                tuningResultsPanel.classList.remove('hidden');
+                tuningTableBody.innerHTML = '';
+                allTunedRuns = [];
+                updateStatus("ハイパーパラメータ自動最適化を実行中...", "progress");
+
+                const searchType = paramSearchType.value;
+                const trialsLimit = parseInt(paramTuneTrials.value);
+                const tuneEpochs = 50; // 最適化用の高速エポック数
+
+                let candidateConfigs = [];
+                if (searchType === 'grid') {
+                    const opts = ['adam', 'rmsprop'];
+                    const lrs = ['0.01', '0.001', '0.0001'];
+                    const batches = [16, 32];
+                    for (const o of opts) {
+                        for (const l of lrs) {
+                            for (const b of batches) {
+                                candidateConfigs.push({ opt: o, lr: l, batch: b, epochs: tuneEpochs, k: kVal, normalize: isNormalize, seed: useSeed ? currentSeed : null });
+                            }
+                        }
+                    }
+                    candidateConfigs = candidateConfigs.slice(0, trialsLimit);
+                } else {
+                    const opts = ['adam', 'sgd', 'rmsprop'];
+                    const lrs = ['0.01', '0.005', '0.001', '0.0005'];
+                    const batches = [8, 16, 32, 64];
+                    for (let i = 0; i < trialsLimit; i++) {
+                        const o = opts[Math.floor(rng() * opts.length)];
+                        const l = lrs[Math.floor(rng() * lrs.length)];
+                        const b = batches[Math.floor(rng() * batches.length)];
+                        candidateConfigs.push({ opt: o, lr: l, batch: b, epochs: tuneEpochs, k: kVal, normalize: isNormalize, seed: useSeed ? currentSeed : null });
+                    }
+                }
+
+                let bestRun = null;
+                let bestMae = Infinity;
+
+                for (let i = 0; i < candidateConfigs.length; i++) {
+                    const c = candidateConfigs[i];
+                    updateStatus(`自動探索中: 試行 ${i + 1} / ${candidateConfigs.length} (Opt: ${c.opt}, LR: ${c.lr}, Batch: ${c.batch})...`, "progress");
+                    
+                    const res = await trainSingleConfig(c, datasets, rng, (ep, total) => {
+                        const totalProgress = ((i + (ep / total)) / candidateConfigs.length) * 100;
+                        progressBar.style.width = `${totalProgress}%`;
+                        epochProgressText.innerText = `試行 ${i + 1}/${candidateConfigs.length} (Ep ${ep}/${total})`;
+                    });
+
+                    const isBest = res.metrics.mae < bestMae;
+                    if (isBest) {
+                        bestMae = res.metrics.mae;
+                        bestRun = res;
+                    }
+
+                    if (paramAutoSaveAll.checked) {
+                        allTunedRuns.push({ trial: i + 1, config: c, metrics: res.metrics, pkg: res.pkg });
+                    }
+
+                    const tr = document.createElement('tr');
+                    tr.id = `tune_row_${i + 1}`;
+                    if (isBest) {
+                        document.querySelectorAll('.tuning-table tr').forEach(r => r.classList.remove('best-row'));
+                        tr.classList.add('best-row');
+                    }
+                    tr.innerHTML = `
+                        <td>#${i + 1}</td>
+                        <td>${c.opt.toUpperCase()}</td>
+                        <td>${c.lr}</td>
+                        <td>${c.batch}</td>
+                        <td>${c.epochs}</td>
+                        <td style="color: #34d399; font-weight: 700;">${res.metrics.mae.toFixed(4)}</td>
+                        <td style="color: #fbbf24;">${res.metrics.r2.toFixed(4)}</td>
+                        <td>${isBest ? '👑 暫定最良' : '完了'}</td>
+                    `;
+                    tuningTableBody.appendChild(tr);
+                }
+
+                finalizeTrainingUI(bestRun);
+                if (paramAutoSaveAll.checked) exportAllTunedBtn.classList.remove('hidden');
+                updateStatus(`自動最適化が完了しました！ 最良MAE: ${bestMae.toFixed(4)}`, "success");
+                isTraining = false; trainBtn.disabled = false; tuneBtn.disabled = false;
+            }
+        }
+
+        function finalizeTrainingUI(res) {
+            modelPackage = res.pkg;
+            trainingHistory = { metadata: res.pkg.trainingConfig, epochs: res.lossHistory, finalMetrics: res.metrics };
+
+            statLoss.innerText = res.lossHistory[res.lossHistory.length - 1].trainLoss.toFixed(4);
+            statValLoss.innerText = res.lossHistory[res.lossHistory.length - 1].valLoss.toFixed(4);
+            statMae.innerText = res.metrics.mae.toFixed(4);
+            statR2.innerText = res.metrics.r2.toFixed(4);
+
+            lossChart.data.labels = res.lossHistory.map(h => h.epoch);
+            lossChart.data.datasets[0].data = res.lossHistory.map(h => h.trainLoss);
+            lossChart.data.datasets[1].data = res.lossHistory.map(h => h.valLoss);
+            lossChart.update();
+
+            let min = Infinity, max = -Infinity;
+            for (const pt of res.points) {
+                if (pt.x < min) min = pt.x; if (pt.x > max) max = pt.x;
+                if (pt.y < min) min = pt.y; if (pt.y > max) max = pt.y;
+            }
+            const bound = (max - min) * 0.05;
+            predChart.options.scales.x.min = min - bound; predChart.options.scales.x.max = max + bound;
+            predChart.options.scales.y.min = min - bound; predChart.options.scales.y.max = max + bound;
+            predChart.data.datasets[0].data = res.points;
+            predChart.data.datasets[1].data = [{ x: min - bound, y: min - bound }, { x: max + bound, y: max + bound }];
+            predChart.update();
+
+            const hist = buildHistogramData(res.residuals);
+            residualChart.data.labels = hist.labels;
+            residualChart.data.datasets[0].data = hist.counts;
+            residualChart.update();
+            residualStatsLabel.innerText = `平均誤差: ${hist.mean.toFixed(3)} | 標準偏差: ${hist.std.toFixed(3)}`;
+
+            exportArea.classList.remove('hidden');
+
+            try {
+                loadPackageIntoInference(modelPackage, '最良学習モデル (メモリ直接反映)');
+            } catch (e) {
+                console.warn("推論タブ自動ロード失敗", e);
             }
         }
 
         function downloadModelPackage() {
             if (!modelPackage) return;
-            const jsonString = JSON.stringify(modelPackage, null, 2); 
-            const blob = new Blob([jsonString], { type: 'application/json' }); 
+            const blob = new Blob([JSON.stringify(modelPackage, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a'); 
-            a.href = url;
-            const modelType = modelPackage.k > 1 ? 'ensemble' : 'single';
-            a.download = `neural-${modelType}-${modelPackage.target}-model.json`;
-            document.body.appendChild(a); 
-            a.click(); 
-            document.body.removeChild(a); 
+            const a = document.createElement('a');
+            a.href = url; a.download = `best-model-${modelPackage.target}.json`;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadAllTunedPackage() {
+            if (allTunedRuns.length === 0) return;
+            const blob = new Blob([JSON.stringify(allTunedRuns, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = `all-hyperparameter-trials.json`;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
 
         function downloadTrainingHistory() {
             if (!trainingHistory) return;
-            const jsonString = JSON.stringify(trainingHistory, null, 2); 
-            const blob = new Blob([jsonString], { type: 'application/json' }); 
+            const blob = new Blob([JSON.stringify(trainingHistory, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a'); 
-            a.href = url; 
-            a.download = `training-history-${trainingHistory.metadata.target}.json`;
-            document.body.appendChild(a); 
-            a.click(); 
-            document.body.removeChild(a); 
+            const a = document.createElement('a');
+            a.href = url; a.download = `training-history-${trainingHistory.metadata.target || 'model'}.json`;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
 
         async function loadPackageIntoInference(parsed, sourceName = '（学習直後モデル）') {
-            disposeImportedModels();
+            if (importedPackage && importedPackage.folds) {
+                importedPackage.folds.forEach(f => { if (f.model) f.model.dispose(); });
+            }
             loadedModelName.innerText = sourceName;
-
             const reconstructedFolds = [];
             for (let k = 0; k < parsed.k; k++) {
-                const foldData = parsed.folds[k];
-                const weightData = base64ToArrayBuffer(foldData.weightDataB64);
-                const artifacts = { 
-                    modelTopology: foldData.modelTopology, 
-                    weightSpecs: foldData.weightSpecs, 
-                    weightData: weightData 
-                };
+                const f = parsed.folds[k];
+                const artifacts = { modelTopology: f.modelTopology, weightSpecs: f.weightSpecs, weightData: base64ToArrayBuffer(f.weightDataB64) };
                 const model = await tf.loadLayersModel(tf.io.fromMemory(artifacts));
-                reconstructedFolds.push({ 
-                    means: foldData.means, 
-                    stds: foldData.stds, 
-                    targetMeans: foldData.targetMeans, 
-                    targetStds: foldData.targetStds, 
-                    model: model 
-                });
+                reconstructedFolds.push({ means: f.means, stds: f.stds, targetMeans: f.targetMeans, targetStds: f.targetStds, model });
             }
-
-            importedPackage = { 
-                features: parsed.features, 
-                target: parsed.target, 
-                normalize: parsed.normalize, 
-                globalMeans: parsed.globalMeans || null, 
-                globalMins: parsed.globalMins || null, 
-                globalMaxs: parsed.globalMaxs || null, 
-                mahalanobis: parsed.mahalanobis || null, // ★ 追加
-                k: parsed.k, 
-                folds: reconstructedFolds 
+            importedPackage = {
+                features: parsed.features, target: parsed.target, normalize: parsed.normalize,
+                globalMeans: parsed.globalMeans, globalMins: parsed.globalMins, globalMaxs: parsed.globalMaxs,
+                mahalanobis: parsed.mahalanobis, k: parsed.k, folds: reconstructedFolds
             };
 
             modelMetaK.innerText = parsed.k > 1 ? `${parsed.k}-Fold Ensemble` : 'Single Model (Holdout)';
-            modelMetaTarget.innerText = parsed.target; 
-            modelMetaFeaturesCount.innerText = parsed.features.length; 
+            modelMetaTarget.innerText = parsed.target;
+            modelMetaFeaturesCount.innerText = parsed.features.length;
             modelMetaFeaturesList.innerText = parsed.features.join(', ');
-            predResultTitle.innerText = parsed.k > 1 ? '予測結果 (K-Fold アンサンブル出力)' : '予測結果 (単一モデル出力)';
-            
+
+            // 学習時パラメータメモの復元表示
             if (parsed.trainingConfig && modelParamsDetails && modelParamsGrid) {
                 const cfg = parsed.trainingConfig;
                 modelParamsGrid.innerHTML = `
@@ -2993,10 +2621,10 @@
                 modelParamsDetails.classList.add('hidden');
             }
 
-            modelMetaInfo.classList.remove('hidden'); 
-            inferencePlaceholder.classList.add('hidden'); 
+            modelMetaInfo.classList.remove('hidden');
+            inferencePlaceholder.classList.add('hidden');
             inferenceFormArea.classList.remove('hidden');
-            buildDynamicInferenceForm(); 
+            buildDynamicInferenceForm();
             runInferenceCalculation();
         }
 
@@ -3005,97 +2633,50 @@
             reader.onload = async (e) => {
                 try {
                     const parsed = JSON.parse(e.target.result);
-                    if (!parsed.folds || !parsed.features || !parsed.target) {
-                        throw new Error("無効なモデルパッケージファイルです。構造が壊れています。");
-                    }
                     await loadPackageIntoInference(parsed, file.name);
                 } catch (err) {
-                    console.error(err);
                     loadedModelName.innerHTML = `<span style="color: #ef4444;">読込失敗: ${err.message}</span>`;
                 }
             };
             reader.readAsText(file);
         }
 
-function buildDynamicInferenceForm() {
+        function buildDynamicInferenceForm() {
             dynamicInputsContainer.innerHTML = '';
             importedPackage.features.forEach((feat, idx) => {
                 const card = document.createElement('div'); card.className = 'input-card';
                 const container = document.createElement('div'); container.className = 'range-container';
-                
-                // 1. ラベルに feature-label クラスを付与
-                const label = document.createElement('label'); 
-                label.className = 'feature-label';
-                label.innerText = feat;
+                const label = document.createElement('label'); label.className = 'feature-label'; label.innerText = feat;
 
                 let min = 0, max = 100, step = 1, def = 50;
                 let trainMin = null, trainMax = null;
 
-                // 学習データの境界値を取得
-                if (importedPackage.globalMins && importedPackage.globalMins[idx] !== undefined &&
-                    importedPackage.globalMaxs && importedPackage.globalMaxs[idx] !== undefined) {
+                if (importedPackage.globalMins && importedPackage.globalMaxs) {
                     trainMin = Number(importedPackage.globalMins[idx]);
                     trainMax = Number(importedPackage.globalMaxs[idx]);
                 }
-
-                if (importedPackage.globalMeans && importedPackage.globalMeans[idx] !== undefined) {
+                if (importedPackage.globalMeans) {
                     def = Number(importedPackage.globalMeans[idx]);
-                    
-                    if (trainMin === null || isNaN(trainMin)) trainMin = def * 0.7;
-                    if (trainMax === null || isNaN(trainMax)) trainMax = def * 1.3;
-
-                    const span = trainMax - trainMin;
-                    const margin = span > 0 ? span * 0.25 : 1;
-                    min = trainMin - margin;
-                    max = trainMax + margin;
-
-                    const totalRange = max - min;
-                    if (totalRange <= 0) { min = def - 1; max = def + 1; step = 0.01; } 
-                    else if (totalRange < 2) step = 0.01; 
-                    else if (totalRange < 20) step = 0.1; 
-                    else step = 1;
-
-                    def = parseFloat(def.toFixed(2)); 
-                    min = parseFloat(min.toFixed(2)); 
-                    max = parseFloat(max.toFixed(2));
-                } else {
-                    if (feat === 'Feature_1' || feat === 'RM') { min = 2; max = 10; step = 0.1; def = 6; trainMin = 3.5; trainMax = 8.5; } 
-                    else if (feat === 'Feature_2' || feat === 'LSTAT') { min = 0; max = 40; step = 0.5; def = 12; trainMin = 3; trainMax = 30; } 
-                    else if (feat === 'Feature_3' || feat === 'DIS') { min = 0.5; max = 15; step = 0.1; def = 4; trainMin = 1.5; trainMax = 10; }
-                    else { min = 0; max = 100; step = 1; def = 50; trainMin = 20; trainMax = 80; }
+                    const span = (trainMax !== null && trainMin !== null) ? trainMax - trainMin : 10;
+                    min = (trainMin !== null) ? trainMin - span * 0.25 : def - 10;
+                    max = (trainMax !== null) ? trainMax + span * 0.25 : def + 10;
+                    step = (max - min < 2) ? 0.01 : (max - min < 20 ? 0.1 : 1);
                 }
 
-                // 2. 数値入力ボックス（.range-num-input）の生成
                 const numInput = document.createElement('input');
-                numInput.type = 'number';
-                numInput.className = 'range-num-input';
-                numInput.id = `inf_val_${feat}`;
-                numInput.step = 'any';
-                numInput.value = def;
+                numInput.type = 'number'; numInput.className = 'range-num-input'; numInput.id = `inf_val_${feat}`; numInput.step = 'any'; numInput.value = parseFloat(def.toFixed(2));
+                container.appendChild(label); container.appendChild(numInput);
 
-                container.appendChild(label); 
-                container.appendChild(numInput);
+                const range = document.createElement('input');
+                range.type = 'range'; range.id = `inf_range_${feat}`; range.min = min; range.max = max; range.step = step; range.value = def;
 
-                const range = document.createElement('input'); 
-                range.type = 'range'; 
-                range.id = `inf_range_${feat}`; 
-                range.min = min; 
-                range.max = max; 
-                range.step = step; 
-                range.value = def;
-                
-                // 3. 外挿バッジ（.extrapolation-badge）を含むガイドバーの生成
                 const rangeGuide = document.createElement('div');
-                rangeGuide.style.display = 'flex';
-                rangeGuide.style.justifyContent = 'space-between';
-                rangeGuide.style.alignItems = 'center';
-                rangeGuide.style.fontSize = '0.72rem';
-                rangeGuide.style.color = '#64748b';
-                rangeGuide.style.marginTop = '4px';
+                rangeGuide.style.display = 'flex'; rangeGuide.style.justifyContent = 'space-between'; rangeGuide.style.alignItems = 'center';
+                rangeGuide.style.fontSize = '0.72rem'; rangeGuide.style.color = '#64748b'; rangeGuide.style.marginTop = '4px';
                 rangeGuide.innerHTML = `
                     <span>← 外挿域</span>
                     <span style="display: inline-flex; align-items: center; gap: 6px;">
-                        <span>学習範囲: [${trainMin.toFixed(1)} ~ ${trainMax.toFixed(1)}]</span>
+                        <span>学習範囲: [${trainMin !== null ? trainMin.toFixed(1) : '-'} ~ ${trainMax !== null ? trainMax.toFixed(1) : '-'}]</span>
                         <span class="extrapolation-badge">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
@@ -3108,36 +2689,16 @@ function buildDynamicInferenceForm() {
                     <span>外挿域 →</span>
                 `;
 
-                // 4. 外挿判定と is-extrapolated クラスの付け外し処理
-                const checkExtrapolation = (val) => {
-                    const num = Number(val);
-                    if (isNaN(num) || trainMin === null || trainMax === null) return;
-                    
-                    const isOut = (num < (trainMin - 1e-5) || num > (trainMax + 1e-5));
-                    card.classList.toggle('is-extrapolated', isOut);
+                const checkExtrap = (v) => {
+                    const n = Number(v);
+                    if (trainMin !== null && trainMax !== null) card.classList.toggle('is-extrapolated', n < (trainMin - 1e-5) || n > (trainMax + 1e-5));
                 };
 
-                range.addEventListener('input', () => { 
-                    numInput.value = range.value; 
-                    checkExtrapolation(range.value);
-                    runInferenceCalculation(); 
-                });
+                range.addEventListener('input', () => { numInput.value = range.value; checkExtrap(range.value); runInferenceCalculation(); });
+                numInput.addEventListener('input', () => { if (numInput.value !== "") { range.value = numInput.value; checkExtrap(numInput.value); runInferenceCalculation(); } });
 
-                numInput.addEventListener('input', () => {
-                    const typedVal = numInput.value;
-                    if (typedVal !== "") {
-                        range.value = typedVal;
-                        checkExtrapolation(typedVal);
-                        runInferenceCalculation();
-                    }
-                });
-
-                // 初期表示時の判定
-                checkExtrapolation(def);
-
-                card.appendChild(container); 
-                card.appendChild(range); 
-                card.appendChild(rangeGuide);
+                checkExtrap(def);
+                card.appendChild(container); card.appendChild(range); card.appendChild(rangeGuide);
                 dynamicInputsContainer.appendChild(card);
             });
             targetUnitLabel.innerText = `目的変数: ${importedPackage.target}`;
@@ -3145,84 +2706,62 @@ function buildDynamicInferenceForm() {
 
         function runInferenceCalculation() {
             if (!importedPackage) return;
-            const rawInputValues = [];
-            for (const feat of importedPackage.features) { 
-                const inputElem = document.getElementById(`inf_val_${feat}`);
-                const parsedVal = inputElem ? parseFloat(inputElem.value) : 0;
-                rawInputValues.push(isNaN(parsedVal) ? 0 : parsedVal); 
+            const rawVals = [];
+            for (const feat of importedPackage.features) {
+                const inp = document.getElementById(`inf_val_${feat}`);
+                rawVals.push(parseFloat(inp ? inp.value : 0));
             }
 
-            // ★ 多変量（マハラノビス距離）外挿判定
+            // 多変量外挿判定
             const statusBox = document.getElementById('multivariateStatusBox');
             const badge = document.getElementById('multivariateBadge');
             const metrics = document.getElementById('multivariateMetrics');
 
             if (importedPackage.mahalanobis && statusBox && badge && metrics) {
                 const { means, invCov, threshold } = importedPackage.mahalanobis;
-                const dM = calculateMahalanobis(rawInputValues, means, invCov);
-                const isOut = (dM > threshold);
-
+                const dM = calculateMahalanobis(rawVals, means, invCov);
                 metrics.innerText = `マハラノビス距離: ${dM.toFixed(2)} / 閾値: ${threshold.toFixed(2)}`;
-
-                if (isOut) {
-                    statusBox.classList.add('warning');
-                    badge.className = 'multivariate-badge alert';
+                if (dM > threshold) {
+                    statusBox.classList.add('warning'); badge.className = 'multivariate-badge alert';
                     badge.innerHTML = `
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                         警告: 変数の組み合わせが不自然です (多変量外挿)
                     `;
                 } else {
-                    statusBox.classList.remove('warning');
-                    badge.className = 'multivariate-badge normal';
+                    statusBox.classList.remove('warning'); badge.className = 'multivariate-badge normal';
                     badge.innerHTML = `
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                         正常 (学習データの相関範囲内)
                     `;
                 }
             }
-            
-            let ensemblePredictionSum = 0;
+
+            let sumPred = 0;
             tf.tidy(() => {
                 for (let k = 0; k < importedPackage.k; k++) {
                     const fold = importedPackage.folds[k];
-                    let finalInput = [rawInputValues];
-                    if (importedPackage.normalize && fold.means && fold.stds) {
-                        const normalizedValues = rawInputValues.map((val, idx) => (val - fold.means[idx]) / (fold.stds[idx] || 1));
-                        finalInput = [normalizedValues];
-                    }
-                    const inputTensor = tf.tensor2d(finalInput);
-                    const predTensor = fold.model.predict(inputTensor);
-                    let predVal = predTensor.dataSync()[0];
-                    if (importedPackage.normalize && fold.targetMeans && fold.targetStds) {
-                        predVal = predVal * (fold.targetStds[0] || 1) + fold.targetMeans[0];
-                    }
-                    ensemblePredictionSum += predVal;
+                    let inp = [rawVals];
+                    if (importedPackage.normalize && fold.means && fold.stds) inp = [rawVals.map((v, i) => (v - fold.means[i]) / fold.stds[i])];
+                    let p = fold.model.predict(tf.tensor2d(inp)).dataSync()[0];
+                    if (importedPackage.normalize && fold.targetMeans && fold.targetStds) p = p * fold.targetStds[0] + fold.targetMeans[0];
+                    sumPred += p;
                 }
             });
-            const finalPrediction = ensemblePredictionSum / importedPackage.k;
-            const decimals = Math.abs(finalPrediction) >= 1000 ? 0 : 4;
-            predictedResult.innerText = finalPrediction.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+            const finalP = sumPred / importedPackage.k;
+            predictedResult.innerText = finalP.toLocaleString('en-US', { minimumFractionDigits: Math.abs(finalP) >= 1000 ? 0 : 4, maximumFractionDigits: Math.abs(finalP) >= 1000 ? 0 : 4 });
         }
 
         function resetSimulation() {
             if (isTraining) return;
-            disposeImportedModels();
-            paramSourceType.value = 'simulation'; panelSimulation.classList.remove('hidden'); panelUpload.classList.add('hidden'); columnMappingArea.classList.add('hidden'); architectureInputs.innerText = "入力層 (特徴量: Feature_1, Feature_2, Feature_3)";
-            paramSamples.value = 500; valSamples.innerText = '500'; paramSplit.value = 80; valSplit.innerText = '80%'; paramEpochs.value = 100; valEpochs.innerText = '100'; paramKFold.checked = true; kFoldConfigArea.classList.remove('hidden'); if (holdoutNoteArea) holdoutNoteArea.classList.add('hidden'); paramK.value = 5; valK.innerText = '5';
-            paramNormalize.checked = true; paramOptimizer.value = 'adam'; paramLR.value = '0.001'; paramBatch.value = '16'; paramFileInput.value = ''; uploadedFileName.innerText = '未選択';
-            paramUseSeed.checked = true; seedInputArea.style.opacity = '1'; paramSeedVal.disabled = false; paramSeedVal.value = 42; btnRandomizeSeed.disabled = false;
-            loadedCSVData = null; loadedCSVHeaders = []; modelPackage = null; trainingHistory = null; exportArea.classList.add('hidden'); progressBar.style.width = '0%'; epochProgressText.classList.add('hidden');
-            if (lossScaleNote) lossScaleNote.innerText = "※標準化スケール";
-            if (valLossScaleNote) valLossScaleNote.innerText = "※標準化スケール";
-            if (predChartSubtitle) predChartSubtitle.innerText = "アンサンブル予測プロット";
-            predChart.data.datasets[0].label = "アンサンブル予測結果";
-            lossChart.data.labels = []; lossChart.data.datasets = [ { label: '平均訓練データ (Train Average)', data: [], borderColor: '#818cf8', borderWidth: 4, fill: false, pointRadius: 0, z: 10 }, { label: '平均検証データ (Val Average)', data: [], borderColor: '#22d3ee', borderWidth: 4, fill: false, pointRadius: 0, z: 10 } ]; lossChart.update();
-            delete predChart.options.scales.x.min; delete predChart.options.scales.x.max;
-            delete predChart.options.scales.y.min; delete predChart.options.scales.y.max;
-            predChart.data.datasets[0].data = []; predChart.data.datasets[1].data = []; predChart.update();
-            residualChart.data.labels = []; residualChart.data.datasets[0].data = []; residualChart.update();
-            if (residualStatsLabel) residualStatsLabel.innerText = "平均誤差: - | 標準偏差: -";
-            numTrainSamples.innerText = '-'; numTestSamples.innerText = '-'; skippedDataInfo.classList.add('hidden'); statLoss.innerText = '-'; statValLoss.innerText = '-'; statMae.innerText = '-'; statR2.innerText = '-';
+            paramSourceType.value = 'simulation'; panelSimulation.classList.remove('hidden'); panelUpload.classList.add('hidden');
+            columnMappingArea.classList.add('hidden'); tuningResultsPanel.classList.add('hidden');
+            architectureInputs.innerText = "入力層 (特徴量: Feature_1, Feature_2, Feature_3)";
+            paramSamples.value = 500; valSamples.innerText = '500'; paramSplit.value = 80; valSplit.innerText = '80%';
+            paramEpochs.value = 100; valEpochs.innerText = '100'; paramKFold.checked = true; paramK.value = 5; valK.innerText = '5';
+            paramUseSeed.checked = true; paramSeedVal.value = 42;
+            loadedCSVData = null; loadedTrainCSVData = null; loadedTestCSVData = null;
+            allTunedRuns = []; modelPackage = null;
+            progressBar.style.width = '0%'; epochProgressText.classList.add('hidden'); exportArea.classList.add('hidden');
             updateStatus("学習準備完了");
         }
     </script>
