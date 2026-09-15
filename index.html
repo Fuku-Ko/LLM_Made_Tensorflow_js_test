@@ -1577,6 +1577,34 @@
         const sourceBadge = document.getElementById('sourceBadge');
         const badgeText = document.getElementById('badgeText');
 
+        // 厳密な数値判定（スペース・文字列混在・null等を排除）
+        function isValidNumber(val) {
+            if (val === null || val === undefined) return false;
+            if (typeof val === 'number') return Number.isFinite(val);
+            if (typeof val === 'string') {
+                const trimmed = val.trim();
+                if (trimmed === '') return false;
+                const num = Number(trimmed);
+                return Number.isFinite(num);
+            }
+            return false;
+        }
+
+        // 全カラムの有効数値数を集計
+        function getColumnNumericCounts(headers) {
+            const mode = document.querySelector('input[name="csvUploadMode"]:checked')?.value || 'single';
+            const rows = mode === 'single' ? (loadedCSVData || []) : (loadedTrainCSVData || []).concat(loadedTestCSVData || []);
+            const counts = {};
+            headers.forEach(h => { counts[h] = 0; });
+            for (const r of rows) {
+                if (!r) continue;
+                for (const h of headers) {
+                    if (isValidNumber(r[h])) counts[h]++;
+                }
+            }
+            return counts;
+        }
+
         // ガウス・ジョルダン法による逆行列計算（正則化付き）
         function invertMatrix(A) {
             const n = A.length;
@@ -1940,30 +1968,56 @@
         }
 
         function rebuildColumnMappingUI(headers, trainLen, testLen = null) {
+            const counts = getColumnNumericCounts(headers);
             mapTargetCol.innerHTML = '';
             headers.forEach(header => {
-                const opt = document.createElement('option'); opt.value = header; opt.innerText = header;
+                const opt = document.createElement('option'); opt.value = header;
+                const isNumeric = counts[header] > 0;
+                opt.innerText = isNumeric ? header : `${header} (数値データではない)`;
+                if (!isNumeric) opt.disabled = true;
                 mapTargetCol.appendChild(opt);
             });
-            mapTargetCol.value = headers[headers.length - 1];
-            updateFeatureCheckboxes(headers);
+
+            // 有効な数値列の中からデフォルト目的変数を選択
+            const validHeaders = headers.filter(h => counts[h] > 0);
+            if (validHeaders.length > 0) {
+                mapTargetCol.value = validHeaders[validHeaders.length - 1];
+            } else {
+                mapTargetCol.value = headers[headers.length - 1];
+            }
+
+            updateFeatureCheckboxes(headers, counts);
             lblRowsCount.innerText = testLen !== null ? `教師:${trainLen}行 / テスト:${testLen}行` : `${trainLen}行を検出`;
 
             mapTargetCol.onchange = () => {
-                updateFeatureCheckboxes(headers);
+                updateFeatureCheckboxes(headers, counts);
                 updateArchitecturePreview();
             };
             updateArchitecturePreview();
         }
 
-        function updateFeatureCheckboxes(headers) {
+        function updateFeatureCheckboxes(headers, counts = null) {
+            if (!counts) counts = getColumnNumericCounts(headers);
             const currentTarget = mapTargetCol.value;
             mapFeatureCols.innerHTML = '';
             headers.forEach(header => {
                 if (header === currentTarget) return;
                 const div = document.createElement('div'); div.className = 'feature-item';
-                const input = document.createElement('input'); input.type = 'checkbox'; input.value = header; input.id = `feat_${header}`; input.checked = true;
-                const label = document.createElement('label'); label.htmlFor = `feat_${header}`; label.innerText = header;
+                const isNumeric = counts[header] > 0;
+                const input = document.createElement('input'); input.type = 'checkbox'; input.value = header; input.id = `feat_${header}`;
+                const label = document.createElement('label'); label.htmlFor = `feat_${header}`;
+
+                if (isNumeric) {
+                    input.checked = true;
+                    label.innerText = header;
+                } else {
+                    input.checked = false;
+                    input.disabled = true;
+                    label.innerHTML = `${header} <span style="color: #f87171; font-size: 0.8rem; margin-left: 6px; font-weight: normal;">(数値データではない)</span>`;
+                    div.style.opacity = '0.5';
+                    div.style.cursor = 'not-allowed';
+                }
+
                 div.appendChild(input); div.appendChild(label);
                 mapFeatureCols.appendChild(div);
                 input.addEventListener('change', updateArchitecturePreview);
@@ -2162,16 +2216,18 @@
                     const rows = [];
                     for (const row of dataRows) {
                         let rawY = row[targetCol];
-                        if (rawY === "" || rawY === null || (typeof rawY === 'string' && rawY.trim() === '')) rawY = NaN;
-                        const yVal = Number(rawY);
-                        if (!Number.isFinite(yVal)) { skippedRowsCount++; continue; }
+                        if (!isValidNumber(rawY)) { skippedRowsCount++; continue; }
+                        const yVal = typeof rawY === 'number' ? rawY : Number(String(rawY).trim());
                         const rowObj = { x: [], y: yVal };
                         for (const feat of selectedFeatures) {
                             let rawX = row[feat];
-                            if (rawX === "" || rawX === null || (typeof rawX === 'string' && rawX.trim() === '')) rawX = NaN;
-                            const xVal = Number(rawX);
-                            if (Number.isFinite(xVal)) rowObj.x.push(xVal);
-                            else { rowObj.x.push(NaN); missingValuesCount++; }
+                            if (isValidNumber(rawX)) {
+                                const xVal = typeof rawX === 'number' ? rawX : Number(String(rawX).trim());
+                                rowObj.x.push(xVal);
+                            } else {
+                                rowObj.x.push(NaN);
+                                missingValuesCount++;
+                            }
                         }
                         rows.push(rowObj);
                     }
@@ -2208,6 +2264,15 @@
             let foldTrainXs = [], foldTrainYs = [], foldValXs = [], foldValYs = [], foldTestXs = [];
             const foldStats = [];
 
+            // 各説明変数の全訓練データにおける有効値平均（万が一のFold偏り時の安全なフォールバック用）
+            const globalTrainSums = Array(numFeatures).fill(0), globalTrainCounts = Array(numFeatures).fill(0);
+            for (const r of rawTrainRows) {
+                for (let j = 0; j < numFeatures; j++) {
+                    if (Number.isFinite(r.x[j])) { globalTrainSums[j] += r.x[j]; globalTrainCounts[j]++; }
+                }
+            }
+            const globalTrainMeans = globalTrainSums.map((s, j) => globalTrainCounts[j] > 0 ? s / globalTrainCounts[j] : 0);
+
             if (useKFold) {
                 const foldSize = Math.floor(rawTrainRows.length / k);
                 const trainIndices = Array.from({ length: rawTrainRows.length }, (_, i) => i);
@@ -2221,13 +2286,13 @@
                         if (i >= valStart && i < valEnd) rawFoldVal.push(rawTrainRows[idx]);
                         else rawFoldTrain.push(rawTrainRows[idx]);
                     }
-                    // 欠損値補完（Foldごとの平均）
+                    // 欠損値補完（Foldごとの平均。数値が1個以上ある場合のみ算出、0個時は全訓練平均フォールバック）
                     const sums = Array(numFeatures).fill(0), counts = Array(numFeatures).fill(0);
                     for (const r of rawFoldTrain) {
-                        for (let j = 0; j < numFeatures; j++) { if (!isNaN(r.x[j])) { sums[j] += r.x[j]; counts[j]++; } }
+                        for (let j = 0; j < numFeatures; j++) { if (Number.isFinite(r.x[j])) { sums[j] += r.x[j]; counts[j]++; } }
                     }
-                    const means = sums.map((s, j) => counts[j] > 0 ? s / counts[j] : 0);
-                    const impute = (r) => r.x.map((v, j) => isNaN(v) ? means[j] : v);
+                    const means = sums.map((s, j) => counts[j] > 0 ? s / counts[j] : globalTrainMeans[j]);
+                    const impute = (r) => r.x.map((v, j) => Number.isFinite(v) ? v : means[j]);
 
                     foldTrainXs.push(rawFoldTrain.map(impute));
                     foldTrainYs.push(rawFoldTrain.map(r => [r.y]));
@@ -2247,10 +2312,10 @@
                 }
                 const sums = Array(numFeatures).fill(0), counts = Array(numFeatures).fill(0);
                 for (const r of rawFoldTrain) {
-                    for (let j = 0; j < numFeatures; j++) { if (!isNaN(r.x[j])) { sums[j] += r.x[j]; counts[j]++; } }
+                    for (let j = 0; j < numFeatures; j++) { if (Number.isFinite(r.x[j])) { sums[j] += r.x[j]; counts[j]++; } }
                 }
-                const means = sums.map((s, j) => counts[j] > 0 ? s / counts[j] : 0);
-                const impute = (r) => r.x.map((v, j) => isNaN(v) ? means[j] : v);
+                const means = sums.map((s, j) => counts[j] > 0 ? s / counts[j] : globalTrainMeans[j]);
+                const impute = (r) => r.x.map((v, j) => Number.isFinite(v) ? v : means[j]);
 
                 foldTrainXs.push(rawFoldTrain.map(impute));
                 foldTrainYs.push(rawFoldTrain.map(r => [r.y]));
@@ -2394,8 +2459,9 @@
 
             numTrainSamples.innerText = `${datasets.rawTrainRows.length}件`;
             numTestSamples.innerText = `${datasets.rawTestRows.length}件`;
-            if (datasets.missingValuesCount > 0 || datasets.skippedRowsCount > 0) {
-                skippedDataInfo.innerHTML = `補完欠損値: ${datasets.missingValuesCount}箇所 | 除外行: ${datasets.skippedRowsCount}行`;
+            const totalNonNumeric = datasets.missingValuesCount + datasets.skippedRowsCount;
+            if (totalNonNumeric > 0) {
+                skippedDataInfo.innerHTML = `非数値セル: 計${totalNonNumeric}箇所 (補完: ${datasets.missingValuesCount}箇所 | 目的変数除外: ${datasets.skippedRowsCount}行)`;
                 skippedDataInfo.classList.remove('hidden');
             } else skippedDataInfo.classList.add('hidden');
 
