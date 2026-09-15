@@ -831,10 +831,10 @@
                             そもそもニューラルネットワークとは？
                         </h3>
                         <p class="concept-text">
-                            ニューラルネットワーク（Neural Network）とは、人間の脳にある無数の神経細胞（ニューロン）が信号を伝え合う仕組みを模した<strong>数理モデル</strong>です[cite: 1]。
+                            ニューラルネットワーク（Neural Network）とは、人間の脳にある無数の神経細胞（ニューロン）が信号を伝え合う仕組みを模した<strong>数理モデル</strong>です。
                         </p>
                         <p class="concept-text">
-                            入力されたデータに対し、各ノード（神経細胞）が<strong>「重み（信号伝達の強さ）」</strong>と<strong>「バイアス（基準値の調整）」</strong>を掛け合わせ、活性化関数（ReLUなど）を通して次の層へバトンを渡します[cite: 1]。この層が何重にも連なることで、単純な直線（線形）では表現できない複雑な<strong>非線形関係やパターンを自動的に近似</strong>できます[cite: 1]。
+                            入力されたデータに対し、各ノード（神経細胞）が<strong>「重み（信号伝達の強さ）」</strong>と<strong>「バイアス（基準値の調整）」</strong>を掛け合わせ、活性化関数（ReLUなど）を通して次の層へバトンを渡します。この層が何重にも連なることで、単純な直線（線形）では表現できない複雑な<strong>非線形関係やパターンを自動的に近似</strong>できます。
                         </p>
 
                         <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 14px;">
@@ -884,25 +884,25 @@
                                 </span>
                             </div>
                             <p class="concept-text" style="margin-bottom: 10px;">
-                                本アプリのニューラルネットワークも、後述の構成図にある通り<strong>2つの隠れ層（32ユニット / 16ユニット）すべてに活性化関数として「ReLU」を採用</strong>しています[cite: 1]。<br>
-                                「複雑な非線形カーブを学習する」と聞くと滑らかな曲面を想像しがちですが、数学的には、本モデルを含むReLUネットワークの正体は<strong>「超多次元空間において、多数の平面領域をつなぎ合わせた連続区分線形関数（Continuous Piecewise Linear Function）」</strong>です[cite: 1]。
+                                本アプリのニューラルネットワークも、後述の構成図にある通り<strong>2つの隠れ層（32ユニット / 16ユニット）すべてに活性化関数として「ReLU」を採用</strong>しています。<br>
+                                「複雑な非線形カーブを学習する」と聞くと滑らかな曲面を想像しがちですが、数学的には、本モデルを含むReLUネットワークの正体は<strong>「超多次元空間において、多数の平面領域をつなぎ合わせた連続区分線形関数（Continuous Piecewise Linear Function）」</strong>です。
                             </p>
 
                             <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 12px;">
                                 <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
                                     <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">① 1次元で見れば「多数の関節を持つ折れ線グラフ」</div>
-                                    入力が1つの場合、モデルの出力は<strong>多数の折れ曲がり（関節）を持つ折れ線</strong>になります[cite: 1]。層（深さ）やノード（幅）が増えると、作られる線形領域（直線の区間）の理論上の最大数は指数関数的に増大します[cite: 1]。関節が小間隔で並ぶことで、マクロな視点ではあたかも綺麗な滑らかな曲線に見えているのです[cite: 1]。
+                                    入力が1つの場合、モデルの出力は<strong>多数の折れ曲がり（関節）を持つ折れ線</strong>になります。層（深さ）やノード（幅）が増えると、作られる線形領域（直線の区間）の理論上の最大数は指数関数的に増大します。関節が小間隔で並ぶことで、マクロな視点ではあたかも綺麗な滑らかな曲線に見えているのです。
                                 </div>
                                 <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-size: 0.84rem; color: #cbd5e1; line-height: 1.6;">
                                     <div style="color: #38bdf8; font-weight: 700; margin-bottom: 3px;">② 多次元では「超平面領域のパッチワーク（折り紙）」</div>
-                                    入力が2次元なら「折り目だらけの立体的な多面体サーフェス」、本アプリのような複数次元なら「有限個ではあるものの多数の超平面領域からなるパッチワーク」となります[cite: 1]。曲線を微小な直線メッシュで近似する数値計算と同じ幾何学的構造です[cite: 1]。
+                                    入力が2次元なら「折り目だらけの立体的な多面体サーフェス」、本アプリのような複数次元なら「有限個ではあるものの多数の超平面領域からなるパッチワーク」となります。曲線を微小な直線メッシュで近似する数値計算と同じ幾何学的構造です。
                                 </div>
                             </div>
 
                             <div style="border-top: 1px dashed #334155; padding-top: 10px; font-size: 0.83rem; color: #94a3b8; line-height: 1.6;">
                                 <strong style="color: #34d399; display: block; margin-bottom: 4px;">【実務上の決定的な2大特徴】</strong>
-                                ・<span style="color: #f1f5f9; font-weight: 600;">局所的な線形性と勾配伝播:</span> 各線形領域の内部では局所勾配が一定で、特に正の領域では微分が1となるため、シグモイド関数等に比べ飽和に由来する勾配消失を大幅に緩和できます[cite: 1]。ただし、負の領域で勾配が0になるDead ReLUや、多層化に伴う重み積に起因する勾配消失・勾配爆発は依然として起こり得ます[cite: 1]。<br>
-                                ・<span style="color: #f1f5f9; font-weight: 600;">領域外の外挿（Extrapolation）はアフィン関数:</span> ある固定方向に沿って入力を十分遠くまで動かすと、有限のReLUネットワークは最終的に同一の活性化パターンに入り、その方向上ではアフィン関数（直線）として外挿されます（※多次元では進む方向によって傾きが異なります）[cite: 1]。これが「学習データ範囲外への外挿に注意が必要」と言われる数学的理由です[cite: 1]。
+                                ・<span style="color: #f1f5f9; font-weight: 600;">局所的な線形性と勾配伝播:</span> 各線形領域の内部では局所勾配が一定で、特に正の領域では微分が1となるため、シグモイド関数等に比べ飽和に由来する勾配消失を大幅に緩和できます。ただし、負の領域で勾配が0になるDead ReLUや、多層化に伴う重み積に起因する勾配消失・勾配爆発は依然として起こり得ます。<br>
+                                ・<span style="color: #f1f5f9; font-weight: 600;">領域外の外挿（Extrapolation）はアフィン関数:</span> ある固定方向に沿って入力を十分遠くまで動かすと、有限のReLUネットワークは最終的に同一の活性化パターンに入り、その方向上ではアフィン関数（直線）として外挿されます（※多次元では進む方向によって傾きが異なります）。これが「学習データ範囲外への外挿に注意が必要」と言われる数学的理由です。
                             </div>
                         </div>
                     </div>
@@ -926,8 +926,8 @@
                             1エポック内で何が行われているのか？（逆誤差伝播法の位置づけ）
                         </h3>
                         <p class="concept-text">
-                            <strong>「1エポック」</strong>とは、用意したすべての訓練データを<strong>モデルが1巡学習すること</strong>を指します[cite: 1]。<br>
-                            1エポックの中では、データを小さな塊（バッチサイズ: 例16件）に分け、以下の<strong>4つのステップを何十回も繰り返して</strong>少しずつ賢くなっていきます[cite: 1]。
+                            <strong>「1エポック」</strong>とは、用意したすべての訓練データを<strong>モデルが1巡学習すること</strong>を指します。<br>
+                            1エポックの中では、データを小さな塊（バッチサイズ: 例16件）に分け、以下の<strong>4つのステップを何十回も繰り返して</strong>少しずつ賢くなっていきます。
                         </p>
 
                         <div class="epoch-cycle-grid">
@@ -941,7 +941,7 @@
                                     順伝播 (Forward)
                                 </div>
                                 <p class="cycle-step-desc">
-                                    入力層から隠れ層を経て出力層へとデータをそのまま流し、現在の重みを使ってモデルが<strong>仮の予測値</strong>を算出します[cite: 1]。
+                                    入力層から隠れ層を経て出力層へとデータをそのまま流し、現在の重みを使ってモデルが<strong>仮の予測値</strong>を算出します。
                                 </p>
                             </div>
 
@@ -955,7 +955,7 @@
                                     誤差の算出 (Loss)
                                 </div>
                                 <p class="cycle-step-desc">
-                                    モデルの予測値と正解データの実測値を突き合わせ、どれだけズレているか（<strong>平均二乗誤差: MSE</strong>）を算出します[cite: 1]。
+                                    モデルの予測値と正解データの実測値を突き合わせ、どれだけズレているか（<strong>平均二乗誤差: MSE</strong>）を算出します。
                                 </p>
                             </div>
 
@@ -969,7 +969,7 @@
                                     逆誤差伝播法
                                 </div>
                                 <p class="cycle-step-desc">
-                                    生じた誤差を出力層から入力層へ向かって<strong>逆向きに遡らせ</strong>、「どの重みがどれくらい誤差の原因になったか（勾配・偏微分）」を数学的に割り出します[cite: 1]。
+                                    生じた誤差を出力層から入力層へ向かって<strong>逆向きに遡らせ</strong>、「どの重みがどれくらい誤差の原因になったか（勾配・偏微分）」を数学的に割り出します。
                                 </p>
                             </div>
 
@@ -983,13 +983,13 @@
                                     重みの微調整
                                 </div>
                                 <p class="cycle-step-desc">
-                                    逆誤差伝播で求めた勾配と学習率（Learning Rate）を基に、オプティマイザ（Adam等）が誤差を減らす方向へ<strong>重みをミリ単位で更新</strong>します[cite: 1]。
+                                    逆誤差伝播で求めた勾配と学習率（Learning Rate）を基に、オプティマイザ（Adam等）が誤差を減らす方向へ<strong>重みをミリ単位で更新</strong>します。
                                 </p>
                             </div>
                         </div>
 
                         <p class="concept-text" style="margin-top: 14px; font-size: 0.82rem; color: #94a3b8;">
-                            ※ この4ステップをバッチ単位でぐるぐると回して1エポックが終わると、最後に<strong>検証データ（Valデータ）</strong>を使って「今の重みで未知のデータに通用するか？」をテストし、グラフに Val Loss としてプロットされます[cite: 1]。
+                            ※ この4ステップをバッチ単位でぐるぐると回して1エポックが終わると、最後に<strong>検証データ（Valデータ）</strong>を使って「今の重みで未知のデータに通用するか？」をテストし、グラフに Val Loss としてプロットされます。
                         </p>
                     </div>
 
@@ -1001,7 +1001,7 @@
                         </h3>
                         <p class="concept-text">
                             「出力で生じたズレ（誤差）を、どうやって入力側の各重みに配分するのか？」<br>
-                            その数学的な鍵が高校数学で習う<strong>「合成関数の微分（連鎖律: Chain Rule）」</strong>です[cite: 1]。途中の変数を介して掛け算で勾配（坂の傾き）をバケツリレーのように後ろから前へ伝えます[cite: 1]。
+                            その数学的な鍵が高校数学で習う<strong>「合成関数の微分（連鎖律: Chain Rule）」</strong>です。途中の変数を介して掛け算で勾配（坂の傾き）をバケツリレーのように後ろから前へ伝えます。
                         </p>
 
                         <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 12px;">
@@ -1014,7 +1014,7 @@
                                     <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 4px;">① 単一サンプルの二乗誤差損失（Loss）の定義式:</span>
                                     <span style="color: #fbbf24; font-weight: 700;">L</span> = 
                                     <span style="font-size: 1.05rem;">½</span> ( <span style="color: #38bdf8; font-weight: 600;">ŷ</span> - <span style="color: #34d399; font-weight: 600;">y</span> )<sup>2</sup>
-                                    <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px;">（※ 連鎖律の計算を分かりやすくするための教育的定義。実装上のMSEは ½ が付かない MSE = (1/n)∑(ŷᵢ - yᵢ)² であり、以下の数値例の勾配は実装MSEと定数倍[2倍]異なります）[cite: 1]</span>
+                                    <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px;">（※ 連鎖律の計算を分かりやすくするための教育的定義。実装上のMSEは ½ が付かない MSE = (1/n)∑(ŷᵢ - yᵢ)² であり、以下の数値例の勾配は実装MSEと定数倍[2倍]異なります）</span>
                                 </div>
 
                                 <div style="background-color: #1e293b; border-radius: 6px; padding: 10px 14px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif;">
@@ -1054,11 +1054,11 @@
                             </div>
 
                             <div style="font-size: 0.82rem; color: #94a3b8; line-height: 1.5; margin-bottom: 8px;">
-                                ※ 理解しやすさを最優先するため、<strong>活性化関数（ReLU等の非線形変換）やバイアスを省いた、最も初歩的な1入力・1出力の線形モデル（ŷ = w · x）</strong>を想定しています[cite: 1]。
+                                ※ 理解しやすさを最優先するため、<strong>活性化関数（ReLU等の非線形変換）やバイアスを省いた、最も初歩的な1入力・1出力の線形モデル（ŷ = w · x）</strong>を想定しています。
                             </div>
 
                             <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.7;">
-                                現在の重みを <span style="color: #38bdf8; font-weight: 700;">w = 3</span>、学習率を <span style="color: #34d399; font-weight: 700;">η = 0.1</span> と仮定します[cite: 1]。
+                                現在の重みを <span style="color: #38bdf8; font-weight: 700;">w = 3</span>、学習率を <span style="color: #34d399; font-weight: 700;">η = 0.1</span> と仮定します。
                             </div>
 
                             <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', Meiryo, sans-serif; font-size: 0.88rem;">
@@ -1074,14 +1074,14 @@
                                     <span style="color: #34d399; font-weight: 700;">3. 重みの更新（最急降下法 / SGD の基本例）:</span><br>
                                     新w = w - η × (傾き) = 3 - 0.1 × ( -8 ) = 3 + 0.8 = <strong style="color: #34d399;">3.8</strong>
                                     <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">
-                                        ※ 最も基礎的なSGDの更新式です[cite: 1]。本アプリで採用している<strong>Adam</strong>は、過去の勾配の勢い（モメンタム）と変動幅の移動平均を考慮してステップ幅を賢く自動調整します[cite: 1]。
+                                        ※ 最も基礎的なSGDの更新式です。本アプリで採用している<strong>Adam</strong>は、過去の勾配の勢い（モメンタム）と変動幅の移動平均を考慮してステップ幅を賢く自動調整します。
                                     </div>
                                 </div>
                             </div>
 
                             <p class="concept-text" style="margin-top: 10px; font-size: 0.82rem; color: #94a3b8; line-height: 1.6;">
-                                ➔ 重みが <strong style="color: #cbd5e1;">3 から 3.8 へと自動的に増えました</strong>[cite: 1]。次の予測値は <strong style="color: #34d399;">3.8 × 2 = 7.6</strong> となり、正解の 10 にグッと近づきます！<br>
-                                ※ 実際の多層ネットワークでは、層と層の間に<strong>活性化関数（ReLUなど）の傾き（ReLUなら入力が0超で1、0以下で0）</strong>が掛け算で挟まりながら、入力層へ向かって順番に連鎖律で遡っていきます[cite: 1]。
+                                ➔ 重みが <strong style="color: #cbd5e1;">3 から 3.8 へと自動的に増えました</strong>。次の予測値は <strong style="color: #34d399;">3.8 × 2 = 7.6</strong> となり、正解の 10 にグッと近づきます！<br>
+                                ※ 実際の多層ネットワークでは、層と層の間に<strong>活性化関数（ReLUなど）の傾き（ReLUなら入力が0超で1、0以下で0）</strong>が掛け算で挟まりながら、入力層へ向かって順番に連鎖律で遡っていきます。
                             </p>
                         </div>
                     </div>
@@ -1093,7 +1093,7 @@
                             学習の入れ子構造（エポック・K-Fold・バッチ・重み引き継ぎの仕組み）
                         </h3>
                         <p class="concept-text">
-                            学習の処理は、大きな枠組みから微細な更新まで<strong>4層の入れ子（マトリョーシカ）構造</strong>で行われています[cite: 1]。
+                            学習の処理は、大きな枠組みから微細な更新まで<strong>4層の入れ子（マトリョーシカ）構造</strong>で行われています。
                         </p>
 
                         <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
@@ -1102,7 +1102,7 @@
                                     ① 1エポック内でK個のモデルが順番に（直列に）1巡学習する
                                 </div>
                                 <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                    「Epoch 1」の間に、<strong>Model 1からModel Kまでの全モデルがそれぞれの担当Trainデータで順番に1巡</strong>します[cite: 1]。本アプリでは全モデルの1巡が終わった時点で進捗バーが1エポック分進み、K個のLossの平均値がグラフに記録されます[cite: 1]。
+                                    「Epoch 1」の間に、<strong>Model 1からModel Kまでの全モデルがそれぞれの担当Trainデータで順番に1巡</strong>します。本アプリでは全モデルの1巡が終わった時点で進捗バーが1エポック分進み、K個のLossの平均値がグラフに記録されます。
                                 </div>
                             </div>
 
@@ -1111,8 +1111,8 @@
                                     ② 各FoldのTrainデータをさらに小さな「バッチ」に分割
                                 </div>
                                 <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                    例えばTrainが400件、K=5の場合、1つのモデルが学習するデータは<strong>320件</strong>（残り80件はVal）[cite: 1]。<br>
-                                    この320件を一度に丸呑みせず、バッチサイズが16なら <strong>320 ÷ 16 = 20個の小包（ミニバッチ）</strong> に分割して順番に投入します[cite: 1]。
+                                    例えばTrainが400件、K=5の場合、1つのモデルが学習するデータは<strong>320件</strong>（残り80件はVal）。<br>
+                                    この320件を一度に丸呑みせず、バッチサイズが16なら <strong>320 ÷ 16 = 20個の小包（ミニバッチ）</strong> に分割して順番に投入します。
                                 </div>
                             </div>
 
@@ -1121,9 +1121,9 @@
                                     ③ 1エポックの中でAdamは何十回も重みを更新している！（直列処理）
                                 </div>
                                 <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                    各バッチは並列ではなく、バッチ1 ➔ バッチ2 ➔ … と<strong>直列（逐次的）に順番に処理</strong>されます[cite: 1]。<br>
-                                    <strong>【16件はどう使われる？】</strong> 16件のデータをまとめて流し、それぞれのデータから生じた<strong>勾配（傾き）の「平均値」</strong>を算出します[cite: 1]。1件ずつのブレやノイズをならしたこの「平均勾配」を使い、1バッチにつき1回だけAdamが重みを更新します[cite: 1]。<br>
-                                    そして、<strong>直前のバッチで賢くなった最新の重みを受け継いだ状態で次のバッチ（次の16件）が計算</strong>されます[cite: 1]。つまり1エポック内でAdamは各モデルにつき<strong>直列に20回</strong>（100エポックなら計2,000回）も重みを微調整し続けています[cite: 1]。
+                                    各バッチは並列ではなく、バッチ1 ➔ バッチ2 ➔ … と<strong>直列（逐次的）に順番に処理</strong>されます。<br>
+                                    <strong>【16件はどう使われる？】</strong> 16件のデータをまとめて流し、それぞれのデータから生じた<strong>勾配（傾き）の「平均値」</strong>を算出します。1件ずつのブレやノイズをならしたこの「平均勾配」を使い、1バッチにつき1回だけAdamが重みを更新します。<br>
+                                    そして、<strong>直前のバッチで賢くなった最新の重みを受け継いだ状態で次のバッチ（次の16件）が計算</strong>されます。つまり1エポック内でAdamは各モデルにつき<strong>直列に20回</strong>（100エポックなら計2,000回）も重みを微調整し続けています。
                                 </div>
                             </div>
 
@@ -1132,8 +1132,8 @@
                                     ④ 次のエポックへ「何」を引き継いで「どう」改善するのか？
                                 </div>
                                 <div style="font-size: 0.83rem; color: #cbd5e1; line-height: 1.5;">
-                                    引き継がれるのは<strong>「直前のエポックの最後（例: 20回目）の更新で得られた最新の重み（Weight）」</strong>です[cite: 1]。重みはリセットされず蓄積されます[cite: 1]。<br>
-                                    次のエポックでは、データを再度ランダムにシャッフルした上で、<strong>賢くなった重みを初期値として再スタート</strong>します[cite: 1]。前エポックで取りこぼした誤差をさらに削り落とすように、Adamがより理想的な重みへと収束させていきます[cite: 1]。
+                                    引き継がれるのは<strong>「直前のエポックの最後（例: 20回目）の更新で得られた最新の重み（Weight）」</strong>です。重みはリセットされず蓄積されます。<br>
+                                    次のエポックでは、データを再度ランダムにシャッフルした上で、<strong>賢くなった重みを初期値として再スタート</strong>します。前エポックで取りこぼした誤差をさらに削り落とすように、Adamがより理想的な重みへと収束させていきます。
                                 </div>
                             </div>
                         </div>
@@ -1170,7 +1170,7 @@
                             <span style="color: #fb7185;">▲ 完全隔離（学習時は一切非接触）</span>
                         </div>
                         <p class="pipeline-note">
-                            <strong>データリーク（情報のカンニング）の防止:</strong> テストデータは金庫に保管するように隔離され、標準化のための平均・標準偏差の算出やモデル訓練には一切関与しません[cite: 1]。
+                            <strong>データリーク（情報のカンニング）の防止:</strong> テストデータは金庫に保管するように隔離され、標準化のための平均・標準偏差の算出やモデル訓練には一切関与しません。
                         </p>
                     </div>
 
@@ -1245,7 +1245,7 @@
                             </div>
                         </div>
                         <p class="pipeline-note" style="margin-top: 8px;">
-                            ※ K-Foldオフ（K=1）時も、Train内部を <strong>約8:2（学習約80% / 検証約20%）</strong> にホールドアウト分割して学習中のVal Lossを測定します[cite: 1]。テストデータは学習中一切非接触のまま隔離されます[cite: 1]。
+                            ※ K-Foldオフ（K=1）時も、Train内部を <strong>約8:2（学習約80% / 検証約20%）</strong> にホールドアウト分割して学習中のVal Lossを測定します。テストデータは学習中一切非接触のまま隔離されます。
                         </p>
                     </div>
 
@@ -1345,7 +1345,7 @@
                     Step 1: モデルファイルの読み込み
                 </h2>
                 <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px;">
-                    [訓練タブ] で保存したモデルファイル (.json) を選択またはドラッグ＆ドロップしてください[cite: 1]。
+                    [訓練タブ] で保存したモデルファイル (.json) を選択またはドラッグ＆ドロップしてください。
                 </p>
 
                 <label class="upload-area" id="modelDropArea" style="border-color: #10b98140;">
@@ -1399,12 +1399,12 @@
                 <div id="inferencePlaceholder" style="text-align: center; padding: 40px 20px; color: #94a3b8;">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 16px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     <p style="font-weight: 700; margin-bottom: 4px; font-size: 1rem;">まだモデルが読み込まれていません</p>
-                    <p style="font-size: 0.85rem;">すぐ上のパネルから、保存したモデルファイル (.json) を選択してください[cite: 1]。</p>
+                    <p style="font-size: 0.85rem;">すぐ上のパネルから、保存したモデルファイル (.json) を選択してください。</p>
                 </div>
 
                 <div id="inferenceFormArea" class="hidden">
                     <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 16px;">
-                        各スライダーを左右に動かすと、モデルが条件に合わせて自動で計算し、即座に予測結果を出力します[cite: 1]。
+                        各スライダーを左右に動かすと、モデルが条件に合わせて自動で計算し、即座に予測結果を出力します。
                     </p>
                     <div id="dynamicInputsContainer" class="dynamic-form-grid">
                         <!-- 動的スライダー追加エリア -->
@@ -1450,7 +1450,7 @@
                             1. 変数ごとの範囲チェック（直方体判定）が失敗する幾何学的理由
                         </h3>
                         <p class="concept-text">
-                            実務でよく使われる「各変数のスライダーが [min, max] の中に収まっているか？」というチェックは、多次元空間では<strong>「各座標軸に平行な直方体（Bounding Box）」</strong>で境界を囲っていることになります[cite: 1]。
+                            実務でよく使われる「各変数のスライダーが [min, max] の中に収まっているか？」というチェックは、多次元空間では<strong>「各座標軸に平行な直方体（Bounding Box）」</strong>で境界を囲っていることになります。
                         </p>
 
                         <div style="display: grid; grid-template-columns: 1fr; gap: 16px; align-items: center; margin-top: 12px;">
@@ -1458,10 +1458,10 @@
                                 <div style="display: flex; flex-direction: column; gap: 10px;">
                                     <div style="background-color: rgba(244, 63, 94, 0.08); border-left: 3px solid #fb7185; border-radius: 4px 8px 8px 4px; padding: 10px 14px; font-size: 0.86rem; color: #cbd5e1; line-height: 1.6;">
                                         <strong style="color: #fb7185;">落とし穴：相関（変数の組み合わせの妥当性）を見落とす</strong><br>
-                                        例えば「身長190cm」も「体重42kg」も、単独の1変数としては実在し得る範囲です[cite: 1]。しかし<strong>「身長190cmで体重42kg」という組み合わせ（下図の点B）</strong>は、現実の相関から大きく外れた明らかな異常データです[cite: 1]。直方体判定では、これを「枠内だから正常（内挿）」と致命的な誤認をしてしまいます[cite: 1]。
+                                        例えば「身長190cm」も「体重42kg」も、単独の1変数としては実在し得る範囲です。しかし<strong>「身長190cmで体重42kg」という組み合わせ（下図の点B）</strong>は、現実の相関から大きく外れた明らかな異常データです。直方体判定では、これを「枠内だから正常（内挿）」と致命的な誤認をしてしまいます。
                                     </div>
                                     <p class="concept-text" style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 0;">
-                                        相関があるデータが実際に占める領域は直方体ではなく、斜めに傾いた<strong>「超楕円体」</strong>になります[cite: 1]。直方体の四隅にある「角の空白地帯」を踏み外していないかを監視する必要があります[cite: 1]。
+                                        相関があるデータが実際に占める領域は直方体ではなく、斜めに傾いた<strong>「超楕円体」</strong>になります。直方体の四隅にある「角の空白地帯」を踏み外していないかを監視する必要があります。
                                     </p>
                                 </div>
 
@@ -1494,7 +1494,7 @@
                                         <text x="280" y="152" fill="#fb7185" font-size="11.5" font-weight="700">点B (枠内だが組み合わせ異常！)</text>
                                     </svg>
                                     <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 6px;">
-                                        重心からの直線距離は A も B もほぼ同じですが、B は学習データが一切存在しない「不自然な組み合わせ」です[cite: 1]。
+                                        重心からの直線距離は A も B もほぼ同じですが、B は学習データが一切存在しない「不自然な組み合わせ」です。
                                     </div>
                                 </div>
                             </div>
@@ -1508,17 +1508,17 @@
                             2. 解決策：主成分空間への回転と「白色化（マハラノビス距離）」
                         </h3>
                         <p class="concept-text">
-                            斜めに歪んだ楕円空間のままでは距離が測りにくいため、数学的に<strong>「主成分分析（PCA）」</strong>と同じ座標変換を施します[cite: 1]。
+                            斜めに歪んだ楕円空間のままでは距離が測りにくいため、数学的に<strong>「主成分分析（PCA）」</strong>と同じ座標変換を施します。
                         </p>
 
                         <div style="display: flex; flex-direction: column; gap: 10px; margin: 12px 0;">
                             <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #818cf8; border-radius: 4px 8px 8px 4px; padding: 10px 14px; font-size: 0.85rem; color: #cbd5e1; line-height: 1.6;">
                                 <strong style="color: #a5b4fc;">Step 1: データの中心化と回転（無相関化）</strong><br>
-                                データを平均重心 $\mu$ だけ平行移動し、データの分散が最大となる直交軸（主成分軸 $U$）へ回転させます[cite: 1]。これにより、変数間の斜めの相関関係が綺麗に解消されます[cite: 1]。
+                                データを平均重心 $\mu$ だけ平行移動し、データの分散が最大となる直交軸（主成分軸 $U$）へ回転させます。これにより、変数間の斜めの相関関係が綺麗に解消されます。
                             </div>
                             <div style="background-color: rgba(30, 41, 59, 0.7); border-left: 4px solid #06b6d4; border-radius: 4px 8px 8px 4px; padding: 10px 14px; font-size: 0.85rem; color: #cbd5e1; line-height: 1.6;">
                                 <strong style="color: #22d3ee;">Step 2: 主成分ごとの標準偏差で割る（白色化: Whitening）</strong><br>
-                                各主成分軸の座標 $z_i$ を、その軸方向の標準偏差 $\sqrt{\lambda_i}$（固有値の平方根）で割り算します[cite: 1]。よく広がる軸は縮小され、滅多に広がらない軸は引き伸ばされ、歪んだ楕円が<strong>「半径が均一な真円（超球面）」</strong>へと整形されます[cite: 1]。
+                                各主成分軸の座標 $z_i$ を、その軸方向の標準偏差 $\sqrt{\lambda_i}$（固有値の平方根）で割り算します。よく広がる軸は縮小され、滅多に広がらない軸は引き伸ばされ、歪んだ楕円が<strong>「半径が均一な真円（超球面）」</strong>へと整形されます。
                             </div>
                         </div>
 
@@ -1530,7 +1530,7 @@
                                 <span style="font-weight: 700; color: #22d3ee;">∑ ( z<sub>i</sub> / √λ<sub>i</sub> )<sup>2</sup></span>
                             </div>
                             <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 6px; line-height: 1.5;">
-                                ※ 行列式を介していますが、本質は<strong>「白色化された無相関空間において、原点から測った単純なユークリッド距離」</strong>そのものです[cite: 1]。
+                                ※ 行列式を介していますが、本質は<strong>「白色化された無相関空間において、原点から測った単純なユークリッド距離」</strong>そのものです。
                             </div>
                         </div>
                     </div>
@@ -1543,7 +1543,7 @@
                         </h3>
                         <p class="concept-text">
                             「では、マハラノビス距離がいくつ以上になったら『外挿』と判定すべきか？」<br>
-                            本アプリでは、確率分布の形を無理に仮定しない<strong>実績ベースの幾何学的アプローチ（データ適格ドメイン: Applicability Domain）</strong>を採用しています[cite: 1]。
+                            本アプリでは、確率分布の形を無理に仮定しない<strong>実績ベースの幾何学的アプローチ（データ適格ドメイン: Applicability Domain）</strong>を採用しています。
                         </p>
 
                         <div style="background-color: rgba(15, 23, 42, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; margin-top: 10px;">
@@ -1552,15 +1552,15 @@
                             </div>
                             <ul style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.7; padding-left: 18px;">
                                 <li>
-                                    <strong>全訓練データの実績値をスキャン:</strong> 学習時にすべての訓練データ点についてマハラノビス距離を計算し、重心から最も遠かったサンプルの距離 <strong style="color: #ffffff;">max(D<sub>M</sub>)</strong> を割り出します[cite: 1]。
+                                    <strong>全訓練データの実績値をスキャン:</strong> 学習時にすべての訓練データ点についてマハラノビス距離を計算し、重心から最も遠かったサンプルの距離 <strong style="color: #ffffff;">max(D<sub>M</sub>)</strong> を割り出します。
                                 </li>
                                 <li>
                                     <strong>105%（+5%）の安全バッファを付与:</strong><br>
                                     <span style="font-family: monospace; color: #34d399; font-weight: 700; font-size: 0.95rem;">閾値 = max(D<sub>M</sub>) × 1.05</span><br>
-                                    最も外側にあった実績データよりさらに5%外側へはみ出した瞬間に「訓練データ未踏の領域（多変量外挿）」とみなして警告を出します[cite: 1]。
+                                    最も外側にあった実績データよりさらに5%外側へはみ出した瞬間に「訓練データ未踏の領域（多変量外挿）」とみなして警告を出します。
                                 </li>
                                 <li>
-                                    <strong>正規分布を仮定しない頑健性:</strong> カイ二乗分布による理論値ではなく実測最大値を基準としているため、データが歪んでいたり裾が重い実務データでも誤検出を起こしにくい特徴があります[cite: 1]。
+                                    <strong>正規分布を仮定しない頑健性:</strong> カイ二乗分布による理論値ではなく実測最大値を基準としているため、データが歪んでいたり裾が重い実務データでも誤検出を起こしにくい特徴があります。
                                 </li>
                             </ul>
                         </div>
