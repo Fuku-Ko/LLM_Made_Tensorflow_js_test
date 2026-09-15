@@ -5,7 +5,7 @@ Tensorflow.jsをAI生成コードで試してみたもの
 
 ## オンライン版
 
-以下のリンクをクリックして試してみてください。
+以下のリンクをクリックして試してみてください(mainブランチのものが起動します)。
 
 https://fuku-ko.github.io/LLM_Made_Tensorflow_js_test/
 
